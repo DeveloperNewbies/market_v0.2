@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 29 Kas 2018, 09:50:50
+-- Üretim Zamanı: 29 Kas 2018, 18:37:11
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -47,9 +47,19 @@ CREATE TABLE `m_market` (
   `urun_ad` text NOT NULL,
   `urun_aciklama` text NOT NULL,
   `urun_fiyat` float NOT NULL,
-  `urun_adet` int(11) NOT NULL,
-  `urun_resim` text NOT NULL
+  `urun_adet` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin5;
+
+--
+-- Tablo döküm verisi `m_market`
+--
+
+INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_fiyat`, `urun_adet`) VALUES
+(1, 'Harnup Özü', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 10.99, 20),
+(2, 'Deri Kemer', 'Enfes Yılan Derisi Kemer', 20.99, 30),
+(3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10),
+(4, 'Casio Akıllı Saat', 'Çok akıllıdır saati söyler.', 299.99, 5),
+(5, 'Taze Kadın', 'Taze Enfes Ukraynalı Kadın', 200, 1000);
 
 -- --------------------------------------------------------
 
@@ -58,9 +68,27 @@ CREATE TABLE `m_market` (
 --
 
 CREATE TABLE `m_marketimg` (
+  `id` int(11) NOT NULL,
   `urun_id` int(11) NOT NULL,
   `urun_img` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin5;
+
+--
+-- Tablo döküm verisi `m_marketimg`
+--
+
+INSERT INTO `m_marketimg` (`id`, `urun_id`, `urun_img`) VALUES
+(1, 1, 'images/harnup/harnupozu250ml.png'),
+(2, 1, 'images/harnup/tahinli330gr.jpg'),
+(3, 2, 'images/kemer/banner-09.jpg'),
+(4, 2, 'images/kemer/product-12.jpg'),
+(5, 3, 'images/nar_eksisi/narozu350gr.png'),
+(6, 3, 'images/nar_eksisi/narozu700-gr.png'),
+(7, 4, 'images/saat/product-06.jpg'),
+(8, 4, 'images/saat/product-15.jpg'),
+(9, 5, 'images/kadin/product-05.jpg'),
+(10, 5, 'images/kadin/product-13.jpg'),
+(11, 5, 'images/kadin/product-16.jpg');
 
 -- --------------------------------------------------------
 
@@ -121,7 +149,7 @@ CREATE TABLE `m_users` (
 --
 
 INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`) VALUES
-(1, 'doruk', '4297f44b13955235245b2497399d7a93', 'ff3c86fb55eadd733846e83bfb17d30170bdb8c857071e4457cb79e1da88bad8', '10.21.199.198', '2018-11-28', 0),
+(1, 'doruk', '4297f44b13955235245b2497399d7a93', '9c8d90cf42962f40b92915e80f4e9ef2b1106d6748abb46313b5b5a1006c4f6e', '192.168.137.207', '2018-11-28', 1),
 (2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28', 1),
 (3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28', 1),
 (4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28', 1),
@@ -147,7 +175,7 @@ ALTER TABLE `m_market`
 -- Tablo için indeksler `m_marketimg`
 --
 ALTER TABLE `m_marketimg`
-  ADD PRIMARY KEY (`urun_id`);
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- Tablo için indeksler `m_sell`
@@ -175,7 +203,13 @@ ALTER TABLE `m_log`
 -- Tablo için AUTO_INCREMENT değeri `m_market`
 --
 ALTER TABLE `m_market`
-  MODIFY `urun_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `urun_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `m_marketimg`
+--
+ALTER TABLE `m_marketimg`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_sell`

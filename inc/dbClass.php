@@ -28,6 +28,7 @@
 			try
 			{
 				$this->pdo = new PDO($this->dsn, $this->huser, $this->hpass);
+				$this->pdo->exec("SET CHARACTER SET utf8");
 				$this->connection = true;
 				//echo 'its ok '.$this->host . ' ' . $this->huser . ' ' . $this->hpass . ' ' . $this->dsn;
 			}catch(PDOException $e)
@@ -171,7 +172,75 @@
 			}
 		}
 		
-		
+
+		function getUrun($id)
+        {
+            if($id == "all")
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_market");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }
+                else
+                {
+                    $error = $this->pdo->errorInfo();
+                    echo 'Cant Get Urun '.$error[2];
+                }
+            }else
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
+                    $prepare->execute();
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }
+                    else
+                    {
+                        $error = $this->pdo->errorInfo();
+                        echo 'Cant Get Urun '.$error[2];
+                    }
+                }
+
+        }
+
+        function getUrunImg($id)
+        {
+            if($id == "all")
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }
+                else
+                {
+                    $error = $this->pdo->errorInfo();
+                    echo 'Cant Get Urun '.$error[2];
+                }
+            }else
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$id}'");
+                    $prepare->execute();
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }
+                    else
+                    {
+                        $error = $this->pdo->errorInfo();
+                        echo 'Cant Get Urun '.$error[2];
+                    }
+                }
+
+        }
+
 		
 	}
 

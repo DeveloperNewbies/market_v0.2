@@ -1,0 +1,13 @@
+Options -Indexes
+
+<Files ~ “^\.css>
+Order allow,deny
+Deny from all
+Satisfy All
+</Files>
+
+<Files ~ “^\.png”>
+Order allow,deny
+Deny from all
+Satisfy All
+</Files>

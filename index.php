@@ -34,34 +34,34 @@ $side_bar_yardim =$header_contact;
 
 if(isset($_SESSION['user']))
 {
-$user = new user();
-$user = unserialize(base64_decode($_SESSION['user']));
-$info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
-$hash = hash("sha256", $info);
-$remote_hash = '';
-foreach($user->getHash() as $row)
-{
-$remote_hash = $row['session_hash'];
-}
-if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
-{
-$user->logOut();
-session_destroy();
-echo 'Oturum bilgisi ihlali!';
-header("Refresh: 5;");
-}
+    $user = new user();
+    $user = unserialize(base64_decode($_SESSION['user']));
+    $info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
+    $hash = hash("sha256", $info);
+    $remote_hash = '';
+    foreach($user->getHash() as $row)
+    {
+        $remote_hash = $row['session_hash'];
+    }
+    if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+    {
+        $user->logOut();
+        session_destroy();
+        echo 'Oturum bilgisi ihlali!';
+        header("Refresh: 5;");
+    }
 //echo ''. $user->showUserInfo();
 }
 if(isset($_GET['logout']))
 {
-if($_GET['logout'] == 1)
-{
-$user->logOut();
-session_destroy();
-echo 'Logged Out';
-header("Refresh: 2; url=http://".$realip."/");
-return;
-}
+    if($_GET['logout'] == 1)
+    {
+    $user->logOut();
+    session_destroy();
+    echo 'Logged Out';
+    header("Refresh: 2; url=http://".$realip."/");
+    return;
+    }
 }
 
 ?>
