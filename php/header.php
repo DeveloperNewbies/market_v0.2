@@ -3,6 +3,17 @@
  * Date: 28.11.2018
  * Time: 11:58
  */
+
+
+function header_focus($m){
+    if(isset($_GET["m"])){
+        $url_m = $_GET["m"];
+        if($url_m == $m) return true;
+        else return "home";
+        }else{
+        return false;
+    }
+}
 ?>
 <!-- Header -->
 <header class="header-v2">
@@ -19,26 +30,33 @@
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
-                        <li class="active-menu">
+
+                        <li <?php if(header_focus ("home")==false || !header_focus ("home") == "home" ){
+                            ?> class="active-menu" <?php } ?>>
                             <a href="<?=$home_url?>"><?=$header_url[0]?></a>
 
                         </li>
 
-                        <li>
+
+                        <li <?php if(header_focus ("magaza") === true){
+                            ?> class="active-menu" <?php } ?>>
                             <a href="<?=$header_magaza?>"><?=$header_url[1]?></a>
                         </li>
 
-                        <li class="label1" data-label1="hot">
+                        <li <?php if(header_focus ("sepetim")=== true){
+                            ?> class="active-menu label1" <?php }?>class="label1" data-label1="hot">
                             <a href="<?=$header_sepetim?>"><?=$header_url[2]?></a>
                         </li>
 
 
 
-                        <li>
+                        <li <?php if(header_focus ("hakkinda")=== true){
+                            ?> class="active-menu" <?php } ?>>
                             <a href="<?=$header_about?>"><?=$header_url[3]?></a>
                         </li>
 
-                        <li>
+                        <li <?php if(header_focus ("iletisim")=== true){
+                            ?> class="active-menu" <?php } ?>>
                             <a href="<?=$header_contact?>"><?=$header_url[4]?></a>
                         </li>
                     </ul>
@@ -84,7 +102,7 @@
             </div>
 
             <div class="flex-c-m h-full p-lr-10 bor5">
-                <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="0">
+                <div id="project-sepet" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="0">
                     <i class="zmdi zmdi-shopping-cart"></i>
                 </div>
             </div>

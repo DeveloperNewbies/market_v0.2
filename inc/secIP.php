@@ -1,8 +1,9 @@
 <?php
 	class secIP
 	{
-		private $local = "10.21.199.198";
-		private $port = "81";
+		private $local = "localhost";
+		private $port = "80";
+		private $file ="/market_v2/";
 		
 		public function getLocal()
 		{
@@ -12,5 +13,8 @@
 		{
 			return $this->port;
 		}
+		public function getFile(){
+		    return $this->file;
+        }
 	}
 ?>

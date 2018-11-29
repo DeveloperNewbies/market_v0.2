@@ -6,18 +6,18 @@
 require_once('inc/secIP.php');
 include('inc/userClass.php');
 session_start();
-	$ipset = new secIP();
-	$realip = "".$ipset->getLocal().":".$ipset->getPort();
+$ipset = new secIP();
+$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 
 $language ="tr";
 $site_about ="hakkında";
 $title = "Anasayfa";
 $charset = "UTF-8";
-$home_link ="http://".$realip."/";
+$home_link ="http://".$realip;
 $home_url =$home_link;
 $header_magaza = $home_link."index.php?m=magaza";
 $header_sepetim = $home_link."index.php?m=sepetim";
-$header_about = $home_link."index.php?m=hakkinda";
+$header_about = $home_link."/index.php?m=hakkinda";
 $header_contact = $home_link."index.php?m=iletisim";
 $header_url = array("Anasayfa","Mağaza","Sepetim","Hakkında","İletişim");
 
@@ -30,39 +30,38 @@ $side_bar_hesabım ="login/";
 //side bar iade kısmını linki
 $side_bar_iade ="";
 //side bar yardım kısmının linki
-$side_bar_yardim ="";
-
+$side_bar_yardim =$header_contact;
 
 if(isset($_SESSION['user']))
 {
-	$user = new user();	
-	$user = unserialize(base64_decode($_SESSION['user']));
-	$info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
-	$hash = hash("sha256", $info);
-	$remote_hash = '';
-	foreach($user->getHash() as $row)
-	{
-		$remote_hash = $row['session_hash'];
-	}
-	if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
-	{
-		$user->logOut();
-		session_destroy();
-		echo 'Oturum bilgisi ihlali!';
-		header("Refresh: 5;");
-	}
-	//echo ''. $user->showUserInfo();
+$user = new user();
+$user = unserialize(base64_decode($_SESSION['user']));
+$info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
+$hash = hash("sha256", $info);
+$remote_hash = '';
+foreach($user->getHash() as $row)
+{
+$remote_hash = $row['session_hash'];
+}
+if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+{
+$user->logOut();
+session_destroy();
+echo 'Oturum bilgisi ihlali!';
+header("Refresh: 5;");
+}
+//echo ''. $user->showUserInfo();
 }
 if(isset($_GET['logout']))
 {
-	if($_GET['logout'] == 1)
-	{
-		$user->logOut();
-		session_destroy();
-		echo 'Logged Out';
-		header("Refresh: 2; url=http://".$realip."/");
-		return;
-	}
+if($_GET['logout'] == 1)
+{
+$user->logOut();
+session_destroy();
+echo 'Logged Out';
+header("Refresh: 2; url=http://".$realip."/");
+return;
+}
 }
 
 ?>
@@ -127,6 +126,21 @@ if(isset($_GET['logout']))
 <?php
  }else{
     switch ($_GET["m"]){
+        case  "home":
+  require_once("php/sidebar.php");
+ require_once ("php/cart.php");
+ require_once ("php/slider.php");
+ require_once ("php/banner.php");
+ require_once ("php/product.php");
+ require_once ("php/footer.php");
+ require_once ("php/back_to_top.php");
+ require_once ("php/modall.php");
+ require_once ("php/modal_2.php");
+ require_once ("php/modal_3.php");
+ require_once ("php/modal_4.php");
+ require_once ("php/body_script.php");
+
+            break;
         case "hakkinda":
             require_once("php/sidebar.php");
             require_once ("php/cart.php");
@@ -155,10 +169,12 @@ if(isset($_GET['logout']))
 
 }
 
-
 require_once ("php/footer.php");
 require_once ("php/back_to_top.php");
 require_once ("php/body_script.php");
 ?>
+
+
+<script src="js_ema/sepet_add_item.js"></script>
 </body>
 </html>

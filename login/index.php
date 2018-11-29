@@ -10,7 +10,6 @@
 	$ipset = new secIP();
 	$realip = "".$ipset->getLocal().":".$ipset->getPort();
 	
-	
 	if(isset($_SESSION['loggedin']))
     {
     	if($_SESSION['loggedin'] == 1)
@@ -153,7 +152,7 @@
 		</div> 
 		<div class="profile-agileits bg-color-agile">
 			<h3></h3>
-			<p></h4>
+			</h4>
 		</div> 
 		<div class="clear"></div>
 	</div>	

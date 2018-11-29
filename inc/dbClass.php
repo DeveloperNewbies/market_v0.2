@@ -2,9 +2,9 @@
 	class dbMain
 	{
 	    
-		private $host = "10.21.199.198";//main decleration
-		private $huser = "alp";
-		private $hpass = "alp.226456";
+		private $host = "localhost";//main decleration
+		private $huser = "root";
+		private $hpass = "";
 		private $database = "marketing";
 		private $dsn;
 		protected $pdo;
