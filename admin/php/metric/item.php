@@ -7,18 +7,18 @@
  */?>
 
 
-<section class="section">
+ <section class="section">
     <div class="row sameheight-container">
         <div class="col-xl-12">
             <div class="card sameheight-item items" data-exclude="xs,sm,lg">
                 <div class="card-header bordered">
                     <div class="header-block">
-                        <h3 class="title"> Items </h3>
-                        <a href="item-editor.html" class="btn btn-primary btn-sm"> Add new </a>
+                        <h3 class="title"> Ürünler </h3>
+                        <a href="<?=$home_link."?m=item-editor";?>" class="btn btn-primary btn-sm"> Yeni ürün ekle </a>
                     </div>
                     <div class="header-block pull-right">
                         <label class="search">
-                            <input class="search-input" placeholder="search...">
+                            <input class="search-input" placeholder="ara ...">
                             <i class="fa fa-search search-icon"></i>
                         </label>
                         <div class="pagination">
@@ -37,206 +37,102 @@
                             <div class="item-col item-col-header fixed item-col-img xs"></div>
                             <div class="item-col item-col-header item-col-title">
                                 <div>
-                                    <span>Name</span>
+                                    <span><?=$item_list_array_list[0]?></span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-sales">
                                 <div>
-                                    <span>Sales</span>
+                                    <span><?=$item_list_array_list[1]?></span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-stats">
                                 <div class="no-overflow">
-                                    <span>Stats</span>
+                                    <span><?=$item_list_array_list[2]?></span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-date">
                                 <div>
-                                    <span>Published</span>
+                                    <span><?=$item_list_array_list[3]?></span>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-img xs">
-                                <a href="">
-                                    <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg)"></div>
-                                </a>
-                            </div>
-                            <div class="item-col item-col-title no-overflow">
-                                <div>
-                                    <a href="" class="">
-                                        <h4 class="item-title no-wrap"> 12 Myths Uncovered About IT &amp; Software </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Sales</div>
-                                <div> 4958 </div>
-                            </div>
-                            <div class="item-col item-col-stats">
-                                <div class="item-heading">Stats</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats sparkline" data-type="bar"></div>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Published</div>
-                                <div> 21 SEP 10:45 </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-img xs">
-                                <a href="">
-                                    <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg)"></div>
-                                </a>
-                            </div>
-                            <div class="item-col item-col-title no-overflow">
-                                <div>
-                                    <a href="" class="">
-                                        <h4 class="item-title no-wrap"> 50% of things doesn&#x27;t really belongs to you </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Sales</div>
-                                <div> 192 </div>
-                            </div>
-                            <div class="item-col item-col-stats">
-                                <div class="item-heading">Stats</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats sparkline" data-type="bar"></div>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Published</div>
-                                <div> 21 SEP 10:45 </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-img xs">
-                                <a href="">
-                                    <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg)"></div>
-                                </a>
-                            </div>
-                            <div class="item-col item-col-title no-overflow">
-                                <div>
-                                    <a href="" class="">
-                                        <h4 class="item-title no-wrap"> Vestibulum tincidunt amet laoreet mauris sit sem aliquam cras maecenas vel aliquam. </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Sales</div>
-                                <div> 2143 </div>
-                            </div>
-                            <div class="item-col item-col-stats">
-                                <div class="item-heading">Stats</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats sparkline" data-type="bar"></div>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Published</div>
-                                <div> 21 SEP 10:45 </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-img xs">
-                                <a href="">
-                                    <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/why_this/128.jpg)"></div>
-                                </a>
-                            </div>
-                            <div class="item-col item-col-title no-overflow">
-                                <div>
-                                    <a href="" class="">
-                                        <h4 class="item-title no-wrap"> 10 tips of Object Oriented Design </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Sales</div>
-                                <div> 124 </div>
-                            </div>
-                            <div class="item-col item-col-stats">
-                                <div class="item-heading">Stats</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats sparkline" data-type="bar"></div>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Published</div>
-                                <div> 21 SEP 10:45 </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-img xs">
-                                <a href="">
-                                    <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/w7download/128.jpg)"></div>
-                                </a>
-                            </div>
-                            <div class="item-col item-col-title no-overflow">
-                                <div>
-                                    <a href="" class="">
-                                        <h4 class="item-title no-wrap"> Sometimes friend tells it is cold </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Sales</div>
-                                <div> 10214 </div>
-                            </div>
-                            <div class="item-col item-col-stats">
-                                <div class="item-heading">Stats</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats sparkline" data-type="bar"></div>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Published</div>
-                                <div> 21 SEP 10:45 </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-img xs">
-                                <a href="">
-                                    <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/pankogut/128.jpg)"></div>
-                                </a>
-                            </div>
-                            <div class="item-col item-col-title no-overflow">
-                                <div>
-                                    <a href="" class="">
-                                        <h4 class="item-title no-wrap"> New ways of conceptual thinking </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Sales</div>
-                                <div> 3217 </div>
-                            </div>
-                            <div class="item-col item-col-stats">
-                                <div class="item-heading">Stats</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats sparkline" data-type="bar"></div>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Published</div>
-                                <div> 21 SEP 10:45 </div>
-                            </div>
-                        </div>
-                    </li>
+
+                           <?php  if(!isset($list_item_list)){
+                                 ?>
+
+                               <li class="item">
+                                   <div class="item-row">
+                                       <!-- <div class="item-col fixed item-col-img xs">
+                                           <a href="">
+                                               <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg)"></div>
+                                           </a>
+                                       </div> -->
+                                       <div class="item-col item-col-title no-overflow">
+                                           <div>
+                                               <a href="" class="">
+                                                   <h4 class="item-title no-wrap">  </h4>
+                                               </a>
+                                           </div>
+                                       </div>
+                                       <div class="item-col item-col-sales">
+                                           <div class="item-heading"></div>
+                                           <div>  </div>
+                                       </div>
+                                       <div class="item-col item-col-stats">
+                                           <div class="item-heading"></div>
+                                           <div class="no-overflow">
+                                               <div class="item-stats sparkline" data-type="bar"></div>
+                                           </div>
+                                       </div>
+                                       <div class="item-col item-col-date">
+                                           <div class="item-heading"></div>
+                                           <div></div>
+                                       </div>
+                                   </div>
+                               </li>
+
+
+
+                           <?php    }else{
+                               $item_sayac =0;
+                               foreach ($list_item_list as $result){
+                                   if($item_sayac >= 10) break;
+                                   ?>
+                                   <li class="item">
+                                       <div class="item-row">
+                                           <!-- <div class="item-col fixed item-col-img xs">
+                                               <a href="">
+                                                   <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg)"></div>
+                                               </a>
+                                           </div> -->
+                                           <div class="item-col item-col-title no-overflow">
+                                               <div>
+                                                   <a href="<?="http://localhost/index.php?m=magaza&id=".$result[0]?>" class="">
+                                                       <h4 class="item-title no-wrap"> <?=$result[1]?> </h4>
+                                                   </a>
+                                               </div>
+                                           </div>
+                                           <div class="item-col item-col-header fixed item-col-img xs"></div>
+                                           <div class="item-col item-col-header item-col-sales">
+                                               <div>
+                                                   <span><?=$result[2]?></span>
+                                               </div>
+                                           </div>
+
+                                           <div class="item-col item-col-sales">
+                                               <div> <?=$result[3]?> </div>
+                                           </div>
+                                           <div class="item-col item-col-date">
+                                               <div> <?=$result[4]?> </div>
+                                           </div>
+                                       </div>
+                                   </li>
+
+                      <?php   $item_sayac++; }
+                             } ?>
+
+
                 </ul>
             </div>
         </div>

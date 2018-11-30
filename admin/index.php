@@ -17,7 +17,7 @@ $home_link ="http://localhost/admin/index.php";
 //admin variable
 $logout_link =$home_link."?m=logout";
 $admin_usrename = "sincap memet";
-//aktif satılan üürn sayısı mağazada bulunan
+//aktif satılan ürün sayısı mağazada bulunan
 $active_items ="1024";
 //toplam satılan ürün sayısı
 $items_sold ="2048";
@@ -28,7 +28,20 @@ $total_uers ="512";
 //kullanıcı geri bildiirmleri (iade vs)
 $tickets_closed="10";
 //toplam gelir
-$total_income="100000";
+$total_income="100000 ₺";
+
+
+
+//item variable
+$item_list_array_list = array("Ürün","Satılan adet sayısı","Fiyat","Eklenme tarihi");
+
+//max 10 item
+$list_item_list = array(
+        //0 =>array("0ürün id","1ürün title","2satılan adet sayısı","3fiyat","4tarih"),
+        0 =>array("1","0aqwefaqwfawfawfasdafdafaevgfasdasdasdasdafdaevgaedvefawf","02","03","04"),
+        1 =>array("2","fasejbfpıasepogfpas","13","14","15"),
+        2 =>array("3","afkuıefpıaef","23","24","16")
+);
 
 
 ?>
