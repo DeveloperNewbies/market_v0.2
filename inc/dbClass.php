@@ -90,7 +90,7 @@
 				$prepare->execute();
 				
 				$result = $prepare->fetchAll();
-				$k_id_ptr;
+				$k_id_ptr = "";
 				foreach($result as $res)
 				{
 					$k_id_ptr = $res['id'];
@@ -221,7 +221,7 @@
                 else
                 {
                     $error = $this->pdo->errorInfo();
-                    echo 'Cant Get Urun '.$error[2];
+                    echo 'Cant Get Urun IMG '.$error[2];
                 }
             }else
                 {
@@ -235,10 +235,41 @@
                     else
                     {
                         $error = $this->pdo->errorInfo();
-                        echo 'Cant Get Urun '.$error[2];
+                        echo 'Cant Get Urun IMG '.$error[2];
                     }
                 }
 
+        }
+
+        function getCategory($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_kategori WHERE urun_id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        function getUrunInfo($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_marketinfo WHERE urun_id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 		

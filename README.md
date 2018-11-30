@@ -1,11 +1,7 @@
 # market_v0.2
 
 Create a database named "marketing"
-
-
 Import marketing.sql to "marketing" db in Phpmyadmin
-
-Create an User to Phpmyadmin
 
 !!!!!!!!!Configurations!!!!!!!!
 
@@ -27,8 +23,5 @@ dbClass.php
 		private $hpass = "DbPass";
 		private $database = "marketing";
 #####################################################
-
-
-################################
 
 

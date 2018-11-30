@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 29 Kas 2018, 18:37:11
+-- Üretim Zamanı: 30 Kas 2018, 20:31:59
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -21,6 +21,27 @@ SET time_zone = "+00:00";
 --
 -- Veritabanı: `marketing`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `m_kategori`
+--
+
+CREATE TABLE `m_kategori` (
+  `id` int(11) NOT NULL,
+  `urun_id` int(11) NOT NULL,
+  `kat_op` text NOT NULL,
+  `kat_cont` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin5;
+
+--
+-- Tablo döküm verisi `m_kategori`
+--
+
+INSERT INTO `m_kategori` (`id`, `urun_id`, `kat_op`, `kat_cont`) VALUES
+(1, 1, 'Boyut', '1 LT'),
+(2, 1, 'Boyut', '2 LT');
 
 -- --------------------------------------------------------
 
@@ -46,6 +67,7 @@ CREATE TABLE `m_market` (
   `urun_id` int(11) NOT NULL,
   `urun_ad` text NOT NULL,
   `urun_aciklama` text NOT NULL,
+  `urun_details` text NOT NULL,
   `urun_fiyat` float NOT NULL,
   `urun_adet` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin5;
@@ -54,12 +76,12 @@ CREATE TABLE `m_market` (
 -- Tablo döküm verisi `m_market`
 --
 
-INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_fiyat`, `urun_adet`) VALUES
-(1, 'Harnup Özü', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 10.99, 20),
-(2, 'Deri Kemer', 'Enfes Yılan Derisi Kemer', 20.99, 30),
-(3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10),
-(4, 'Casio Akıllı Saat', 'Çok akıllıdır saati söyler.', 299.99, 5),
-(5, 'Taze Kadın', 'Taze Enfes Ukraynalı Kadın', 200, 1000);
+INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `urun_adet`) VALUES
+(1, 'Harnup Özü', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 10.99, 20),
+(2, 'Deri Kemer', 'Enfes Yılan Derisi Kemer', 'Enfes Yılan Derisi Kemer', 20.99, 30),
+(3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10),
+(4, 'Casio Akıllı Saat', 'Çok akıllıdır saati söyler.', 'Çok akıllıdır saati söyler.', 299.99, 5),
+(5, 'Taze Kadın', 'Taze Enfes Ukraynalı Kadın', 'Taze Enfes Ukraynalı Kadın', 200, 1000);
 
 -- --------------------------------------------------------
 
@@ -89,6 +111,28 @@ INSERT INTO `m_marketimg` (`id`, `urun_id`, `urun_img`) VALUES
 (9, 5, 'images/kadin/product-05.jpg'),
 (10, 5, 'images/kadin/product-13.jpg'),
 (11, 5, 'images/kadin/product-16.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `m_marketinfo`
+--
+
+CREATE TABLE `m_marketinfo` (
+  `id` int(11) NOT NULL,
+  `urun_id` int(11) NOT NULL,
+  `urun_info` text NOT NULL,
+  `urun_infocont` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin5;
+
+--
+-- Tablo döküm verisi `m_marketinfo`
+--
+
+INSERT INTO `m_marketinfo` (`id`, `urun_id`, `urun_info`, `urun_infocont`) VALUES
+(1, 1, 'Ağırlık', '5 KG'),
+(2, 1, 'Tat', 'Enfes'),
+(3, 3, 'Tat', 'Enfes');
 
 -- --------------------------------------------------------
 
@@ -160,6 +204,12 @@ INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, 
 --
 
 --
+-- Tablo için indeksler `m_kategori`
+--
+ALTER TABLE `m_kategori`
+  ADD UNIQUE KEY `id` (`id`);
+
+--
 -- Tablo için indeksler `m_log`
 --
 ALTER TABLE `m_log`
@@ -175,6 +225,12 @@ ALTER TABLE `m_market`
 -- Tablo için indeksler `m_marketimg`
 --
 ALTER TABLE `m_marketimg`
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Tablo için indeksler `m_marketinfo`
+--
+ALTER TABLE `m_marketinfo`
   ADD UNIQUE KEY `id` (`id`);
 
 --
@@ -194,6 +250,12 @@ ALTER TABLE `m_users`
 --
 
 --
+-- Tablo için AUTO_INCREMENT değeri `m_kategori`
+--
+ALTER TABLE `m_kategori`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- Tablo için AUTO_INCREMENT değeri `m_log`
 --
 ALTER TABLE `m_log`
@@ -210,6 +272,12 @@ ALTER TABLE `m_market`
 --
 ALTER TABLE `m_marketimg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `m_marketinfo`
+--
+ALTER TABLE `m_marketinfo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_sell`

@@ -18,7 +18,7 @@ $db->connect();
 
        $urun = $db->getUrun($id);
 
-
+       $des_detail = "";
 
        foreach ($urun as $result)
        {
@@ -27,6 +27,8 @@ $db->connect();
            $product_price =$result['urun_fiyat'];
 
            $product_description =$result['urun_aciklama'];
+
+           $des_detail = $result['urun_details'];
        }
        $urun = $db->getUrunImg($id);
 
@@ -41,12 +43,60 @@ $db->connect();
 
        //first option title
        //second option argument array
-       $option = array("size","color");
-       $option_{$option[0]} = array("bir","iki","üç","dört");
-       $option_{$option[1]} = array("bir","iki","üç","dört");
+       $option = array();
+       $urun = $db->getCategory($id);
 
-       $des_detail = " Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.";
-?>
+       $cat = "";
+       if($urun != false)
+       {
+           for($i = 0; $i < count($urun); $i++)
+           {
+                if($cat != $urun[$i][2])
+                {
+                    array_push($option, $urun[$i][2]);
+                    $cat = $urun[$i][2];
+                }
+           }
+           for ($i = 0; $i < count($option); $i++)
+           {
+               $option_{$option[$i]} = array();
+           }
+           for($i = 0; $i < count($option); $i++)
+           {
+               for($j = 0; $j < count($urun); $j++)
+               {
+                   if($option[$i] == $urun[$j][2])
+                   {
+                       array_push($option_{$option[$i]}, $urun[$j][3]);
+                   }
+               }
+
+           }
+       }
+
+
+
+
+       $urun = $db->getUrunInfo($id);
+       //urun infos
+       $urun_info = array();
+       $urun_infocontent = array();
+
+       if($urun != false)
+           foreach ($urun as $item)
+           {
+               array_push($urun_info, $item['urun_info']);
+               array_push($urun_infocontent, $item['urun_infocont']);
+
+           }
+       else
+           {
+               array_push($urun_info, "");
+               array_push($urun_infocontent, "Ürün özelliği belirtilmedi");
+           }
+
+
+       ?>
        <!-- Product Detail -->
        <section class="sec-product-detail bg0 p-t-65 p-b-60">
            <div class="container">
@@ -86,7 +136,7 @@ $db->connect();
 
                            <span class="mtext-106 cl2">
 							 <?=$product_price?> ₺
-						</span>
+						    </span>
 
                            <p class="stext-102 cl3 p-t-23">
                                <?=$product_description?>
@@ -94,42 +144,38 @@ $db->connect();
 
                            <!--  -->
                            <div class="p-t-33">
+                               <?php
+                               for($i = 0; $i < count($option); $i++){
+
+
+                                   ?>
                                <div class="flex-w flex-r-m p-b-10">
+
                                    <div class="size-203 flex-c-m respon6">
-                                       <?=$option[0]?>
+                                       <?=$option[$i]?>
                                    </div>
 
                                    <div class="size-204 respon6-next">
-                                       <div class="rs1-select2 bor8 bg0">
-                                           <select class="js-select2" name="time">
 
-                                               <option><?=$option_{$option[0]}[0]?></option>
-                                               <option><?=$option_{$option[0]}[1]?></option>
-                                               <option><?=$option_{$option[0]}[2]?></option>
-                                               <option><?=$option_{$option[0]}[3]?></option>
+                                       <div class="rs1-select2 bor8 bg0">
+
+                                           <select class="js-select2" name="time">
+                                               <?php for($j = 0; $j < count($option_{$option[$i]}); $j++){ ?>
+                                               <option><?=$option_{$option[$i]}[$j]?></option>
+                                                   <?php
+                                               }
+                                               ?>
                                            </select>
+
                                            <div class="dropDownSelect2"></div>
+
                                        </div>
+
                                    </div>
+
                                </div>
 
-                               <div class="flex-w flex-r-m p-b-10">
-                                   <div class="size-203 flex-c-m respon6">
-                                       <?=$option[1]?>
-                                   </div>
-
-                                   <div class="size-204 respon6-next">
-                                       <div class="rs1-select2 bor8 bg0">
-                                           <select class="js-select2" name="time">
-                                               <option><?=$option_{$option[1]}[0]?></option>
-                                               <option><?=$option_{$option[1]}[1]?></option>
-                                               <option><?=$option_{$option[1]}[2]?></option>
-                                               <option><?=$option_{$option[1]}[3]?></option>
-                                           </select>
-                                           <div class="dropDownSelect2"></div>
-                                       </div>
-                                   </div>
-                               </div>
+                               <?php  } ?>
 
                                <div class="flex-w flex-r-m p-b-10">
                                    <div class="size-204 flex-w flex-m respon6-next">
@@ -186,62 +232,34 @@ $db->connect();
                            </div>
 
                            <!-- - -->
-                           <div class="tab-pane fade" id="information" role="tabpanel">
+
+                           <div class="tab-pane fade" id="information" role="tabpanel" style="padding-left: 18%">
+                               <?php
+                               for($i = 0; $i < count($urun_info); $i++){
+
+                               ?>
                                <div class="row">
+
                                    <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+
                                        <ul class="p-lr-28 p-lr-15-sm">
-                                           <li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Weight
-											</span>
-
-                                               <span class="stext-102 cl6 size-206">
-												0.79 kg
-											</span>
-                                           </li>
 
                                            <li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Dimensions
-											</span>
+                                                <span class="stext-102 cl3 size-205">
+                                                    <?=$urun_info[$i]?>
+                                                </span>
 
                                                <span class="stext-102 cl6 size-206">
-												110 x 33 x 100 cm
-											</span>
+												<?=$urun_infocontent[$i]?>
+											    </span>
                                            </li>
 
-                                           <li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Materials
-											</span>
-
-                                               <span class="stext-102 cl6 size-206">
-												60% cotton
-											</span>
-                                           </li>
-
-                                           <li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Color
-											</span>
-
-                                               <span class="stext-102 cl6 size-206">
-												Black, Blue, Grey, Green, Red, White
-											</span>
-                                           </li>
-
-                                           <li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Size
-											</span>
-
-                                               <span class="stext-102 cl6 size-206">
-												XL, L, M, S
-											</span>
-                                           </li>
                                        </ul>
+
                                    </div>
+
                                </div>
+                               <?php } ?>
                            </div>
 
                            <!-- - -->
@@ -387,58 +405,57 @@ $db->connect();
         </div>
 
 
-     <?php
+       <?php
 
-       $urun = $db->getUrun("all");
+        $urun = $db->getUrun("all");
         //print_r($urun);
 
-        $ürün_title = array();
-        $ürün_id = array();
-        $ürün_fiyat = array();
+        $urun_title = array();
+        $urun_id = array();
+        $urun_fiyat = array();
 
         foreach ($urun as $item)
         {
-            array_push($ürün_id, $item['urun_id']);
-            array_push($ürün_title, $item['urun_ad']);
-            array_push($ürün_fiyat, $item['urun_fiyat']);
-
+            array_push($urun_id, $item['urun_id']);
+            array_push($urun_title, $item['urun_ad']);
+            array_push($urun_fiyat, $item['urun_fiyat']);
         }
 
 
-       $ürün_image = array();
+        $urun_image = array();
 
 
-         for($i = 1; $i < count($urun)+1; $i++)
-         {
-             $urunimg = $db->getUrunImg($i);
-             //print_r($urunimg);
-             //echo '<br> <br> <hr>';
-             array_push($ürün_image, $urunimg[0][2]);
-         }
+        for($i = 1; $i < count($urun)+1; $i++)
+        {
+         $urunimg = $db->getUrunImg($i);
+         //print_r($urunimg);
+         //echo '<br> <br> <hr>';
+         array_push($urun_image, $urunimg[0][2]);
+        }
 
 
-     ?>
+       ?>
         <div class="row isotope-grid">
        <?php
-            for ($i = 0; $i < count($ürün_id); $i++){
+            for ($i = 0; $i < count($urun_id); $i++){
        ?>
 
             <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
                 <!-- Block2 -->
                 <div class="block2">
                     <div class="block2-pic hov-img0">
-                        <img src="<?=$ürün_image[$i]?>" alt="<?=$ürün_title[$i]?>">
+                        <img src="<?=$urun_image[$i]?>" alt="<?=$urun_title[$i]?>">
                         <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                             Ürüne Bak
                         </a>
                     </div>
                     <div class="block2-txt flex-w flex-t p-t-14">
                         <div class="block2-txt-child1 flex-col-l ">
-                            <a href="<?=$detail_page_link."id=".$ürün_id[$i]?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                               <?=$ürün_title[$i]?>
+                            <a href="<?=$detail_page_link."id=".$urun_id[$i]?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                               <?=$urun_title[$i]?>
                             </a>
                             <span class="stext-105 cl3">
-									<?=$ürün_fiyat[$i]?> ₺
+									<?=$urun_fiyat[$i]?> ₺
 								</span>
                         </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
@@ -456,7 +473,6 @@ $db->connect();
         </div>
 
     </div>
-</div>
 </div>
 
 <?php } ?>
