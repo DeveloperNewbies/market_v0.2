@@ -6,7 +6,7 @@
  * Time: 15:47
  */
 
-$detail_page_link =$home_link."index.php?m=magaza&";
+$detail_page_link =$home_link."/index.php?m=magaza&";
 $db = new dbMain();
 $db->connect();
    if(isset($_GET["id"])){
