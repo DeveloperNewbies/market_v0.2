@@ -1,8 +1,8 @@
 <?php
-/**
- * Date: 30.11.2018
- * Time: 20:28
- */
+
+//ürünler bu linkteki adrese gönderilecek edilecek
+$item_method_name ="get";
+
 
 require_once('../inc/secIP.php');
 require_once('../inc/userClass.php');

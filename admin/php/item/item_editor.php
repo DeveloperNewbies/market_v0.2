@@ -5,23 +5,28 @@
  * Date: 30.11.2018
  * Time: 21:59
  */
+
+$kategoriler = array("1","2","3");
+
 ?>
 <article class="content item-editor-page">
     <div class="title-block">
-        <h3 class="title"> Yeni İtem Ekle
+        <h3 class="title"> Yeni Ürün Ekle
             <span class="sparkline bar" data-type="bar"></span>
         </h3>
     </div>
-    <form name="item">
+    <form name="item" method="<?=$item_memthod_name?>" action="">
         <div class="card card-block">
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> İsim: </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control boxed" placeholder=""> </div>
+                    <input type="text" class="form-control boxed" name="item_name" placeholder="ürün adı"> </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Açıklama: </label>
                 <div class="col-sm-10">
+                    <input type="text" class="form-control boxed"  name="description" placeholder="ürün açıklaması"> </div>
+                <!-- <div class="col-sm-10">
                     <div class="wyswyg">
                         <div class="toolbar">
                             <select class="ql-size">
@@ -118,94 +123,39 @@
                             </select>
                             <button class="ql-link"></button>
                             <button style="width: auto;" type="button" title="Image" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#modal-media">
-                                <i class="fa fa-image"></i> Media </button>
+                                <i class="fa fa-image"></i>  </button>
                         </div>
-                        <div class="editor"> Hello World </div>
+                        <div class="editor">  </div>
                     </div>
-                </div>
+                </div>-->
             </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 form-control-label text-xs-right"> Fiyat: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control boxed" name="item_fiyat" placeholder="Fiyat"> </div>
+            </div>
+
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Kategori: </label>
                 <div class="col-sm-10">
-                    <select class="c-select form-control boxed">
-                        <option selected>Kategori seçiniz</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                    <select name="category" class="c-select form-control boxed">
+                        <?php for ($raund = 0;$raund < count($kategoriler); $raund++){ ?>
+                        <option value="<?=$kategoriler[$raund]?>"><?=$kategoriler[$raund]?></option>
+                        <?php }?>
                     </select>
                 </div>
             </div>
+            <?php for($a=0;$a<3;$a++){ ?>
             <div class="form-group row">
-                <label class="col-sm-2 form-control-label text-xs-right"> Resimler: </label>
+                <label class="col-sm-2 form-control-label text-xs-right"> Ürün görseli: </label>
                 <div class="col-sm-10">
-                    <div class="images-container">
-                        <div class="image-container">
-                            <div class="controls">
-                                <a href="" class="control-btn move">
-                                    <i class="fa fa-arrows"></i>
-                                </a>
-                                <!--
-                -->
-                                <a href="" class="control-btn star">
-                                    <i class="fa"></i>
-                                </a>
-                                <!--
-                -->
-                                <a href="#" class="control-btn remove" data-toggle="modal" data-target="#confirm-modal">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                            </div>
-                            <div class="image" style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')"></div>
-                        </div>
-                        <div class="image-container">
-                            <div class="controls">
-                                <a href="" class="control-btn move">
-                                    <i class="fa fa-arrows"></i>
-                                </a>
-                                <!--
-                -->
-                                <a href="" class="control-btn star">
-                                    <i class="fa"></i>
-                                </a>
-                                <!--
-                -->
-                                <a href="#" class="control-btn remove" data-toggle="modal" data-target="#confirm-modal">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                            </div>
-                            <div class="image" style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')"></div>
-                        </div>
-                        <div class="image-container">
-                            <div class="controls">
-                                <a href="" class="control-btn move">
-                                    <i class="fa fa-arrows"></i>
-                                </a>
-                                <!--
-                -->
-                                <a href="" class="control-btn star">
-                                    <i class="fa"></i>
-                                </a>
-                                <!--
-                -->
-                                <a href="#" class="control-btn remove" data-toggle="modal" data-target="#confirm-modal">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                            </div>
-                            <div class="image" style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')"></div>
-                        </div>
-                        <a href="#" class="add-image" data-toggle="modal" data-target="#modal-media">
-                            <div class="image-container new">
-                                <div class="image">
-                                    <i class="fa fa-plus"></i>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                    <input type="file" class="form-control "  name="item-image-<?php $a ?>"> </div>
             </div>
+            <?php }?>
             <div class="form-group row">
                 <div class="col-sm-10 col-sm-offset-2">
-                    <button type="submit" class="btn btn-primary"> Submit </button>
+                    <button type="submit" class="btn btn-primary"> Ekle </button>
                 </div>
             </div>
         </div>
