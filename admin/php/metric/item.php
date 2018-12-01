@@ -37,22 +37,22 @@
                             <div class="item-col item-col-header fixed item-col-img xs"></div>
                             <div class="item-col item-col-header item-col-title">
                                 <div>
-                                    <span><?=$item_list_array_list[0]?></span>
+                                    <span>Ürün</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-sales">
                                 <div>
-                                    <span><?=$item_list_array_list[1]?></span>
+                                    <span>Satılan adet sayısı</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-stats">
                                 <div class="no-overflow">
-                                    <span><?=$item_list_array_list[2]?></span>
+                                    <span>Fiyat</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-date">
                                 <div>
-                                    <span><?=$item_list_array_list[3]?></span>
+                                    <span>Eklenme Tarihi</span>
                                 </div>
                             </div>
                         </div>

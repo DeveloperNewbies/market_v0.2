@@ -70,37 +70,98 @@ $home_link ="http://".$realip."/admin/index.php";
 
 $logout_link =$home_link."/?m=logout";
 
+
 if($user_granted)
 {
     //admin variable
     $admin_username = $user->name." ".$user->surname;
-//aktif satılan ürün sayısı mağazada bulunan
+    //aktif satılan ürün sayısı mağazada bulunan
     $active_items ="1024";
-//toplam satılan ürün sayısı
+    //toplam satılan ürün sayısı
     $items_sold ="2048";
-//aylık satılan ürünlerin toplam fiyatı
+    //aylık satılan ürünlerin toplam fiyatı
     $monthly_income ="20345";
-//toplam kullanıcı sayısı
+    //toplam kullanıcı sayısı
     $total_uers ="512";
-//kullanıcı geri bildiirmleri (iade vs)
+    //kullanıcı geri bildiirmleri (iade vs)
     $tickets_closed="10";
-//toplam gelir
+    //toplam gelir
     $total_income="100000 ₺";
+}
+
+if($url_m == "home"){
+    //home page ürünler kısmı
+    //max 10 item
+        $list_item_list = array(
+             //0 index ürün id
+            //1 index ürün title
+            //2 index satılan adet sayısı
+            //3 index fiyat bilgisi
+            //4 tarih bilgisi
+            0 =>array("1","0aqwefaqwfawfawfasdafdafaevgfasdasdasdasdafdaevgaedvefawf","02","03","04"),
+            1 =>array("2","fasejbfpıasepogfpas","13","14","15"),
+            2 =>array("3","afkuıefpıaef","23","24","16")
+        );
+}else if($url_m == "orders"){
+    //database deki toplam sipariş sayısı
+    $orders_full_item ="20";
+
+    //orders page ürünler kısmı
+    //max 15 item
+      $item_list_array_list = array(
+          //0 index ürün görsel linki
+          //1 index ürün title
+          //2 index ürün id si
+          //3 index satılan adet sayısı
+          //4 index Fiyat
+          //5 index Kategori
+          0 => array(
+              "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg",
+              "12 Myths Uncovered About IT &amp; Software ",
+              "1",
+              "23",
+              "Software",
+              "Meadow Katheryne",
+              "21 SEP 10:45 ",
+              "",
+              ""
+          )
+      );
+}else if($url_m=="item-list"){
+    //item-list.php dosyası yapılandırılması
+    //url parametreleri bu scope içinde yapılcak
+    // e=delete ise  c=id olacak id ye ürün database den silinecek
+    //database deki toplam ürün sayısı
+    $orders_full_item ="20";
+
+    //ürünler listelenecek
+    //item listürünler kısmı
+    //max 15 item
+    $item_list_array_list = array(
+        //0 index ürün görsel linki
+        //1 index ürün title
+        //2 index ürün id si
+        //3 index satılan adet sayısı
+        //4 index Fiyat
+        //5 index Kategori
+        0 => array(
+            "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg",
+            "12 Myths Uncovered About IT &amp; Software ",
+            "1",
+            "23",
+            "Software",
+            "Meadow Katheryne",
+            "21 SEP 10:45 ",
+            "",
+            ""
+        )
+    );
+
 }
 
 
 
 
-//item variable
-$item_list_array_list = array("Ürün","Satılan adet sayısı","Fiyat","Eklenme tarihi");
-
-//max 10 item
-$list_item_list = array(
-        //0 =>array("0ürün id","1ürün title","2satılan adet sayısı","3fiyat","4tarih"),
-        0 =>array("1","0aqwefaqwfawfawfasdafdafaevgfasdasdasdasdafdaevgaedvefawf","02","03","04"),
-        1 =>array("2","fasejbfpıasepogfpas","13","14","15"),
-        2 =>array("3","afkuıefpıaef","23","24","16")
-);
 
 
 ?>
@@ -130,15 +191,12 @@ $list_item_list = array(
                 break;
             case "orders":
                 require_once ("php/item/siparisler.php");
-                echo "siparişler";
                 break;
             case   "item-list";
                 require_once ("php/item/item_list.php");
-                echo "itemler";
                 break;
             case   "item-editor";
                 require_once ("php/item/item_editor.php");
-                echo "itemler";
                 break;
             default:
                 require_once("php/website_metric.php");
