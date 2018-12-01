@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 30 Kas 2018, 20:31:59
+-- Üretim Zamanı: 01 Ara 2018, 03:47:55
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -69,19 +69,20 @@ CREATE TABLE `m_market` (
   `urun_aciklama` text NOT NULL,
   `urun_details` text NOT NULL,
   `urun_fiyat` float NOT NULL,
-  `urun_adet` int(11) NOT NULL
+  `urun_adet` int(11) NOT NULL,
+  `urun_tarih` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin5;
 
 --
 -- Tablo döküm verisi `m_market`
 --
 
-INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `urun_adet`) VALUES
-(1, 'Harnup Özü', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 10.99, 20),
-(2, 'Deri Kemer', 'Enfes Yılan Derisi Kemer', 'Enfes Yılan Derisi Kemer', 20.99, 30),
-(3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10),
-(4, 'Casio Akıllı Saat', 'Çok akıllıdır saati söyler.', 'Çok akıllıdır saati söyler.', 299.99, 5),
-(5, 'Taze Kadın', 'Taze Enfes Ukraynalı Kadın', 'Taze Enfes Ukraynalı Kadın', 200, 1000);
+INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `urun_adet`, `urun_tarih`) VALUES
+(1, 'Harnup Özü', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 10.99, 20, '0000-00-00 00:00:00'),
+(2, 'Deri Kemer', 'Enfes Yılan Derisi Kemer', 'Enfes Yılan Derisi Kemer', 20.99, 30, '0000-00-00 00:00:00'),
+(3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10, '0000-00-00 00:00:00'),
+(4, 'Casio Akıllı Saat', 'Çok akıllıdır saati söyler.', 'Çok akıllıdır saati söyler.', 299.99, 5, '0000-00-00 00:00:00'),
+(5, 'Taze Kadın', 'Taze Enfes Ukraynalı Kadın', 'Taze Enfes Ukraynalı Kadın', 200, 1000, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -170,7 +171,9 @@ CREATE TABLE `m_uinfo` (
 
 INSERT INTO `m_uinfo` (`k_id`, `k_ad`, `k_soyad`, `k_tel`, `k_adresi`) VALUES
 (4, '', '', 0, ''),
-(5, 'Mehmet', 'Sincap', 0, '');
+(5, 'Mehmet', 'Sincap', 0, ''),
+(6, 'Alp', 'Deny', 0, ''),
+(1, 'Doruk', 'Han', 0, '-');
 
 -- --------------------------------------------------------
 
@@ -185,19 +188,21 @@ CREATE TABLE `m_users` (
   `session_hash` text NOT NULL,
   `ip` varchar(15) NOT NULL,
   `tarih` date NOT NULL,
-  `online` int(2) NOT NULL DEFAULT '0'
+  `online` int(2) NOT NULL DEFAULT '0',
+  `user_group` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin5;
 
 --
 -- Tablo döküm verisi `m_users`
 --
 
-INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`) VALUES
-(1, 'doruk', '4297f44b13955235245b2497399d7a93', '9c8d90cf42962f40b92915e80f4e9ef2b1106d6748abb46313b5b5a1006c4f6e', '192.168.137.207', '2018-11-28', 1),
-(2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28', 1),
-(3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28', 1),
-(4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28', 1),
-(5, 'mehmet_sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', 'e5112f95a23ea713e163d949773822a20a76fd53299b6f7802b148d127a9436d', '10.21.199.198', '2018-11-28', 1);
+INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`, `user_group`) VALUES
+(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '034b409f9b3f39791178227c51d36d7875cc9cb36e88e163a65d44c868d2b82c', '192.168.43.209', '2018-11-28', 1, 2),
+(2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28', 1, 1),
+(3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28', 1, 1),
+(4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28', 1, 1),
+(5, 'mehmet_sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', 'e5112f95a23ea713e163d949773822a20a76fd53299b6f7802b148d127a9436d', '10.21.199.198', '2018-11-28', 1, 1),
+(6, 'adeny@hotmail.com', '4297f44b13955235245b2497399d7a93', 'd321e79d465684e9cb741adb9a69a589fa7a8e127c316a3049c4441b00f06b8f', '192.168.43.209', '2018-12-01', 1, 1);
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -289,7 +294,7 @@ ALTER TABLE `m_sell`
 -- Tablo için AUTO_INCREMENT değeri `m_users`
 --
 ALTER TABLE `m_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

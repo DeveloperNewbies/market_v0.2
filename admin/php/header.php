@@ -11,7 +11,7 @@
 
             <li class="profile dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="name"> <?=$admin_usrename?> </span>
+                    <span class="name"> <?=$admin_username?> </span>
                 </a>
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
 

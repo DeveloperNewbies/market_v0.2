@@ -10,7 +10,7 @@
 		protected $pdo;
 		private $connection = false;
 			
-		function dbMain()
+		function __construct()
 		{
 			$this->dsn = "mysql:host=".$this->host."; dbname=".$this->database."";
 		}
@@ -45,13 +45,13 @@
 		
 		function logIn($uname, $upass)
 		{
-			//echo ' '. $uname . ' ' . $upass;
+
 			$prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE k_adi = '{$uname}' AND k_sifre = '{$upass}'");
 			$prepare->execute();
 			
 			if($prepare->rowCount())
 			{
-				$result = $prepare->fetchAll();
+				//$result = $prepare->fetchAll();
 				$this->pdo->query("UPDATE m_users SET online = 1 WHERE k_adi = '{$uname}'");
 				return true;
 			}else
@@ -61,6 +61,28 @@
 				return false;
 			}
 		}
+
+		function getUserPermission($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE id = '{$id}'");
+            $prepare->execute();
+
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                foreach ($result as $item)
+                {
+                    $result = $item['user_group'];
+                }
+
+                return $result;
+            }else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant get permissions user not found! ' . $error[2];
+                return false;
+            }
+        }
 		
 		function logOut($uname, $upass)
 		{
@@ -138,6 +160,35 @@
 				echo 'Cant get the user infos' . $error[2];
 			}
 		}
+		//Get User Specific Infos
+		function getUserSpecInfo($spec, $id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_uinfo WHERE k_id = '{$id}'");
+            $prepare->execute();
+
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                foreach ($result as $item)
+                {
+                    if($spec == "ad")
+                        $result = $item['k_ad'];
+                    else if($spec == "soyad")
+                        $result = $item['k_soyad'];
+                    else if($spec == "tel")
+                        $result = $item['k_tel'];
+                    else if($spec = "adres")
+                        $result = $item['k_adresi'];
+                    else
+                        $result = false;
+                }
+                return $result;
+            }else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant get the user infos' . $error[2];
+            }
+        }
 		
 		function setSecure($id)
 		{

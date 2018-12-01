@@ -15,7 +15,7 @@ $db->connect();
 
 
        $id = $_GET["id"];
-
+       //Uurun Detayları alınıyor
        $urun = $db->getUrun($id);
 
        $des_detail = "";
@@ -30,6 +30,8 @@ $db->connect();
 
            $des_detail = $result['urun_details'];
        }
+
+        //Urun resimleri çekiliyor
        $urun = $db->getUrunImg($id);
 
        $product_image_link = array();

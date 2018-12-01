@@ -4,7 +4,7 @@
  * Time: 11:53
  */
 require_once('inc/secIP.php');
-include('inc/userClass.php');
+require_once('inc/userClass.php');
 session_start();
 $ipset = new secIP();
 $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
@@ -15,10 +15,10 @@ $title = "Anasayfa";
 $charset = "UTF-8";
 $home_link ="http://".$realip;
 $home_url =$home_link;
-$header_magaza = $home_link."index.php?m=magaza";
-$header_sepetim = $home_link."index.php?m=sepetim";
+$header_magaza = $home_link."/index.php?m=magaza";
+$header_sepetim = $home_link."/index.php?m=sepetim";
 $header_about = $home_link."/index.php?m=hakkinda";
-$header_contact = $home_link."index.php?m=iletisim";
+$header_contact = $home_link."/index.php?m=iletisim";
 $header_url = array("Anasayfa","Mağaza","Sepetim","Hakkında","İletişim");
 
 
@@ -48,7 +48,7 @@ if(isset($_SESSION['user']))
         $user->logOut();
         session_destroy();
         echo 'Oturum bilgisi ihlali!';
-        header("Refresh: 5;");
+        header("Refresh: 3;");
     }
 //echo ''. $user->showUserInfo();
 }

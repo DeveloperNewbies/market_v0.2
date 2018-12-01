@@ -3,6 +3,59 @@
  * Date: 30.11.2018
  * Time: 20:28
  */
+
+require_once('../inc/secIP.php');
+require_once('../inc/userClass.php');
+session_start();
+$ipset = new secIP();
+$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
+$user_granted = false;
+if(isset($_SESSION['user']))
+{
+
+    $user = new user();
+    $user = unserialize(base64_decode($_SESSION['user']));
+    $info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
+    $hash = hash("sha256", $info);
+    $remote_hash = '';
+    foreach($user->getHash() as $row)
+    {
+        $remote_hash = $row['session_hash'];
+    }
+    if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+    {
+        $user->logOut();
+        session_destroy();
+        echo 'Oturum bilgisi ihlali!';
+        header("Refresh: 3;");
+        return;
+    }
+    if($user->getPermission() < 2)
+    {
+        header("Refresh: 0; url=http://".$realip."/admin/login.php");
+        return;
+    }
+    if(isset($_GET['m']))
+    {
+        if($_GET['m'] == "logout")
+        {
+            $user->logOut();
+            session_destroy();
+            echo 'Logged Out';
+            header("Refresh: 1; url=http://".$realip."/");
+            return;
+        }
+    }
+    $user_granted = true;
+//echo ''. $user->showUserInfo();
+}else
+    {
+
+        header("Refresh: 0; url=http://".$realip."/admin/login.php");
+
+        return;
+    }
+
 if(isset($_GET["m"]))
     $url_m = $_GET["m"];
 else
@@ -11,24 +64,30 @@ else
 $language ="tr";
 $title = "Anasayfa";
 $charset = "UTF-8";
-$home_link ="http://localhost/admin/index.php";
+$home_link ="http://".$realip."/admin/index.php";
 
 
-//admin variable
-$logout_link =$home_link."?m=logout";
-$admin_usrename = "sincap memet";
+
+$logout_link =$home_link."/?m=logout";
+
+if($user_granted)
+{
+    //admin variable
+    $admin_username = $user->name." ".$user->surname;
 //aktif satılan ürün sayısı mağazada bulunan
-$active_items ="1024";
+    $active_items ="1024";
 //toplam satılan ürün sayısı
-$items_sold ="2048";
+    $items_sold ="2048";
 //aylık satılan ürünlerin toplam fiyatı
-$monthly_income ="20345";
+    $monthly_income ="20345";
 //toplam kullanıcı sayısı
-$total_uers ="512";
+    $total_uers ="512";
 //kullanıcı geri bildiirmleri (iade vs)
-$tickets_closed="10";
+    $tickets_closed="10";
 //toplam gelir
-$total_income="100000 ₺";
+    $total_income="100000 ₺";
+}
+
 
 
 

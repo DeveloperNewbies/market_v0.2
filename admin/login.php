@@ -5,11 +5,44 @@
  * Date: 30.11.2018
  * Time: 22:01
  */
+
+require_once('../inc/userClass.php');
+require_once('../inc/secIP.php');
+session_start();
+
+$ipset = new secIP();
+$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
+
 $language ="tr";
 $title = "Anasayfa";
 $charset = "UTF-8";
-$home_link ="http://localhost/admin/index.php";
-$magaza_page ="http://localhost/index.php";
+$home_link ="http://".$realip."/admin/index.php";
+$magaza_page ="http://".$realip."/index.php";
+
+
+if(isset($_POST['login'])) {
+    if (isset($_POST['username']) && isset($_POST['password'])) {
+
+
+        $user = user::userCreator();
+        $user->createUser($_POST['username'], $_POST['password']);
+
+
+        if ($user->isLogged()) {
+
+            $_SESSION['user'] = base64_encode(serialize($user));
+            $_SESSION['loggedin'] = $user->statue;
+
+
+            $user->setSecurity();
+            header("Refresh: 1; url=http://" . $realip . "/admin/index.php");
+        } else {
+            echo 'Username or Password Wrong!';
+            header("Refresh: 2;");
+        }
+
+    }
+}
 ?>
 <!doctype html>
 <html class="no-js" lang="<?=$language?>">
@@ -41,7 +74,7 @@ $magaza_page ="http://localhost/index.php";
             </header>
             <div class="auth-content">
                 <p class="text-center">Giriş Yap</p>
-                <form id="login-form" action="login.php" method="GET" novalidate="">
+                <form id="login-form" action="login.php" method="POST" novalidate="">
                     <div class="form-group">
                         <label for="username">E-posta</label>
                         <input type="email" class="form-control underlined" name="username" id="username" placeholder="E-posta adresiniz" required> </div>
@@ -57,7 +90,7 @@ $magaza_page ="http://localhost/index.php";
 
                     </div>-->
                     <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary">Giriş Yap</button>
+                        <button type="submit" name="login" class="btn btn-block btn-primary">Giriş Yap</button>
                     </div>
 
                 </form>

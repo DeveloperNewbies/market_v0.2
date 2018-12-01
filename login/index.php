@@ -3,12 +3,12 @@
 
 
 <?php
-	include('../inc/userClass.php');
+    require_once('../inc/userClass.php');
 	require_once('../inc/secIP.php');
 	session_start();
 	
 	$ipset = new secIP();
-	$realip = "".$ipset->getLocal().":".$ipset->getPort();
+	$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 	
 	if(isset($_SESSION['loggedin']))
     {
@@ -32,7 +32,7 @@
 			$pass = $_POST['password'];
 			$ad = $_POST['ad'];
 			$soyad = $_POST['soyad'];
-			if(empty ($uname) || empty($pass))
+			if(empty ($uname) || empty($pass) || empty($ad) || empty($soyad))
 			{
 				echo 'You can not register with empty fields';
 				header("Refresh: 3; url=http://".$realip."/login/login.php?register=true");
@@ -51,7 +51,7 @@
 						
 						
 						$newuser->setSecurity();
-						header("Refresh: 5; url=http://".$realip."/index.php");
+						header("Refresh: 1; url=http://".$realip."/index.php");
 					}
 					else
 					{
@@ -84,11 +84,11 @@
 					
 					
 					$user->setSecurity();
-					header("Refresh: 2; url=http://".$realip."/index.php");
+					header("Refresh: 0; url=http://".$realip."/index.php");
 				}else
 				{
 					echo 'Username or Password Wrong!';
-					header("Refresh: 1;");
+					header("Refresh: 2;");
 				}
 				
 			}

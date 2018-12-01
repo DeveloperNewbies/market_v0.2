@@ -1,9 +1,9 @@
 <?php
 	class secIP
 	{
-		private $local = "192.168.137.218";
+		private $local = "192.168.43.209";
 		private $port = "81";
-		private $file ="/";
+		private $file ="";
 		
 		public function getLocal()
 		{

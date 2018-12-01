@@ -4,6 +4,8 @@ include('dbClass.php');
 	{
 		private $id;
 		public $username;
+		public $name;
+		public $surname;
 		private $password;
 		public $udate;
 		protected $db;
@@ -11,6 +13,7 @@ include('dbClass.php');
 		private $uinfos;
 		public $statue;
 		private $ip_addr;
+		private $permission;
 		
 		function user()
 		{
@@ -53,7 +56,12 @@ include('dbClass.php');
 			
 			$this->logIn($nuname, $nupass);
 			if($this->isLogged())
-				$this->getUserInfos($nuname, $nupass);
+			{
+                $this->getUserInfos($nuname, $nupass);
+                $this->permission = $this->db->getUserPermission($this->id);
+
+            }
+
 			
 
 		}
@@ -88,6 +96,8 @@ include('dbClass.php');
 			{
 				$this->id = $row['id'];
 				$this->username = $row['k_adi'];
+				$this->name = $this->db->getUserSpecInfo("ad", $row['id']);
+				$this->surname = $this->db->getUserSpecInfo("soyad", $row['id']);
 				$this->password = $row['k_sifre'];
 				$this->udate = $row['tarih'];
 				$this->statue = $row['online'];
@@ -164,6 +174,19 @@ include('dbClass.php');
 			echo ' Şifre: ' . $this->password;
 			echo ' Tarih: ' . $this->udate;
 		}
+
+
+        function getPermission()
+        {
+            return $this->permission;
+        }
+		/*
+		 * There is Admin Power Activated
+		 * $permission > 1
+		 * Admin Privileges Granted
+		 * */
+
+
 
 	}
 ?>
