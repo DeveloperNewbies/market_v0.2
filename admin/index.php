@@ -248,7 +248,6 @@ if($url_m == "home"){
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
 <div class="mobile-menu-handle"></div>
-
     </div>
 </div>
 <!-- Reference block for JS -->
@@ -278,8 +277,6 @@ if($url_m == "home"){
 </script>
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
-
-
 </body>
 </html>
 

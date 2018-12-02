@@ -30,7 +30,7 @@ $header_url = array("Anasayfa","Mağaza","Sepetim","Hakkında","İletişim");
 //side bar kısmında isteklerim kısmını linki
 $side_bar_isteklerim ="";
 //side bar hesabım kısmını linki
-$side_bar_hesabım ="";
+$side_bar_hesabım =$home_link."/index.php?m=hesabim";
 //side bar iade kısmını linki
 $side_bar_iade ="";
 //side bar yardım kısmının linki
@@ -65,6 +65,8 @@ if(isset($_SESSION['user']))
         header("Refresh: 3;");
     }
 //echo ''. $user->showUserInfo();
+
+
 }
 if(isset($_GET['logout']))
 {
@@ -77,10 +79,65 @@ if(isset($_GET['logout']))
     }
 }
 
-if($islogged)
-    $side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
-else
+if($islogged){
+     $side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
+
+    //php/account/account.php
+    //user account page variable
+    $account_username ="" ;//username
+    $account_surname="" ;//surname
+    $account_email="" ; //email
+    $account_adres="" ; //adres
+
+
+
+    //php/shopping/shopping_card.php
+    //kullanıcı sepetim kısmı verileri
+    // max item 10
+    $user_shopping_item = array(
+        //toplam fiyat çarpılıp yazılıyor
+        //0 ürün id
+        //1 image url
+        //2 item title
+        //3 ürün fiyat
+        //4 kaç adet aldığı (default 1)
+
+      0=>array("2","images/narozu350gr.png","ürün title","17","2"),
+      1=>array("3","images/narozu350gr.png","ürün title","17.3","5"),
+      2=>array("4","images/narozu350gr.png","ürün title","10.3","1"),
+
+    );
+
+}else{
     $side_bar = array("Anasayfa","İsteklerim","İade","Yardım & SSS", "Giriş Yap");
+}
+
+
+$url_m =(isset($_GET["m"])) ? $_GET["m"] : "home" ;
+
+
+//sepet add item code
+if(isset($_POST["shopping_card_update"])){
+    $url_m = "sepetim";
+    for($g_s=0;$g_s<count($user_shopping_item); $g_s++){
+        for($a=0;$a<count($user_shopping_item);$a++){
+            if(isset($_POST[$user_shopping_item[$a][0]])){
+                if($_POST[$user_shopping_item[$a][0]]=="0")
+                    unset($user_shopping_item[$a]);
+                else
+                    $user_shopping_item[$a][4] = $_POST[$user_shopping_item[$a][0]];
+            }
+        }
+    }
+    /*bu kısımda $user_shopping_item in son hali var al onu ve database yi güncelle
+    *
+     *
+     */
+
+
+}
+//sepet add item code
+
 ?>
 
 
@@ -127,7 +184,7 @@ else
 <?php
  require_once ("php/header.php");
  ?>
-<?php if(!isset($_GET["m"])) {?>
+<?php if(!isset($url_m)) {?>
 <?php require_once("php/sidebar.php")?>
 <?php require_once ("php/cart.php")?>
 <?php require_once ("php/slider.php")?>
@@ -142,7 +199,7 @@ else
 <?php require_once ("php/body_script.php") ?>
 <?php
  }else{
-    switch ($_GET["m"]){
+    switch ($url_m){
         case  "home":
   require_once("php/sidebar.php");
  require_once ("php/cart.php");
@@ -179,6 +236,18 @@ else
         case "sepetim":
             require_once("php/sidebar.php");
             require_once ("php/shopping/shopping_card.php");
+            require_once ("php/back_to_top.php");
+            break;
+        case "hesabim":
+            require_once("php/sidebar.php");
+            require_once ("php/cart.php");
+            require_once ("php/account/account.php");
+            require_once ("php/back_to_top.php");
+            break;
+        default :
+            require_once("php/sidebar.php");
+            require_once ("php/cart.php");
+            echo "Hata";
             require_once ("php/back_to_top.php");
             break;
 

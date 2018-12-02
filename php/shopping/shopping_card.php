@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mehmet
- * Date: 28.11.2018
- * Time: 17:35
- */
-
+$point_top = 0;
 
 ?>
 
 <!-- breadcrumb -->
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+        <a href="<?=$home_link."/index.php"?>" class="stext-109 cl8 hov-cl1 trans-04">
             Anasayfa
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
         </a>
@@ -27,7 +21,7 @@
 
 
 <!-- Shoping Cart -->
-<form class="bg0 p-t-75 p-b-85">
+<form class="bg0 p-t-75 p-b-85" action="<?=$home_url."/index.php"?>" method="post">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -41,67 +35,45 @@
                                 <th class="column-4">Adet</th>
                                 <th class="column-5">Toplam</th>
                             </tr>
-
+                             <?php  if(isset($user_shopping_item)){ foreach ($user_shopping_item as $result){  ?>
                             <tr class="table_row">
                                 <td class="column-1">
                                     <div class="how-itemcart1">
-                                        <img src="images/narozu350gr.png" alt="IMG">
+                                        <img src="<?=$result[1]?>" alt="<?=$result[2]?>">
                                     </div>
                                 </td>
-                                <td class="column-2">Nar Özü 350 GR</td>
-                                <td class="column-3">17 ₺</td>
+                                <td class="column-2"><?=$result[2]?></td>
+                                <td class="column-3"><?=$result[3]?> ₺</td>
                                 <td class="column-4">
                                     <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                         <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-minus"></i>
                                         </div>
 
-                                        <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="1">
+                                        <input class="mtext-104 cl3 txt-center num-product" type="number" name="<?=$result[0]?>" value="<?=$result[4]?>">
 
                                         <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="column-5">17.00 ₺</td>
+                                <td class="column-5"> <?php
+                                    echo floatval($result[3])*intval($result[4]);
+                                    $point_top += floatval($result[3])*intval($result[4]);
+                                    ?> ₺ </td>
                             </tr>
+                            <?php } }else   echo "sepetiniz boş"; ?>
 
-                            <tr class="table_row">
-                                <td class="column-1">
-                                    <div class="how-itemcart1">
-                                        <img src="images/tahinli330gr.jpg" alt="IMG">
-                                    </div>
-                                </td>
-                                <td class="column-2">Tahinli 330 GR</td>
-                                <td class="column-3">18 ₺</td>
-                                <td class="column-4">
-                                    <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                            <i class="fs-16 zmdi zmdi-minus"></i>
-                                        </div>
-
-                                        <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product2" value="1">
-
-                                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                            <i class="fs-16 zmdi zmdi-plus"></i>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="column-5"> 18.00 ₺ </td>
-                            </tr>
                         </table>
                     </div>
 
                     <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
                         <div class="flex-w flex-m m-r-20 m-tb-5">
 
-
-
                         </div>
-
-                        <div class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-                            Sepeti Güncelle
-                        </div>
+                     <?php if(isset($user_shopping_item)) : ?>
+                        <input type="submit"  class="btn btn-info" name="shopping_card_update" value="Sepeti güncelle">
+                            <?php  endif; ?>
                     </div>
                 </div>
             </div>
@@ -117,7 +89,7 @@
 
                         <div class="size-209">
 								<span class="mtext-110 cl2">
-									35 ₺
+									<?=$point_top?> ₺
 								</span>
                         </div>
                     </div>
@@ -136,7 +108,7 @@
 
                         <div class="size-209 p-t-1">
 								<span class="mtext-110 cl2">
-									35 ₺
+									<?=$point_top?> ₺
 								</span>
                         </div>
                     </div>

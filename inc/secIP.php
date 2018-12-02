@@ -1,8 +1,8 @@
 <?php
 	class secIP
 	{
-		private $local = "192.168.43.209";
-		private $port = "81";
+		private $local = "localhost";
+		private $port = "80";
 		private $file ="";
 		
 		public function getLocal()
