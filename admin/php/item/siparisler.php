@@ -67,12 +67,12 @@
                     </div>
                     <div class="item-col item-col-header item-col-author">
                         <div class="no-overflow">
-                            <span>Author</span>
+                            <span>Satıcı</span>
                         </div>
                     </div>
                     <div class="item-col item-col-header item-col-date">
                         <div>
-                            <span>Published</span>
+                            <span>İlan Tarihi</span>
                         </div>
                     </div>
                     <div class="item-col item-col-header fixed item-col-actions-dropdown"> </div>
@@ -104,21 +104,21 @@
                         </div>
                     </div>
                     <div class="item-col item-col-sales">
-                        <div> <?=$result[2]?> </div>
+                        <div> <?=$result[3]?> </div>
                     </div>
                     <div class="item-col item-col-category no-overflow">
-                        <div class="no-overflow">
-                            <?=$result[3]?>
+                        <div class="no-overflow" style="padding-left: 25%">
+                            <?=$result[4]." ₺"?>
                         </div>
                     </div>
                     <div class="item-col item-col-category no-overflow">
                         <div class="no-overflow">
-                            <?=$result[4]?>
+                            <?=$result[5]?>
                         </div>
                     </div>
                     <div class="item-col item-col-author">
                         <div class="no-overflow">
-                            <?=$result[5]?>
+                            <?="Nah"?>
                         </div>
                     </div>
                     <div class="item-col item-col-date">

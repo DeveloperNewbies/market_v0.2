@@ -34,7 +34,7 @@
                         <?=$side_bar[1]?>
                     </a>
                 </li>
-
+                <?php if($islogged){ ?>
                 <li class="p-b-13">
                     <a href="<?=$side_bar_hesabım?>" class="stext-102 cl2 hov-cl1 trans-04">
                         <?=$side_bar[2]?>
@@ -52,6 +52,31 @@
                         <?=$side_bar[4]?>
                     </a>
                 </li>
+
+
+                <li class="p-b-13">
+                    <a href="<?=$side_bar_cikis?>" class="stext-102 cl2 hov-cl1 trans-04">
+                        <?=$side_bar[5]?>
+                    </a>
+                </li>
+                <?php }else{ ?>
+                <li class="p-b-13">
+                    <a href="<?=$side_bar_iade?>" class="stext-102 cl2 hov-cl1 trans-04">
+                        <?=$side_bar[2]?>
+                    </a>
+                </li>
+
+                <li class="p-b-13">
+                    <a href="<?=$side_bar_yardim?>" class="stext-102 cl2 hov-cl1 trans-04">
+                        <?=$side_bar[3]?>
+                    </a>
+                </li>
+                <li class="p-b-13">
+                    <a href="<?=$side_bar_giris?>" class="stext-102 cl2 hov-cl1 trans-04">
+                        <?=$side_bar[4]?>
+                    </a>
+                </li>
+                <?php } ?>
             </ul>
 
 

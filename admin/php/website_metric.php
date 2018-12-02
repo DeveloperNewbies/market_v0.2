@@ -61,7 +61,7 @@
                                     <i class="fa fa-users"></i>
                                 </div>
                                 <div class="stat">
-                                    <div class="value"> <?=$total_uers?> </div>
+                                    <div class="value"> <?=$total_users?> </div>
                                     <div class="name"> Toplam kullanıcı sayısı </div>
                                 </div>
                                 <div class="progress stat-progress">

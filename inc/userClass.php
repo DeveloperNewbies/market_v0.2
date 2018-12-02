@@ -8,14 +8,17 @@ include('dbClass.php');
 		public $surname;
 		private $password;
 		public $udate;
+
+		/** @var $db dbMain */
 		protected $db;
+
 		private $isLog;
 		private $uinfos;
 		public $statue;
 		private $ip_addr;
 		private $permission;
 		
-		function user()
+		function __construct()
 		{
 
 			
@@ -180,13 +183,38 @@ include('dbClass.php');
         {
             return $this->permission;
         }
+
+        function getUrun($id)
+        {
+            return $this->db->getUrun($id);
+        }
+
+        function getUrunKategori($item_cat_id)
+        {
+            return $this->db->getUrunKategori($item_cat_id);
+        }
+
+        function getUrunIMG($id)
+        {
+            return $this->db->getUrunImg($id);
+        }
+
 		/*
 		 * There is Admin Power Activated
 		 * $permission > 1
 		 * Admin Privileges Granted
 		 * */
-
-
-
+        function adminGetItem($id)
+        {
+            return $this->db->getUrun($id);
+        }
+        function adminGetItemSoldCount($id)
+        {
+            return $this->db->adminGetItemSoldInfoCount($id);
+        }
+        function adminGetOrderCount($limit, $showrequest)
+        {
+            return $this->db->adminGetOrderList($limit, $showrequest);
+        }
 	}
 ?>

@@ -1,8 +1,8 @@
 <?php
-
-//ürünler bu linkteki adrese gönderilecek edilecek
-$item_method_name ="get";
-
+/**
+ * Date: 30.11.2018
+ * Time: 20:28
+ */
 
 require_once('../inc/secIP.php');
 require_once('../inc/userClass.php');
@@ -10,6 +10,8 @@ session_start();
 $ipset = new secIP();
 $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $user_granted = false;
+/** @var user $user */
+$user;
 if(isset($_SESSION['user']))
 {
 
@@ -82,29 +84,46 @@ if($user_granted)
     //aylık satılan ürünlerin toplam fiyatı
     $monthly_income ="20345";
     //toplam kullanıcı sayısı
-    $total_uers ="512";
+    $total_users ="512";
     //kullanıcı geri bildiirmleri (iade vs)
     $tickets_closed="10";
     //toplam gelir
     $total_income="100000 ₺";
 }
-
+$urun = $user->adminGetItem("all");
 if($url_m == "home"){
     //home page ürünler kısmı
-    //max 10 item
+    //max infinite item
         $list_item_list = array(
              //0 index ürün id
             //1 index ürün title
             //2 index satılan adet sayısı
             //3 index fiyat bilgisi
             //4 tarih bilgisi
-            0 =>array("1","0aqwefaqwfawfawfasdafdafaevgfasdasdasdasdafdaevgaedvefawf","02","03","04"),
-            1 =>array("2","fasejbfpıasepogfpas","13","14","15"),
-            2 =>array("3","afkuıefpıaef","23","24","16")
+
         );
+        for ($i = 0; $i < count($urun); $i++)
+        {
+            array_push($list_item_list, array());
+        }
+        $i = 0;
+        foreach ($urun as $item)
+        {
+            array_push($list_item_list[$i], $item['urun_id']);
+            array_push($list_item_list[$i], $item['urun_ad']);
+            array_push($list_item_list[$i], ($user->adminGetItemSoldCount($item['urun_id'])) ? $user->adminGetItemSoldCount($item['urun_id']) : "-");
+            array_push($list_item_list[$i], $item['urun_fiyat']);
+            array_push($list_item_list[$i], $item['urun_tarih']);
+
+            $i++;
+        }
+
+
 }else if($url_m == "orders"){
     //database deki toplam sipariş sayısı
     $orders_full_item ="20";
+
+    $result = $user->adminGetOrderCount(0 , 15);
 
     //orders page ürünler kısmı
     //max 15 item
@@ -115,18 +134,38 @@ if($url_m == "home"){
           //3 index satılan adet sayısı
           //4 index Fiyat
           //5 index Kategori
-          0 => array(
-              "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg",
-              "12 Myths Uncovered About IT &amp; Software ",
-              "1",
-              "23",
-              "Software",
-              "Meadow Katheryne",
-              "21 SEP 10:45 ",
-              "",
-              ""
-          )
       );
+      if($result)
+      {
+
+          for ($i = 0; $i < count($result); $i++)
+          {
+              array_push($item_list_array_list, array());
+
+          }
+          $i = 0;
+
+          foreach ($result as $item)
+          {
+              array_push($item_list_array_list[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
+              $urun = $user->getUrun($item['urun_id']);
+              foreach ($urun as $item1)
+              {
+                  array_push($item_list_array_list[$i], $item1['urun_ad']);
+                  array_push($item_list_array_list[$i], $item1['urun_id']);
+              }
+              array_push($item_list_array_list[$i], $item['urun_adet']);
+              array_push($item_list_array_list[$i], $item['urun_fiyat']);
+              foreach ($urun as $item1)
+              {
+                  array_push($item_list_array_list[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
+              }
+              array_push($item_list_array_list[$i], $item['tarih']);
+              $i++;
+          }
+      }else
+          echo 'Hello';
+
 }else if($url_m=="item-list"){
     //item-list.php dosyası yapılandırılması
     //url parametreleri bu scope içinde yapılcak

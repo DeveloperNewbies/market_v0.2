@@ -121,7 +121,7 @@
                                            </div>
 
                                            <div class="item-col item-col-sales">
-                                               <div> <?=$result[3]?> </div>
+                                               <div> <?=$result[3]." ₺"?> </div>
                                            </div>
                                            <div class="item-col item-col-date">
                                                <div> <?=$result[4]?> </div>

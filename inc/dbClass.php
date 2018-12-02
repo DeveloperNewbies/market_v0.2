@@ -1,12 +1,17 @@
 <?php
+
 	class dbMain
 	{
-	    
+
 		private $host = "localhost";//main decleration
 		private $huser = "root";
 		private $hpass = "";
 		private $database = "marketing";
 		private $dsn;
+
+        /**
+         * @var $pdo PDO
+         */
 		protected $pdo;
 		private $connection = false;
 			
@@ -158,6 +163,7 @@
 			{
 				$error = $this->pdo->errorInfo();
 				echo 'Cant get the user infos' . $error[2];
+				return false;
 			}
 		}
 		//Get User Specific Infos
@@ -209,18 +215,18 @@
 		
 		function getHash($id)
 		{
-			$prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE id = '{$id}'");
-			$prepare->execute();
-			if($prepare->rowCount())
-			{
-				$result = $prepare->fetchAll();
-				return $result;
-			}
-			else
-			{
-				$error = $this->pdo->errorInfo();
-				echo 'Cant Get Hash '.$error[2];
-			}
+            $prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Hash '.$error[2];
+            }
 		}
 		
 
@@ -229,40 +235,49 @@
             if($id == "all")
             {
                 $prepare = $this->pdo->prepare("SELECT * FROM m_market");
-                $prepare->execute();
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }
-                else
-                {
-                    $error = $this->pdo->errorInfo();
-                    echo 'Cant Get Urun '.$error[2];
-                }
             }else
-                {
-                    $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
-                    $prepare->execute();
-                    if($prepare->rowCount())
-                    {
-                        $result = $prepare->fetchAll();
-                        return $result;
-                    }
-                    else
-                    {
-                        $error = $this->pdo->errorInfo();
-                        echo 'Cant Get Urun '.$error[2];
-                    }
-                }
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
+            }
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Urun '.$error[2];
+            }
 
         }
-
+        function getUrunKategori($item_cat_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Hash '.$error[2];
+            }
+        }
         function getUrunImg($id)
         {
             if($id == "all")
             {
                 $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg");
+            }else
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$id}'");
+                }
+
+
                 $prepare->execute();
                 if($prepare->rowCount())
                 {
@@ -274,32 +289,26 @@
                     $error = $this->pdo->errorInfo();
                     echo 'Cant Get Urun IMG '.$error[2];
                 }
-            }else
-                {
-                    $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$id}'");
-                    $prepare->execute();
-                    if($prepare->rowCount())
-                    {
-                        $result = $prepare->fetchAll();
-                        return $result;
-                    }
-                    else
-                    {
-                        $error = $this->pdo->errorInfo();
-                        echo 'Cant Get Urun IMG '.$error[2];
-                    }
-                }
 
         }
 
         function getCategory($id)
         {
-            $prepare = $this->pdo->prepare("SELECT * FROM m_kategori WHERE urun_id = '{$id}'");
+            $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
             $prepare->execute();
             if($prepare->rowCount())
             {
-                $result = $prepare->fetchAll();
-
+                $res = "";
+                foreach ($prepare as $item)
+                {
+                    $res = $item['urun_grup'];
+                }
+                $prepare = $this->pdo->prepare("SELECT * FROM m_kategori WHERE kat_id = '{$res}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                    $result = $prepare->fetchAll();
+                else
+                    $result = false;
                 return $result;
             }
             else
@@ -323,15 +332,52 @@
             }
         }
 
+
+        /*
+         * db For Admin Panel
+         *
+         *
+         */
+
+        //Admin Gets His Sold İtem Count İnfo $id = Sold item ID
+
+        function adminGetItemSoldInfoCount($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_order WHERE urun_id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result[0][0];
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        function adminGetOrderList($limit, $showreq)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2");
+            $prepare->execute();
+
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }else
+                {
+                    return false;
+                }
+        }
 		
 	}
 
 	
+
 	
+
 	
-	
-	
-	
-	
+
 	
 ?>

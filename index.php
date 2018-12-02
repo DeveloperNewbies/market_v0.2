@@ -8,6 +8,10 @@ require_once('inc/userClass.php');
 session_start();
 $ipset = new secIP();
 $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
+$islogged = false;
+
+/** @var $user user */
+$user;
 
 $language ="tr";
 $site_about ="hakkında";
@@ -22,15 +26,23 @@ $header_contact = $home_link."/index.php?m=iletisim";
 $header_url = array("Anasayfa","Mağaza","Sepetim","Hakkında","İletişim");
 
 
-$side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS");
+
 //side bar kısmında isteklerim kısmını linki
 $side_bar_isteklerim ="";
 //side bar hesabım kısmını linki
-$side_bar_hesabım ="login/";
+$side_bar_hesabım ="";
 //side bar iade kısmını linki
 $side_bar_iade ="";
 //side bar yardım kısmının linki
 $side_bar_yardim =$header_contact;
+//side bar giriş kısmının linki
+$side_bar_giris = "/login";
+//side bar çıkış kısmının linki
+$side_bar_cikis = "?logout=1";
+
+//ürünler bu linkteki adrese gönderilecek edilecek
+$item_method_name ="get";
+
 
 if(isset($_SESSION['user']))
 {
@@ -39,12 +51,14 @@ if(isset($_SESSION['user']))
     $info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
     $hash = hash("sha256", $info);
     $remote_hash = '';
+    $islogged = true;
     foreach($user->getHash() as $row)
     {
         $remote_hash = $row['session_hash'];
     }
     if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
     {
+        $islogged = false;
         $user->logOut();
         session_destroy();
         echo 'Oturum bilgisi ihlali!';
@@ -58,12 +72,15 @@ if(isset($_GET['logout']))
     {
     $user->logOut();
     session_destroy();
-    echo 'Logged Out';
-    header("Refresh: 2; url=http://".$realip."/");
+    header("Refresh: 0; url=http://".$realip."/");
     return;
     }
 }
 
+if($islogged)
+    $side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
+else
+    $side_bar = array("Anasayfa","İsteklerim","İade","Yardım & SSS", "Giriş Yap");
 ?>
 
 

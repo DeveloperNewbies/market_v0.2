@@ -15,7 +15,7 @@ $db->connect();
 
 
        $id = $_GET["id"];
-       //Uurun Detayları alınıyor
+       //Urun Detayları alınıyor
        $urun = $db->getUrun($id);
 
        $des_detail = "";
@@ -47,7 +47,6 @@ $db->connect();
        //second option argument array
        $option = array();
        $urun = $db->getCategory($id);
-
        $cat = "";
        if($urun != false)
        {
