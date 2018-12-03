@@ -81,17 +81,28 @@ if($islogged){
     $side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
 
     //php/account/account.php
-    //user account page variable
+//user account page variable
     $account_username ="" ;//username
     $account_surname="" ;//surname
     $account_email="" ; //email
     $account_adres="" ; //adres
 
+}else{
+    $side_bar = array("Anasayfa","İsteklerim","İade","Yardım & SSS", "Giriş Yap");
+}
 
 
-    //php/shopping/shopping_card.php
-    //kullanıcı sepetim kısmı verileri
-    // max item 10
+$user_shopping_item = "";
+
+
+if(isset($_SESSION['sepetim']))
+{
+    $user_shopping_item = $_SESSION['sepetim'];
+}else
+    {
+        //php/shopping/shopping_card.php
+//kullanıcı sepetim kısmı verileri
+// max item 10
     $user_shopping_item = array(
         //toplam fiyat çarpılıp yazılıyor
         //0 ürün id
@@ -100,41 +111,89 @@ if($islogged){
         //3 ürün fiyat
         //4 kaç adet aldığı (default 1)
 
-        0=>array("2","images/narozu350gr.png","ürün title","17","2"),
-        1=>array("3","images/narozu350gr.png","ürün title","17.3","5"),
-        2=>array("4","images/narozu350gr.png","ürün title","10.3","1"),
+        //0=>array("2","images/narozu350gr.png","ürün title","17","2"),
+        //1=>array("3","images/narozu350gr.png","ürün title","17.3","5"),
+        //2=>array("4","images/narozu350gr.png","ürün title","10.3","1"),
 
     );
 
-}else{
-    $side_bar = array("Anasayfa","İsteklerim","İade","Yardım & SSS", "Giriş Yap");
 }
 
 
 
 
+function user_sepet($usi){
+    ////////////////
+//database den sepetimdeki ürünler kısmı
+//php/shopping/shopping_card.php
+//kullanıcı sepetim kısmı verileri
+// max item 10
+//bu fonksiyon içerisinde $user_shopping_item yoksa yarat var ise değişiklikleri ekle
+
+//session bilgisinde güncelle ata
+
+    $_SESSION['sepetim'] = $usi;
+}
+
+
 $url_m =(isset($_GET["m"])) ? $_GET["m"] : "home" ;
 
+
+
+if(isset($_POST['urun_ekle']))
+{
+
+    if(isset($_POST['urun_id']))
+    {
+
+        $id = $user->security($_POST['urun_id']);
+
+        $urun_adet = $user->security($_POST['num-product']);
+        $urun_array = array();
+
+        $urun_bul = $user->getUrun($id);
+        foreach ($urun_bul as $item)
+        {
+            array_push($urun_array, $item['urun_id']);
+            array_push($urun_array, $user->getUrunIMG($item['urun_id'])[0][2]);
+            array_push($urun_array, $item['urun_ad']);
+            array_push($urun_array, $item['urun_fiyat']);
+            array_push($urun_array, $urun_adet);
+        }
+        array_push($user_shopping_item, $urun_array);
+        user_sepet($user_shopping_item);
+        header("location:".$header_magaza."&id=".$id);
+    }
+}
 
 //sepet add item code
 if(isset($_POST["shopping_card_update"])){
     $url_m = "sepetim";
     for($g_s=0;$g_s<count($user_shopping_item); $g_s++){
-        for($a=0;$a<count($user_shopping_item);$a++){
-            if(isset($_POST[$user_shopping_item[$a][0]])){
-                if($_POST[$user_shopping_item[$a][0]]=="0")
-                    unset($user_shopping_item[$a]);
-                else
-                    $user_shopping_item[$a][4] = $_POST[$user_shopping_item[$a][0]];
-            }
+        if(isset($_POST[$user_shopping_item[$g_s][0]])){
+            if($_POST[$user_shopping_item[$g_s][0]]=="0")
+                array_splice($user_shopping_item, $g_s, 1);
+            else
+                $user_shopping_item[$g_s][4] = $user->security($_POST[$user_shopping_item[$g_s][0]]);
         }
     }
     /*bu kısımda $user_shopping_item in son hali var al onu ve database yi güncelle
     *
      *
      */
+    user_sepet($user_shopping_item);
+
+}
 
 
+if(isset($_POST['urun_cikar'])){
+    $urun_id = $user->security($_POST['urun_id']);
+    for($i = 0; $i < count($user_shopping_item); $i++)
+        if($user_shopping_item[$i][0] == $urun_id)
+            array_splice($user_shopping_item, $i, 1);
+
+
+    user_sepet($user_shopping_item);
 }
 //sepet add item code
 

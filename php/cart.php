@@ -13,7 +13,7 @@
     <div class="header-cart flex-col-l p-l-65 p-r-25">
         <div class="header-cart-title flex-w flex-sb-m p-b-8">
 				<span class="mtext-103 cl2">
-					Sepetim
+					 <a href="<?=$home_link."/index.php?m=sepetim"?>">Sepetim</a>
 				</span>
 
             <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
@@ -23,44 +23,32 @@
 
         <div class="header-cart-content flex-w js-pscroll">
             <ul class="header-cart-wrapitem w-full">
-                Sepetiniz boş
-                <!--
+                <?php if(!isset($user_shopping_item)){   ?>
+                    Sepetiniz boş
+                <?php }else{ ?>
+                <?php foreach ($user_shopping_item as $result){   ?>
                 <li class="header-cart-item flex-w flex-t m-b-12">
                     <div class="header-cart-item-img">
-                        <img src="images/item-cart-01.jpg" alt="IMG">
+                        <img src="<?=$result[1]?>" alt="IMG">
                     </div>
 
                     <div class="header-cart-item-txt p-t-8">
-                        <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                            White Shirt Pleat
+                        <a href="<?=$header_magaza."&id=".$result[0]?>" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                            <?=$result[2]?>
                         </a>
 
                         <span class="header-cart-item-info">
-								1 x $19.00
+								<?=$result[3]?> x <?=$result[4]?> ₺
 							</span>
                     </div>
+                    <div class="p-0"></div>
+                    <form action="index.php" method="post">
+                        <input type="hidden" name="urun_id" value="<?=$result[0]?>">
+                        <input type="submit" class="btn btn-info" name="urun_cikar" value="Ürünü Çıkar">
+                    </form>
                 </li>
-                -->
 
-
-                 <?php if(false) : ?>
-
-            <div class="w-full">
-                <div class="header-cart-total w-full p-tb-40">
-                    Total: $75.00
-                </div>
-
-                <div class="header-cart-buttons flex-w w-full">
-                    <a href="<?=$home_link."index.php?m=sepetim"?>" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                        View Cart
-                    </a>
-
-                    <a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                        Check Out
-                    </a>
-                </div>
-            </div>
-                <?php endif ; ?>
+                      <?php } } ?>
         </div>
     </div>
 </div>
