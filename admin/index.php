@@ -167,35 +167,51 @@ if($url_m == "home"){
           echo 'Hello';
 
 }else if($url_m=="item-list"){
-    //item-list.php dosyası yapılandırılması
-    //url parametreleri bu scope içinde yapılcak
-    // e=delete ise  c=id olacak id ye ürün database den silinecek
-    //database deki toplam ürün sayısı
-    $orders_full_item ="20";
+   //database deki toplam sipariş sayısı
+   $orders_full_item ="20";
 
-    //ürünler listelenecek
-    //item listürünler kısmı
-    //max 15 item
-    $item_list_array_list = array(
-        //0 index ürün görsel linki
-        //1 index ürün title
-        //2 index ürün id si
-        //3 index satılan adet sayısı
-        //4 index Fiyat
-        //5 index Kategori
-        0 => array(
-            "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg",
-            "12 Myths Uncovered About IT &amp; Software ",
-            "1",
-            "23",
-            "Software",
-            "Meadow Katheryne",
-            "21 SEP 10:45 ",
-            "",
-            ""
-        )
-    );
+   $result = $user->adminGetOrderCount(0 , 15);
 
+   //orders page ürünler kısmı
+   //max 15 item
+     $item_list_array_list = array(
+         //0 index ürün görsel linki
+         //1 index ürün title
+         //2 index ürün id si
+         //3 index satılan adet sayısı
+         //4 index Fiyat
+         //5 index Kategori
+     );
+     if($result)
+     {
+
+         for ($i = 0; $i < count($result); $i++)
+         {
+             array_push($item_list_array_list, array());
+
+         }
+         $i = 0;
+
+         foreach ($result as $item)
+         {
+             array_push($item_list_array_list[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
+             $urun = $user->getUrun($item['urun_id']);
+             foreach ($urun as $item1)
+             {
+                 array_push($item_list_array_list[$i], $item1['urun_ad']);
+                 array_push($item_list_array_list[$i], $item1['urun_id']);
+             }
+             array_push($item_list_array_list[$i], $item['urun_adet']);
+             array_push($item_list_array_list[$i], $item['urun_fiyat']);
+             foreach ($urun as $item1)
+             {
+                 array_push($item_list_array_list[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
+             }
+             array_push($item_list_array_list[$i], $item['tarih']);
+             $i++;
+         }
+     }else
+         echo 'Hello';
 }
 
 

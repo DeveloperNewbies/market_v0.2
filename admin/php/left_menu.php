@@ -40,7 +40,7 @@
                         </li>
                     </ul>
                 </li>
-
+ <!--
                 <li>
                     <a href="">
                         <i class="fa fa-table"></i> Tables
@@ -59,7 +59,7 @@
                     <a href="forms.html">
                         <i class="fa fa-pencil-square-o"></i> Forms </a>
                 </li>
-     <!--
+     
                 <li>
                     <a href="">
                         <i class="fa fa-file-text-o"></i> Pages

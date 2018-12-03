@@ -198,7 +198,7 @@ $db->connect();
                                            </div>
                                        </div>
                                        <input type="hidden" name="urun_id" value="<?=$id?>">
-                                       <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" type="submit" name="urun_ekle" value="Sepete Ekle">
+                                       <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="Sepete Ekle">
 
 
                                    </div>
@@ -279,13 +279,13 @@ $db->connect();
                                            <!-- Review -->
                                            <div class="flex-w flex-t p-b-68">
                                                <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-                                                   <img src="images/avatar-01.jpg" alt="AVATAR">
+                                                   <img src="images/enes.jpg" alt="AVATAR">
                                                </div>
 
                                                <div class="size-207">
                                                    <div class="flex-w flex-sb-m p-b-17">
 													<span class="mtext-107 cl2 p-r-20">
-														Ariana Grande
+														Mahmut Turan Cerrah
 													</span>
 
                                                        <span class="fs-18 cl11">
@@ -298,7 +298,7 @@ $db->connect();
                                                    </div>
 
                                                    <p class="stext-102 cl6">
-                                                       Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
+                                                      Ürünü çok beğendim. Tavsiye ederim.
                                                    </p>
                                                </div>
                                            </div>
@@ -306,16 +306,16 @@ $db->connect();
                                            <!-- Add review -->
                                            <form class="w-full">
                                                <h5 class="mtext-108 cl2 p-b-7">
-                                                   Add a review
+                                                   Yorum ekleyin
                                                </h5>
 
                                                <p class="stext-102 cl6">
-                                                   Your email address will not be published. Required fields are marked *
+                                                  Email adresiniz paylaşılmayacaktır.
                                                </p>
 
                                                <div class="flex-w flex-m p-t-50 p-b-23">
 												<span class="stext-102 cl3 m-r-16">
-													Your Rating
+													Oyla
 												</span>
 
                                                    <span class="wrap-rating fs-18 cl11 pointer">
@@ -330,12 +330,12 @@ $db->connect();
 
                                                <div class="row p-b-25">
                                                    <div class="col-12 p-b-5">
-                                                       <label class="stext-102 cl3" for="review">Your review</label>
+                                                       <label class="stext-102 cl3" for="review">Yorumunuz</label>
                                                        <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review"></textarea>
                                                    </div>
 
                                                    <div class="col-sm-6 p-b-5">
-                                                       <label class="stext-102 cl3" for="name">Name</label>
+                                                       <label class="stext-102 cl3" for="name">İsim</label>
                                                        <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name">
                                                    </div>
 
@@ -346,7 +346,7 @@ $db->connect();
                                                </div>
 
                                                <button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                                   Submit
+                                                   Gönder
                                                </button>
                                            </form>
                                        </div>
@@ -386,8 +386,8 @@ $db->connect();
 
 
 
-                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-                    Men
+             <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
+                <!-- MEN -->
                 </button>
 
 
@@ -395,7 +395,7 @@ $db->connect();
 
 
                 <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
-                    Watches
+                    <!-- watches -->
                 </button>
             </div>
 

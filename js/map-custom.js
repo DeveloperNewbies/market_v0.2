@@ -16,8 +16,8 @@
                 img_pin = 'images/icons/location.png';
             }
             if (data_map_x == null || data_map_y == null) {
-                data_map_x = 40.007749;
-                data_map_y = -93.266572;
+                data_map_x = 36.204214;
+                data_map_y = 36.160108;
             }
             if (scrollwhell == null) {
                 scrollwhell = 0;
@@ -242,7 +242,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(locations[i][1], locations[i][2]),
                     map: map,
-                    icon: img_pin
+                    icon: marker,
                 });
 
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {

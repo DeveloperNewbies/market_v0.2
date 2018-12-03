@@ -44,7 +44,7 @@ function header_focus($m){
                         </li>
 
                         <li <?php if(header_focus ("sepetim")=== true){
-                            ?> class="active-menu label1" <?php }?>class="label1" data-label1="hot">
+                            ?> class="active-menu " <?php }?> >
                             <a href="<?=$header_sepetim?>"><?=$header_url[2]?></a>
                         </li>
 
@@ -71,7 +71,7 @@ function header_focus($m){
                     </div>
 
                     <div class="flex-c-m h-full p-l-18 p-r-25 bor5">
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="0">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="<?php echo (isset($user_shopping_item)) ? count($user_shopping_item) : "0"?>">
                             <i class="zmdi zmdi-shopping-cart"></i>
                         </div>
                     </div>

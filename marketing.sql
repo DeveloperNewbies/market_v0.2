@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 03 Ara 2018, 02:21:35
--- Sunucu sürümü: 10.1.36-MariaDB
--- PHP Sürümü: 7.2.11
+-- Üretim Zamanı: 03 Ara 2018, 21:34:04
+-- Sunucu sürümü: 10.1.37-MariaDB
+-- PHP Sürümü: 7.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -98,11 +98,10 @@ CREATE TABLE `m_market` (
 --
 
 INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `urun_adet`, `urun_tarih`, `urun_grup`) VALUES
-(1, 'Harnup Özü', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 'Harnup Özü Faydalıdır. Gerdekten önce 3 kadeh içilmelidir', 10.99, 20, '0000-00-00 00:00:00', 1),
-(2, 'Deri Kemer', 'Enfes Yılan Derisi Kemer', 'Enfes Yılan Derisi Kemer', 20.99, 30, '0000-00-00 00:00:00', 0),
+(1, 'Harnup Özü', 'Harnup Özü Faydalıdır. ', 'Harnup Özü Faydalıdır. ', 10.99, 20, '0000-00-00 00:00:00', 1),
+(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13, 0, '0000-00-00 00:00:00', 0),
 (3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10, '0000-00-00 00:00:00', 0),
-(4, 'Casio Akıllı Saat', 'Çok akıllıdır saati söyler.', 'Çok akıllıdır saati söyler.', 299.99, 5, '0000-00-00 00:00:00', 0),
-(5, 'Taze Kadın', 'Taze Enfes Ukraynalı Kadın', 'Taze Enfes Ukraynalı Kadın', 200, 1000, '0000-00-00 00:00:00', 0);
+(4, 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 17.5, 12, '2018-12-03 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -122,16 +121,9 @@ CREATE TABLE `m_marketimg` (
 
 INSERT INTO `m_marketimg` (`id`, `urun_id`, `urun_img`) VALUES
 (1, 1, 'images/harnup/harnupozu250ml.png'),
-(2, 1, 'images/harnup/tahinli330gr.jpg'),
-(3, 2, 'images/kemer/banner-09.jpg'),
-(4, 2, 'images/kemer/product-12.jpg'),
-(5, 3, 'images/nar_eksisi/narozu350gr.png'),
-(6, 3, 'images/nar_eksisi/narozu700-gr.png'),
-(7, 4, 'images/saat/product-06.jpg'),
-(8, 4, 'images/saat/product-15.jpg'),
-(9, 5, 'images/kadin/product-05.jpg'),
-(10, 5, 'images/kadin/product-13.jpg'),
-(11, 5, 'images/kadin/product-16.jpg');
+(2, 2, 'images/harnup/tahinli330gr.jpg'),
+(3, 3, 'images/nar_eksisi/narozu350gr.png'),
+(4, 4, 'images/nar_eksisi/narozu700-gr.png');
 
 -- --------------------------------------------------------
 
@@ -226,7 +218,7 @@ CREATE TABLE `m_users` (
 --
 
 INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`, `user_group`) VALUES
-(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '48b2b1bbf19b300350e05091c10f53694b5bd2ba0aaa1de60e5d06724b8f439d', '::1', '2018-11-28 00:00:00', 1, 2),
+(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '993df8b103b7ec8a7b05fe41d3e706fbe366267937ae167070d38ed124c88962', '::1', '2018-11-28 00:00:00', 1, 2),
 (2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
@@ -311,13 +303,13 @@ ALTER TABLE `m_log`
 -- Tablo için AUTO_INCREMENT değeri `m_market`
 --
 ALTER TABLE `m_market`
-  MODIFY `urun_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `urun_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_marketimg`
 --
 ALTER TABLE `m_marketimg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_marketinfo`
