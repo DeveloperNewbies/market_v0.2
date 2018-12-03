@@ -26,7 +26,6 @@ $i = 0;
 foreach ($modal_item as $item) {
 
     array_push($popup_img_link, array());
-    array_push($modal_item, array());
     foreach ($db->getUrunImg($item['urun_id']) as $item2) {
         array_push($popup_img_link[$i], $item2['urun_img']);
     }
@@ -137,5 +136,22 @@ $i = 0;
         </div>
     </div>
 </div>
+
+
+    <script>
+        <?php for($j = 0; $j < count($modal_item); $j++){ ?>
+        /*==================================================================
+    [ Show modall ]*/
+
+        $('.js-show-modal<?=($j+1)?>').on('click',function(e){
+            e.preventDefault();
+            $('.js-modal<?=($j+1)?>').addClass('show-modal1');
+        });
+
+        $('.js-hide-modal<?=($j+1)?>').on('click',function(){
+            $('.js-modal<?=($j+1)?>').removeClass('show-modal1');
+        });
+        <?php } ?>
+    </script>
 
 <?php } ?>

@@ -178,6 +178,9 @@ if(isset($_POST["shopping_card_update"])){
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <!--===============================================================================================-->
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+
 </head>
 <body class="animsition">
 
@@ -185,6 +188,7 @@ if(isset($_POST["shopping_card_update"])){
 <?php
  require_once ("php/header.php");
  ?>
+
 <?php if(!isset($url_m)) {?>
 <?php require_once("php/sidebar.php")?>
 <?php require_once ("php/cart.php")?>
@@ -207,7 +211,6 @@ if(isset($_POST["shopping_card_update"])){
  require_once ("php/footer.php");
  require_once ("php/back_to_top.php");
  require_once ("php/modall.php");
- require_once ("php/body_script.php");
 
             break;
         case "hakkinda":

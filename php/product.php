@@ -97,18 +97,5 @@ foreach ($urunler as $item)
 
 
 </section>
-<?php for($i = 0; $i<count($urunler); $i++){ ?>
-<script>
-    /*==================================================================
-[ Show modall ]*/
 
-    $('.js-show-modal<?=$i?>').on('load',function(e){
-        e.preventDefault();
-        $('.js-modal<?=$i?>').addClass('show-modal<?=$i?>');
-    });
 
-    $('.js-hide-modal<?=$i?>').on('click',function(){
-        $('.js-modal<?=$i?>').removeClass('show-modal<?=$i?>');
-    });
-</script>
-<?php } ?>
