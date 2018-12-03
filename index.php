@@ -34,7 +34,7 @@ $side_bar_hesabım =$home_link."/index.php?m=hesabim";
 //side bar iade kısmını linki
 $side_bar_iade ="";
 //side bar yardım kısmının linki
-$side_bar_yardim =$header_contact;
+$side_bar_yardim = $header_contact;
 //side bar giriş kısmının linki
 $side_bar_giris = "/login";
 //side bar çıkış kısmının linki
@@ -65,22 +65,20 @@ if(isset($_SESSION['user']))
         header("Refresh: 3;");
     }
 //echo ''. $user->showUserInfo();
-
-
 }
 if(isset($_GET['logout']))
 {
     if($_GET['logout'] == 1)
     {
-    $user->logOut();
-    session_destroy();
-    header("Refresh: 0; url=http://".$realip."/");
-    return;
+        $user->logOut();
+        session_destroy();
+        header("Refresh: 0; url=http://".$realip."/");
+        return;
     }
 }
 
 if($islogged){
-     $side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
+    $side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
 
     //php/account/account.php
     //user account page variable
@@ -102,15 +100,17 @@ if($islogged){
         //3 ürün fiyat
         //4 kaç adet aldığı (default 1)
 
-      0=>array("2","images/narozu350gr.png","ürün title","17","2"),
-      1=>array("3","images/narozu350gr.png","ürün title","17.3","5"),
-      2=>array("4","images/narozu350gr.png","ürün title","10.3","1"),
+        0=>array("2","images/narozu350gr.png","ürün title","17","2"),
+        1=>array("3","images/narozu350gr.png","ürün title","17.3","5"),
+        2=>array("4","images/narozu350gr.png","ürün title","10.3","1"),
 
     );
 
 }else{
     $side_bar = array("Anasayfa","İsteklerim","İade","Yardım & SSS", "Giriş Yap");
 }
+
+
 
 
 $url_m =(isset($_GET["m"])) ? $_GET["m"] : "home" ;
@@ -137,6 +137,7 @@ if(isset($_POST["shopping_card_update"])){
 
 }
 //sepet add item code
+
 
 ?>
 
@@ -193,9 +194,6 @@ if(isset($_POST["shopping_card_update"])){
 <?php require_once ("php/footer.php")?>
 <?php require_once ("php/back_to_top.php")?>
 <?php require_once ("php/modall.php")?>
-<?php require_once ("php/modal_2.php")?>
-<?php require_once ("php/modal_3.php")?>
-<?php require_once ("php/modal_4.php")?>
 <?php require_once ("php/body_script.php") ?>
 <?php
  }else{
@@ -209,9 +207,6 @@ if(isset($_POST["shopping_card_update"])){
  require_once ("php/footer.php");
  require_once ("php/back_to_top.php");
  require_once ("php/modall.php");
- require_once ("php/modal_2.php");
- require_once ("php/modal_3.php");
- require_once ("php/modal_4.php");
  require_once ("php/body_script.php");
 
             break;
@@ -231,6 +226,7 @@ if(isset($_POST["shopping_card_update"])){
             require_once("php/sidebar.php");
             require_once ("php/cart.php");
             require_once ("php/product/product.php");
+            require_once ("php/modall.php");
             require_once ("php/back_to_top.php");
             break;
         case "sepetim":
@@ -250,11 +246,9 @@ if(isset($_POST["shopping_card_update"])){
             echo "Hata";
             require_once ("php/back_to_top.php");
             break;
-
     }
 
 }
-
 require_once ("php/footer.php");
 require_once ("php/back_to_top.php");
 require_once ("php/body_script.php");

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 02 Ara 2018, 02:27:35
+-- Üretim Zamanı: 03 Ara 2018, 02:21:35
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -226,7 +226,7 @@ CREATE TABLE `m_users` (
 --
 
 INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`, `user_group`) VALUES
-(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '034b409f9b3f39791178227c51d36d7875cc9cb36e88e163a65d44c868d2b82c', '192.168.43.209', '2018-11-28 00:00:00', 1, 2),
+(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '48b2b1bbf19b300350e05091c10f53694b5bd2ba0aaa1de60e5d06724b8f439d', '::1', '2018-11-28 00:00:00', 1, 2),
 (2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),

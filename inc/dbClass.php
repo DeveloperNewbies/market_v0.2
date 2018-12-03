@@ -47,7 +47,14 @@
 			$this->pdo = null;
 			$this->connection = false;
 		}
-		
+
+        function security($text)
+        {
+            $text = substr($text, 0, 32);
+            $text = addslashes(htmlspecialchars(strip_tags(htmlentities(trim($text)))));
+            return $text;
+        }
+
 		function logIn($uname, $upass)
 		{
 

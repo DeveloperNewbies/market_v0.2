@@ -6,24 +6,46 @@
  * Time: 12:07
  */
 
-//default 3 value
-$popup_img_link = array( "images/harnupozu250ml.png","images/harnupozu250ml.png","images/harnupozu250ml.png");
-//ürün title
-$product_title ="NAR ÖZÜ 250 ML";
-// üürn fiyatı
-$product_price = "17₺";
-//ürün açıklama
-$product_description =" Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.";
+$db = new dbMain();
+$db->connect();
 
+//ürünler
+$modal_item = array();
+//default 3 value
+$popup_img_link = array();
+
+//ürün title
+$product_title = array();
+// ürün fiyatı
+$product_price = array();
+//ürün açıklama
+$product_description = array();
+
+$modal_item = $db->getUrun("all");
+$i = 0;
+foreach ($modal_item as $item) {
+
+    array_push($popup_img_link, array());
+    array_push($modal_item, array());
+    foreach ($db->getUrunImg($item['urun_id']) as $item2) {
+        array_push($popup_img_link[$i], $item2['urun_img']);
+    }
+    $product_title[$i] = $item['urun_ad'];
+    $product_price[$i] = $item['urun_fiyat'] . " ₺";
+    $product_description[$i] = $item['urun_aciklama'];
+    $i++;
+}
+$i = 0;
 
 ?>
-<!-- Modal1 -->
-<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
-    <div class="overlay-modal1 js-hide-modal1"></div>
+<!-- Modall -->
+    <?php for ($i = 0; $i < count($modal_item); $i++){ ?>
+<div class="wrap-modal1 js-modal<?=($i+1)?> p-t-60 p-b-20">
+    <div class="overlay-modal1 js-hide-modal<?=($i+1)?>"></div>
 
     <div class="container">
         <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-            <button class="how-pos3 hov3 trans-04 js-hide-modal1">
+            <button class="how-pos3 hov3 trans-04 js-hide-modal<?=($i+1)?>">
                 <img src="images/icons/icon-close.png" alt="CLOSE">
             </button>
 
@@ -35,35 +57,17 @@ $product_description =" Nulla eget sem vitae eros pharetra viverra. Nam vitae lu
                             <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
                             <div class="slick3 gallery-lb">
-                                <div class="item-slick3" data-thumb="images/harnupozu250ml.png">
+                                <?php for($j = 0; $j < count($popup_img_link[$i]); $j++){ ?>
+                                <div class="item-slick3" data-thumb="<?=$popup_img_link[$i][$j]?>">
                                     <div class="wrap-pic-w pos-relative">
-                                        <img src="<?=$popup_img_link[0]?>" alt="IMG-PRODUCT">
+                                        <img src="<?=$popup_img_link[$i][$j]?>" alt="IMG-PRODUCT">
 
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?=$popup_img_link[0]?>">
+                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?=$popup_img_link[$i][$j]?>">
                                             <i class="fa fa-expand"></i>
                                         </a>
                                     </div>
                                 </div>
-
-                                <div class="item-slick3" data-thumb="images/harnupozu250ml.png">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="<?=$popup_img_link[1]?>" alt="IMG-PRODUCT">
-
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?=$popup_img_link[1]?>">
-                                            <i class="fa fa-expand"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="item-slick3" data-thumb="images/harnupozu250ml.png">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="<?=$popup_img_link[2]?>" alt="IMG-PRODUCT">
-
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?=$popup_img_link[2]?>">
-                                            <i class="fa fa-expand"></i>
-                                        </a>
-                                    </div>
-                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -72,15 +76,15 @@ $product_description =" Nulla eget sem vitae eros pharetra viverra. Nam vitae lu
                 <div class="col-md-6 col-lg-5 p-b-30">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
                         <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                           <?=$product_title?>
+                           <?=$product_title[$i]?>
                         </h4>
 
                         <span class="mtext-106 cl2">
-								<?=$product_price?>
+								<?=$product_price[$i]?>
 							</span>
 
                         <p class="stext-102 cl3 p-t-23">
-                            <?=$product_description?>
+                            <?=$product_description[$i]?>
 
                         </p>
 
@@ -133,3 +137,5 @@ $product_description =" Nulla eget sem vitae eros pharetra viverra. Nam vitae lu
         </div>
     </div>
 </div>
+
+<?php } ?>

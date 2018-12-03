@@ -4,7 +4,25 @@
  * Time: 12:05
  */
 
-$items = array(array(),array(),array(),array());
+$db = new dbMain();
+$db->connect();
+
+$href_address = "?m=magaza&id=";
+$category = array("best-seller");
+
+$items = array();
+$items_image = array();
+
+$urunler = $db->getUrun("all");
+
+foreach ($urunler as $item)
+{
+    array_push($items_image, $db->getUrunImg($item['urun_id'])[0][2]);
+    array_push($items, $item);
+}
+
+
+
 
 ?>
 
@@ -31,115 +49,40 @@ $items = array(array(),array(),array(),array());
             <!-- Tab panes -->
             <div class="tab-content p-t-50">
                 <!-- - -->
-                <div class="tab-pane fade show active" id="best-seller" role="tabpanel">
+                <div class="tab-pane fade show active" id="<?=$category[0]?>" role="tabpanel">
                     <!-- Slide2 -->
                     <div class="wrap-slick2">
                         <div class="slick2">
+                            <?php $i = 0; ?>
+                            <?php foreach ($items as $item){ ?>
                             <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
                                 <!-- Block2 -->
+
                                 <div class="block2">
                                     <div class="block2-pic hov-img0">
-                                        <img src="images/harnupozu250ml.png" alt="IMG-PRODUCT">
+                                        <img src="<?=$items_image[$i]?>" alt="IMG-PRODUCT">
 
-                                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal<?=$item['urun_id']?>">
                                             Ürüne bak
                                         </a>
                                     </div>
 
                                     <div class="block2-txt flex-w flex-t p-t-14">
                                         <div class="block2-txt-child1 flex-col-l ">
-                                            <a href="ürünler/" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                HARNUP ÖZÜ – 250 ML
+                                            <a href="<?=$href_address.$item['urun_id']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                <?=$item['urun_ad']?>
                                             </a>
 
                                             <span class="stext-105 cl3">
-													17₺
+													<?= $item['urun_fiyat'] ?> ₺
 												</span>
                                         </div>
 
                                     </div>
                                 </div>
+
                             </div>
-
-                            <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                <!-- Block2 -->
-                                <div class="block2">
-                                    <div class="block2-pic hov-img0">
-                                        <img src="images/narozu350gr.png" alt="IMG-PRODUCT">
-
-                                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal2">
-                                            Ürüne bak
-                                        </a>
-                                    </div>
-
-                                    <div class="block2-txt flex-w flex-t p-t-14">
-                                        <div class="block2-txt-child1 flex-col-l ">
-                                            <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                NAR ÖZÜ 350 GR
-                                            </a>
-
-                                            <span class="stext-105 cl3">
-													17₺
-												</span>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                <!-- Block2 -->
-                                <div class="block2">
-                                    <div class="block2-pic hov-img0">
-                                        <img src="images/narozu700-gr.png" alt="IMG-PRODUCT">
-
-                                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal3">
-                                            Ürüne bak
-                                        </a>
-                                    </div>
-
-                                    <div class="block2-txt flex-w flex-t p-t-14">
-                                        <div class="block2-txt-child1 flex-col-l ">
-                                            <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                NAR ÖZÜ 700 GR
-                                            </a>
-
-                                            <span class="stext-105 cl3">
-													26₺
-												</span>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                                <!-- Block2 -->
-                                <div class="block2">
-                                    <div class="block2-pic hov-img0">
-                                        <img src="images/tahinli330gr.jpg" alt="IMG-PRODUCT">
-
-                                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal4">
-                                            Ürüne Bak
-                                        </a>
-                                    </div>
-
-                                    <div class="block2-txt flex-w flex-t p-t-14">
-                                        <div class="block2-txt-child1 flex-col-l ">
-                                            <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                HARNUP ÖZÜ TAHİNLİ 330 GR
-                                            </a>
-
-                                            <span class="stext-105 cl3">
-													18₺
-												</span>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
+                            <?php $i++; } $i = 0;?>
 
                         </div>
                     </div>
@@ -154,3 +97,18 @@ $items = array(array(),array(),array(),array());
 
 
 </section>
+<?php for($i = 0; $i<count($urunler); $i++){ ?>
+<script>
+    /*==================================================================
+[ Show modall ]*/
+
+    $('.js-show-modal<?=$i?>').on('load',function(e){
+        e.preventDefault();
+        $('.js-modal<?=$i?>').addClass('show-modal<?=$i?>');
+    });
+
+    $('.js-hide-modal<?=$i?>').on('click',function(){
+        $('.js-modal<?=$i?>').removeClass('show-modal<?=$i?>');
+    });
+</script>
+<?php } ?>

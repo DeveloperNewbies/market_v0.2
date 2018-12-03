@@ -9,6 +9,7 @@
 $detail_page_link =$home_link."/index.php?m=magaza&";
 $db = new dbMain();
 $db->connect();
+
    if(isset($_GET["id"])){
 
 
@@ -16,6 +17,8 @@ $db->connect();
 
        $id = $_GET["id"];
        //Urun Detayları alınıyor
+       $id = $db->security($id);
+
        $urun = $db->getUrun($id);
 
        $des_detail = "";
@@ -408,55 +411,47 @@ $db->connect();
 
        <?php
 
-        $urun = $db->getUrun("all");
-        //print_r($urun);
-
-        $urun_title = array();
-        $urun_id = array();
-        $urun_fiyat = array();
-
-        foreach ($urun as $item)
-        {
-            array_push($urun_id, $item['urun_id']);
-            array_push($urun_title, $item['urun_ad']);
-            array_push($urun_fiyat, $item['urun_fiyat']);
-        }
 
 
-        $urun_image = array();
+       $href_address = "?m=magaza&id=";
+       $category = array("*");
 
+       $items = array();
+       $items_image = array();
 
-        for($i = 1; $i < count($urun)+1; $i++)
-        {
-         $urunimg = $db->getUrunImg($i);
-         //print_r($urunimg);
-         //echo '<br> <br> <hr>';
-         array_push($urun_image, $urunimg[0][2]);
-        }
+       $urunler = $db->getUrun("all");
+
+       foreach ($urunler as $item)
+       {
+           array_push($items_image, $db->getUrunImg($item['urun_id'])[0][2]);
+           array_push($items, $item);
+       }
 
 
        ?>
+
         <div class="row isotope-grid">
        <?php
-            for ($i = 0; $i < count($urun_id); $i++){
+            $i = 0;
+            foreach ($items as $item){
        ?>
 
             <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
                 <!-- Block2 -->
                 <div class="block2">
                     <div class="block2-pic hov-img0">
-                        <img src="<?=$urun_image[$i]?>" alt="<?=$urun_title[$i]?>">
-                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                        <img src="<?=$items_image[$i]?>" alt="IMG-CONTENT">
+                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal<?=$item['urun_id']?>">
                             Ürüne Bak
                         </a>
                     </div>
                     <div class="block2-txt flex-w flex-t p-t-14">
                         <div class="block2-txt-child1 flex-col-l ">
-                            <a href="<?=$detail_page_link."id=".$urun_id[$i]?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                               <?=$urun_title[$i]?>
+                            <a href="<?=$href_address.$item['urun_id']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                               <?=$item['urun_ad']?>
                             </a>
                             <span class="stext-105 cl3">
-									<?=$urun_fiyat[$i]?> ₺
+									<?=$item['urun_fiyat']?> ₺
 								</span>
                         </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
@@ -469,11 +464,25 @@ $db->connect();
                 </div>
             </div>
 
-<?php }
+<?php $i++; } $i = 0;
                 //////////?>
         </div>
 
     </div>
 </div>
+    <?php for($i = 0; $i<count($urunler); $i++){ ?>
+       <script>
+           /*==================================================================
+       [ Show modall ]*/
 
+           $('.js-show-modal<?=$i?>').on('load',function(e){
+               e.preventDefault();
+               $('.js-modal<?=$i?>').addClass('show-modal<?=$i?>');
+           });
+
+           $('.js-hide-modal<?=$i?>').on('click',function(){
+               $('.js-modal<?=$i?>').removeClass('show-modal<?=$i?>');
+           });
+       </script>
+    <?php } ?>
 <?php } ?>
