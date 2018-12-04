@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 03 Ara 2018, 21:34:04
--- Sunucu sürümü: 10.1.37-MariaDB
--- PHP Sürümü: 7.2.12
+-- Üretim Zamanı: 04 Ara 2018, 15:07:07
+-- Sunucu sürümü: 10.1.36-MariaDB
+-- PHP Sürümü: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -191,10 +191,10 @@ CREATE TABLE `m_uinfo` (
 --
 
 INSERT INTO `m_uinfo` (`k_id`, `k_ad`, `k_soyad`, `k_tel`, `k_adresi`) VALUES
+(1, 'Doruk', 'Han', 0, '-'),
 (4, '', '', 0, ''),
-(5, 'Mehmet', 'Sincap', 0, ''),
-(6, 'Alp', 'Deny', 0, ''),
-(1, 'Doruk', 'Han', 0, '-');
+(5, 'Test', 'Test', 0, '-'),
+(6, 'Alp', 'Deny', 0, '');
 
 -- --------------------------------------------------------
 
@@ -218,11 +218,11 @@ CREATE TABLE `m_users` (
 --
 
 INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`, `user_group`) VALUES
-(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '993df8b103b7ec8a7b05fe41d3e706fbe366267937ae167070d38ed124c88962', '::1', '2018-11-28 00:00:00', 1, 2),
+(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '6cd927b40e8175d06f0be44198b043733ac096ba826c66756eb47d667799d0ba', '::1', '2018-11-28 00:00:00', 0, 2),
 (2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
-(5, 'mehmet_sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', 'e5112f95a23ea713e163d949773822a20a76fd53299b6f7802b148d127a9436d', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
+(5, 'test@hotmail.com', '4297f44b13955235245b2497399d7a93', 'f10eecfb7d679c459d8fce8756076f81c1a130fc3a27d4cce8e49e1bc4567c7f', '::1', '2018-11-28 00:00:00', 1, 2),
 (6, 'adeny@hotmail.com', '4297f44b13955235245b2497399d7a93', 'cce49dcaeb2e51f13c124d1ab13c52be8b61a5799f594fef8aa1e9b42abdcc91', '192.168.43.209', '2018-12-01 00:00:00', 0, 1);
 
 --
@@ -270,6 +270,12 @@ ALTER TABLE `m_marketinfo`
 --
 ALTER TABLE `m_order`
   ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Tablo için indeksler `m_uinfo`
+--
+ALTER TABLE `m_uinfo`
+  ADD UNIQUE KEY `k_id` (`k_id`);
 
 --
 -- Tablo için indeksler `m_users`
