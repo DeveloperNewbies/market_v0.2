@@ -14,6 +14,7 @@ function header_focus($m){
         return false;
     }
 }
+
 ?>
 <!-- Header -->
 <header class="header-v2">

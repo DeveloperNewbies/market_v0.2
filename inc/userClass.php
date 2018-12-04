@@ -20,7 +20,7 @@ include('dbClass.php');
 		
 		function __construct()
 		{
-
+            $this->createDb();
 			
 		}
 		

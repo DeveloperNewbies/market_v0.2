@@ -11,7 +11,7 @@ $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $islogged = false;
 
 /** @var $user user */
-$user;
+$user = new user();
 
 $language ="tr";
 $site_about ="hakkında";
@@ -71,7 +71,10 @@ if(isset($_GET['logout']))
     if($_GET['logout'] == 1)
     {
         $user->logOut();
+        $ptr_sepet = $_SESSION['sepetim'];
         session_destroy();
+        session_start();
+        $_SESSION['sepetim'] = $ptr_sepet;
         header("Refresh: 0; url=http://".$realip."/");
         return;
     }
