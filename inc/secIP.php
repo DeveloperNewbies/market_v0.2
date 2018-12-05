@@ -2,7 +2,7 @@
 	class secIP
 	{
 		private $local = "localhost";
-		private $port = "81";
+		private $port = "80";
 		private $file ="";
 		
 		public function getLocal()

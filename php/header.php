@@ -10,9 +10,14 @@ function header_focus($m){
         $url_m = $_GET["m"];
         if($url_m == $m) return true;
         else return "home";
-        }else{
+    }else{
         return false;
     }
+}
+
+if(isset($_GET["search"])){
+    $url_m = "magaza";
+    $user_search = $_GET["search"];
 }
 
 ?>
@@ -103,7 +108,7 @@ function header_focus($m){
             </div>
 
             <div class="flex-c-m h-full p-lr-10 bor5">
-                <div id="project-sepet" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="0">
+                <div id="project-sepet" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="<?php echo (isset($user_shopping_item)) ? count($user_shopping_item) : "0"?>">
                     <i class="zmdi zmdi-shopping-cart"></i>
                 </div>
             </div>
@@ -156,7 +161,7 @@ function header_focus($m){
                 <img src="images/icons/icon-close2.png" alt="Kapat">
             </button>
 
-            <form class="wrap-search-header flex-w p-l-15">
+            <form class="wrap-search-header flex-w p-l-15" method="get" action="<?=$header_magaza?>">
                 <button class="flex-c-m trans-04">
                     <i class="zmdi zmdi-search"></i>
                 </button>
