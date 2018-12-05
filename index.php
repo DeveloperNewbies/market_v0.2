@@ -265,7 +265,7 @@ if(isset($_POST['urun_cikar'])){
     <!--===============================================================================================-->
     <!--===============================================================================================-->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="css/account.css">
 </head>
 <body class="animsition">
 
