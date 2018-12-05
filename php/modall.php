@@ -92,18 +92,18 @@ $i = 0;
                             <div class="flex-w flex-r-m p-b-10">
                                 <div class="size-204 flex-w flex-m respon6-next">
                                     <div class="wrap-num-product flex-w m-r-20 m-tb-10">
-                                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                        <div class="btn-num-product-down<?=$modal_item[$i][0]?> btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-minus"></i>
                                         </div>
 
-                                        <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+                                        <input class="mtext-104 cl3 txt-center num-product" id="num-product<?=$modal_item[$i][0]?>" type="number" name="num-product" value="1">
 
-                                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                        <div class="btn-num-product-up<?=$modal_item[$i][0]?> btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
                                     </div>
-
-                                    <button onclick="add_item_sepet()" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                    <input type="hidden" id="urun_id<?=$modal_item[$i][0]?>" name="urun_id" value="<?=$modal_item[$i][0]?>">
+                                    <button onclick="add_item_sepet()" class="btn-num-product-submit<?=$modal_item[$i][0]?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
                                         Sepete ekle
                                     </button>
                                 </div>
@@ -138,20 +138,53 @@ $i = 0;
 </div>
 
 
-    <script>
-        <?php for($j = 0; $j < count($modal_item); $j++){ ?>
-        /*==================================================================
-    [ Show modall ]*/
-
-        $('.js-show-modal<?=($j+1)?>').on('click',function(e){
-            e.preventDefault();
-            $('.js-modal<?=($j+1)?>').addClass('show-modal1');
-        });
-
-        $('.js-hide-modal<?=($j+1)?>').on('click',function(){
-            $('.js-modal<?=($j+1)?>').removeClass('show-modal1');
-        });
-        <?php } ?>
-    </script>
-
 <?php } ?>
+
+
+
+<script>
+    <?php for($j = 0; $j < count($modal_item); $j++){ ?>
+    /*==================================================================
+[ Show modall ]*/
+
+    $('.js-show-modal<?=($j+1)?>').on('click',function(e){
+        e.preventDefault();
+        $('.js-modal<?=($j+1)?>').addClass('show-modal1');
+    });
+
+    $('.js-hide-modal<?=($j+1)?>').on('click',function(){
+        $('.js-modal<?=($j+1)?>').removeClass('show-modal1');
+    });
+    <?php } ?>
+</script>
+
+<script>
+    /*==================================================================
+[ +/- num product ]*/
+    <?php for($j = 0; $j < count($modal_item); $j++){ ?>
+    $('.btn-num-product-down<?=$modal_item[$j][0]?>').on('click', function(){
+        var numProduct = Number($(this).next().val());
+
+        numProduct = numProduct -1;
+
+        if(numProduct >= 0) $(this).next().val(numProduct);
+
+    });
+
+    $('.btn-num-product-up<?=$modal_item[$j][0]?>').on('click', function(){
+        var numProduct = Number($(this).prev().val());
+        numProduct +=1;
+
+        $(this).prev().val(numProduct);
+    });
+    $('.btn-num-product-submit<?=$modal_item[$j][0]?>').on('click', function () {
+        var numProduct = Number($("#num-product<?=$modal_item[$j][0]?>").val());
+        var id = Number($("#urun_id<?=$modal_item[$j][0]?>").val());
+
+        $.post("index.php", {"urun_ekle": "submit", "num-product": numProduct, "urun_id": id}, function (returnData, status) {
+            //alert('Status ' + status + ' The server said ' + returnData);
+            //$('#form')[0].reset();
+        })
+    })
+    <?php } $j=0; ?>
+</script>

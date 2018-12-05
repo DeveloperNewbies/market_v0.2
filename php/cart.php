@@ -49,6 +49,9 @@
                 </li>
 
                       <?php } } ?>
+                <form action="index.php" method="post">
+                    <input  type="submit" name="completeshopping" value="Alışverişi Tamamla" class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                </form>
         </div>
     </div>
 </div>

@@ -21,7 +21,7 @@ $point_top = 0;
 
 
 <!-- Shoping Cart -->
-<form class="bg0 p-t-75 p-b-85" action="<?=$home_url."/index.php"?>" method="post">
+<form class="bg0 p-t-75 p-b-85" action="<?=$home_url."/index.php"?>" method="post" id="form">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -46,15 +46,17 @@ $point_top = 0;
                                 <td class="column-3"><?=$result[3]?> ₺</td>
                                 <td class="column-4">
                                     <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+
+                                        <div class="btn-num-product-down<?=$result[0]?> btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-minus"></i>
                                         </div>
 
-                                        <input class="mtext-104 cl3 txt-center num-product" type="number" name="<?=$result[0]?>" value="<?=$result[4]?>">
+                                        <input class="mtext-104 cl3 txt-center num-product" type="number" name="num_item" value="<?=$result[4]?>">
 
-                                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                        <div class="btn-num-product-up<?=$result[0]?> btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
+                                        <input type="hidden" id="urun_id<?=$result[0]?>" name="urun_id" value="<?=$result[0]?>">
                                     </div>
                                 </td>
                                 <td class="column-5"> <?php
@@ -72,7 +74,7 @@ $point_top = 0;
 
                         </div>
                      <?php if(isset($user_shopping_item)) : ?>
-                        <input type="submit"  class="btn btn-info" name="shopping_card_update" value="Sepeti güncelle">
+                        <input type="hidden" class="btn btn-info" name="shopping_card_update" value="Sepeti güncelle">
                             <?php  endif; ?>
                     </div>
                 </div>
@@ -107,21 +109,55 @@ $point_top = 0;
                         </div>
 
                         <div class="size-209 p-t-1">
-								<span class="mtext-110 cl2">
+								<span class="mtext-112 cl2">
 									<?=$point_top?> ₺
 								</span>
+                            <span class="mtext-100 cl2">  <br>(Vergi Dahil <?=round(($point_top*(0.18)),2) ?> ₺ )</span>
                         </div>
                     </div>
 
                     <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
                         Alışverişi Tamamla
                     </button>
+
                 </div>
             </div>
         </div>
     </div>
 </form>
 
+<script>
+    /*==================================================================
+[ +/- num product ]*/
+    <?php $i = 0; foreach ($user_shopping_item as $item){  ?>
+    $('.btn-num-product-down<?=$item[0]?>').on('click', function(){
+        var numProduct = Number($(this).next().val());
 
+        var id = Number($("#urun_id<?=$item[0]?>").val());
+
+        numProduct = numProduct -1;
+
+        if(numProduct >= 0) $(this).next().val(numProduct);
+
+        $.post("index.php", {"shopping_card_update": "submit", "num_item": numProduct, "urun_id": id}, function (returnData, status) {
+            //alert('Status ' + status + ' The server said ' + returnData);
+            //$('#form')[0].reset();
+        })
+
+    });
+
+    $('.btn-num-product-up<?=$item[0]?>').on('click', function(){
+        var numProduct = Number($(this).prev().val());
+        var id = Number($("#urun_id<?=$item[0]?>").val());
+        numProduct +=1;
+
+        $(this).prev().val(numProduct);
+        $.post("index.php", {"shopping_card_update": "submit", "num_item": numProduct, "urun_id": id}, function (returnData, status) {
+            //alert('Status ' + status + ' The server said ' + returnData);
+            //$('#form')[0].reset();
+        })
+    });
+    <?php $i++; } $i=0; ?>
+</script>
 
 

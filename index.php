@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 /**
  * Date: 28.11.2018
@@ -141,7 +142,8 @@ function user_sepet($usi){
 
 $url_m =(isset($_GET["m"])) ? $_GET["m"] : "home" ;
 
-
+if(isset($_POST["completeshopping"]))
+    $url_m = "sepetim";
 
 if(isset($_POST['urun_ekle']))
 {
@@ -154,16 +156,34 @@ if(isset($_POST['urun_ekle']))
         $urun_adet = $user->security($_POST['num-product']);
         $urun_array = array();
 
-        $urun_bul = $user->getUrun($id);
-        foreach ($urun_bul as $item)
+        $bool_isalready = false;
+        for ($i = 0; $i < count($user_shopping_item); $i++)
         {
-            array_push($urun_array, $item['urun_id']);
-            array_push($urun_array, $user->getUrunIMG($item['urun_id'])[0][2]);
-            array_push($urun_array, $item['urun_ad']);
-            array_push($urun_array, $item['urun_fiyat']);
-            array_push($urun_array, $urun_adet);
+            if($user_shopping_item[$i][0] == $id)
+                $bool_isalready = true;
         }
-        array_push($user_shopping_item, $urun_array);
+        if($bool_isalready)
+        {
+            for ($i = 0; $i < count($user_shopping_item); $i++)
+            {
+                if($user_shopping_item[$i][0] == $id)
+                {
+                    $user_shopping_item[$i][count($user_shopping_item[$i])-1] += $urun_adet;
+                }
+            }
+        }else
+            {
+                $urun_bul = $user->getUrun($id);
+                foreach ($urun_bul as $item)
+                {
+                    array_push($urun_array, $item['urun_id']);
+                    array_push($urun_array, $user->getUrunIMG($item['urun_id'])[0][2]);
+                    array_push($urun_array, $item['urun_ad']);
+                    array_push($urun_array, $item['urun_fiyat']);
+                    array_push($urun_array, $urun_adet);
+                }
+                array_push($user_shopping_item, $urun_array);
+            }
         user_sepet($user_shopping_item);
         header("location:".$header_magaza."&id=".$id);
     }
@@ -171,21 +191,24 @@ if(isset($_POST['urun_ekle']))
 
 //sepet add item code
 if(isset($_POST["shopping_card_update"])){
+
     $url_m = "sepetim";
-    for($g_s=0;$g_s<count($user_shopping_item); $g_s++){
-        if(isset($_POST[$user_shopping_item[$g_s][0]])){
-            if($_POST[$user_shopping_item[$g_s][0]]=="0")
-                array_splice($user_shopping_item, $g_s, 1);
-            else
-                $user_shopping_item[$g_s][4] = $user->security($_POST[$user_shopping_item[$g_s][0]]);
-        }
+    if(isset($_POST["num_item"])){
+        if(isset($_POST["urun_id"]))
+            for($g_s=0;$g_s<count($user_shopping_item); $g_s++){
+
+                if($user_shopping_item[$g_s][0] == $_POST['urun_id'])
+                    if($_POST['num_item'] == 0)
+                        array_splice($user_shopping_item, $g_s, 1);
+                     else
+                        $user_shopping_item[$g_s][4] = $user->security($_POST['num_item']);
+                }
     }
     /*bu kısımda $user_shopping_item in son hali var al onu ve database yi güncelle
     *
      *
      */
     user_sepet($user_shopping_item);
-
 }
 
 
@@ -204,8 +227,8 @@ if(isset($_POST['urun_cikar'])){
 ?>
 
 
-<!DOCTYPE html>
-<html lang="<?=$language?>">
+
+
 <head>
     <title><?=$title?></title>
     <meta charset="<?=$charset?>">
