@@ -75,8 +75,8 @@ if(isset($_GET["search"])){
                         </div>
                     </div>
 
-                    <div class="flex-c-m h-full p-l-18 p-r-25 bor5">
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="<?php echo (isset($user_shopping_item)) ? count($user_shopping_item) : "0"?>">
+                    <div class="flex-c-m h-full p-l-18 p-r-25 bor5" id="sepet_count_div">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" id="sepet_count" data-notify="<?php echo (count($user_shopping_item) > 0) ? count($user_shopping_item) : "0"?>">
                             <i class="zmdi zmdi-shopping-cart"></i>
                         </div>
                     </div>
@@ -107,7 +107,7 @@ if(isset($_GET["search"])){
             </div>
 
             <div class="flex-c-m h-full p-lr-10 bor5">
-                <div id="project-sepet" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="<?php echo (isset($user_shopping_item)) ? count($user_shopping_item) : "0"?>">
+                <div id="project-sepet" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="<?php echo (count($user_shopping_item) > 0) ? count($user_shopping_item) : "0"?>">
                     <i class="zmdi zmdi-shopping-cart"></i>
                 </div>
             </div>

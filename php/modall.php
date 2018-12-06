@@ -189,7 +189,16 @@ $i = 0;
         $.post("index.php", {"urun_ekle": "submit", "num-product": numProduct, "urun_id": id}, function (returnData, status) {
             //alert('Status ' + status + ' The server said ' + returnData);
             //$('#form')[0].reset();
+            $('#sepetim').load("index.php #sepetim", function() {
+
+            });
+            var data_notifier = $('<div>');
+            data_notifier.load("index.php #sepet_count", function () {
+                $('#sepet_count').attr('data-notify', $(this).children(0).attr('data-notify'));
+            });
+
         })
+
     })
     <?php } $j=0; ?>
 </script>

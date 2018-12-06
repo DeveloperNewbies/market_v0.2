@@ -21,9 +21,9 @@
             </div>
         </div>
 
-        <div class="header-cart-content flex-w js-pscroll">
+        <div class="header-cart-content flex-w js-pscroll" id="sepetim">
             <ul class="header-cart-wrapitem w-full">
-                <?php if(!isset($user_shopping_item)){   ?>
+                <?php if(count($user_shopping_item) < 1){   ?>
                     Sepetiniz boş
                 <?php }else{ ?>
                 <?php foreach ($user_shopping_item as $result){   ?>
@@ -48,10 +48,11 @@
                     </form>
                 </li>
 
-                      <?php } } ?>
+                      <?php } ?>
                 <form action="index.php" method="post">
                     <input  type="submit" name="completeshopping" value="Alışverişi Tamamla" class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
                 </form>
+                <?php } ?>
         </div>
     </div>
 </div>
