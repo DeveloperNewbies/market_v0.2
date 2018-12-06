@@ -340,6 +340,21 @@
         }
 
 
+        function findUrun($like_name)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_ad LIKE ?");
+            $prepare->execute(array('%'.$like_name.'%'));
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /*
          * db For Admin Panel
          *

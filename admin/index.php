@@ -117,6 +117,7 @@ if($url_m == "home"){
 
             $i++;
         }
+        $i = 0;
 
 
 }else if($url_m == "orders"){

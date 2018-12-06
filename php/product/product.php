@@ -9,6 +9,7 @@
 $detail_page_link =$home_link."/index.php?m=magaza&";
 $db = new dbMain();
 $db->connect();
+$user = new user();
 
    if(isset($_GET["id"])){
 
@@ -423,8 +424,25 @@ $db->connect();
 
        $items = array();
        $items_image = array();
+       $urunler;
+       if(isset($_GET['search']))
+       {
+           $user_search = $_GET["search"];
+           $user_search = $user->security($user_search);
+           if($user->findUrun($user_search))
+               $urunler = $user->findUrun($user_search);
+            else
+                {
+                    $urunler = array();
+                    echo "Ürün Bulunamadı!";
+                }
 
-       $urunler = $db->getUrun("all");
+
+       }else
+           {
+               $urunler = $db->getUrun("all");
+           }
+
 
        foreach ($urunler as $item)
        {

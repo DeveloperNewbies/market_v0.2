@@ -194,7 +194,5 @@ $i = 0;
     <?php } $j=0; ?>
 </script>
 <script>
-    $('.swal-button--confirm').on('click',function () {
-        self.location  = '<?=$header_magaza?>';
-    })
+
 </script>

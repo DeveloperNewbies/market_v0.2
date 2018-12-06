@@ -197,6 +197,10 @@ include('dbClass.php');
             return $this->db->getUrunImg($id);
         }
 
+        function findUrun($name)
+        {
+		    return $this->db->findUrun($name);
+        }
 		/*
 		 * There is Admin Power Activated
 		 * $permission > 1

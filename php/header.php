@@ -17,7 +17,6 @@ function header_focus($m){
 
 if(isset($_GET["search"])){
     $url_m = "magaza";
-    $user_search = $_GET["search"];
 }
 
 ?>
