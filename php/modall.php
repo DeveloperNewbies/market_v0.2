@@ -103,9 +103,14 @@ $i = 0;
                                         </div>
                                     </div>
                                     <input type="hidden" id="urun_id<?=$modal_item[$i][0]?>" name="urun_id" value="<?=$modal_item[$i][0]?>">
-                                    <button onclick="add_item_sepet()" class="btn-num-product-submit<?=$modal_item[$i][0]?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                    <button  style="margin-bottom: 20px;"   class="btn-num-product-submit<?=$modal_item[$i][0]?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
                                         Sepete ekle
                                     </button>
+                                    <button  class="btn-num-product-submit<?=$modal_item[$i][0]?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " >
+                                       <a href="<?= $home_url."/index.php?m=sepetim" ?>" style="color:white;"> Satın al</a>
+                                    </button>
+
+
                                 </div>
                             </div>
                         </div>
@@ -187,4 +192,9 @@ $i = 0;
         })
     })
     <?php } $j=0; ?>
+</script>
+<script>
+    $('.swal-button--confirm').on('click',function () {
+        self.location  = '<?=$header_magaza?>';
+    })
 </script>
