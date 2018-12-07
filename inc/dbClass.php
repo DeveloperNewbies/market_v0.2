@@ -1,16 +1,21 @@
 <?php
+
 	class dbMain
 	{
-	    
+
 		private $host = "localhost";//main decleration
 		private $huser = "root";
 		private $hpass = "";
 		private $database = "marketing";
 		private $dsn;
+
+        /**
+         * @var $pdo PDO
+         */
 		protected $pdo;
 		private $connection = false;
 			
-		function dbMain()
+		function __construct()
 		{
 			$this->dsn = "mysql:host=".$this->host."; dbname=".$this->database."";
 		}
@@ -28,6 +33,7 @@
 			try
 			{
 				$this->pdo = new PDO($this->dsn, $this->huser, $this->hpass);
+				$this->pdo->exec("SET CHARACTER SET utf8");
 				$this->connection = true;
 				//echo 'its ok '.$this->host . ' ' . $this->huser . ' ' . $this->hpass . ' ' . $this->dsn;
 			}catch(PDOException $e)
@@ -41,16 +47,23 @@
 			$this->pdo = null;
 			$this->connection = false;
 		}
-		
+
+        function security($text)
+        {
+            $text = substr($text, 0, 32);
+            $text = addslashes(htmlspecialchars(strip_tags(htmlentities(trim($text)))));
+            return $text;
+        }
+
 		function logIn($uname, $upass)
 		{
-			//echo ' '. $uname . ' ' . $upass;
+
 			$prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE k_adi = '{$uname}' AND k_sifre = '{$upass}'");
 			$prepare->execute();
 			
 			if($prepare->rowCount())
 			{
-				$result = $prepare->fetchAll();
+				//$result = $prepare->fetchAll();
 				$this->pdo->query("UPDATE m_users SET online = 1 WHERE k_adi = '{$uname}'");
 				return true;
 			}else
@@ -60,6 +73,28 @@
 				return false;
 			}
 		}
+
+		function getUserPermission($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE id = '{$id}'");
+            $prepare->execute();
+
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                foreach ($result as $item)
+                {
+                    $result = $item['user_group'];
+                }
+
+                return $result;
+            }else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant get permissions user not found! ' . $error[2];
+                return false;
+            }
+        }
 		
 		function logOut($uname, $upass)
 		{
@@ -89,7 +124,7 @@
 				$prepare->execute();
 				
 				$result = $prepare->fetchAll();
-				$k_id_ptr;
+				$k_id_ptr = "";
 				foreach($result as $res)
 				{
 					$k_id_ptr = $res['id'];
@@ -135,8 +170,38 @@
 			{
 				$error = $this->pdo->errorInfo();
 				echo 'Cant get the user infos' . $error[2];
+				return false;
 			}
 		}
+		//Get User Specific Infos
+		function getUserSpecInfo($spec, $id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_uinfo WHERE k_id = '{$id}'");
+            $prepare->execute();
+
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                foreach ($result as $item)
+                {
+                    if($spec == "ad")
+                        $result = $item['k_ad'];
+                    else if($spec == "soyad")
+                        $result = $item['k_soyad'];
+                    else if($spec == "tel")
+                        $result = $item['k_tel'];
+                    else if($spec = "adres")
+                        $result = $item['k_adresi'];
+                    else
+                        $result = false;
+                }
+                return $result;
+            }else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant get the user infos' . $error[2];
+            }
+        }
 		
 		function setSecure($id)
 		{
@@ -157,30 +222,260 @@
 		
 		function getHash($id)
 		{
-			$prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE id = '{$id}'");
-			$prepare->execute();
-			if($prepare->rowCount())
-			{
-				$result = $prepare->fetchAll();
-				return $result;
-			}
-			else
-			{
-				$error = $this->pdo->errorInfo();
-				echo 'Cant Get Hash '.$error[2];
-			}
+            $prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Hash '.$error[2];
+            }
 		}
-		
-		
+
+
+		function getUserCount()
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_users");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                //$error = $this->pdo->errorInfo();
+                return false;
+            }
+        }
+
+		function getUrun($id)
+        {
+            if($id == "all")
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_market");
+            }else
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
+            }
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Urun '.$error[2];
+            }
+
+        }
+        function getUrunKategori($item_cat_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Hash '.$error[2];
+            }
+        }
+        function getUrunImg($id)
+        {
+            if($id == "all")
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg");
+            }else
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$id}'");
+                }
+
+
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }
+                else
+                {
+                    $error = $this->pdo->errorInfo();
+                    echo 'Cant Get Urun IMG '.$error[2];
+                }
+
+        }
+
+        function getCategory($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $res = "";
+                foreach ($prepare as $item)
+                {
+                    $res = $item['urun_grup'];
+                }
+                $prepare = $this->pdo->prepare("SELECT * FROM m_kategori WHERE kat_id = '{$res}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                    $result = $prepare->fetchAll();
+                else
+                    $result = false;
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        function getUrunInfo($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_marketinfo WHERE urun_id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        function findUrun($like_name)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_ad LIKE ?");
+            $prepare->execute(array('%'.$like_name.'%'));
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /*
+         * db For Admin Panel
+         *
+         *
+         */
+
+        //Admin Gets His Sold İtem Count İnfo $id = Sold item ID
+
+        function adminGetFirstLog()
+        {
+            $prepare = $this->pdo->prepare("SELECT tarih FROM m_log LIMIT 1");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result[0][0];
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        function adminGetItemSoldInfoCount($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_order WHERE urun_id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result[0][0];
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        function adminGetOrderList($limit, $showreq, $dateforcount = false)
+        {
+            if($dateforcount)
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2 ORDER BY id DESC LIMIT 1");
+                $prepare->execute();
+
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }else
+                {
+                    return false;
+                }
+            }else
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4");
+                    $prepare->execute();
+
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }else
+                    {
+                        return false;
+                    }
+                }
+
+        }
+        function adminFindUserFromOrder($order_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE id = '{$order_id}'");
+            $prepare->execute();
+
+            if($prepare->rowCount())
+            {
+                $user_id = "";
+                foreach ($prepare as $item)
+                {
+                    $user_id = $item['k_id'];
+                }
+                $prepare = $this->pdo->prepare("SELECT * FROM m_uinfo WHERE k_id = '{$user_id}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }else
+                    {
+                        return false;
+                    }
+
+            }else
+            {
+                return false;
+            }
+        }
 		
 	}
 
 	
+
 	
+
 	
-	
-	
-	
-	
+
 	
 ?>

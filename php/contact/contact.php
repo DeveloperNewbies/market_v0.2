@@ -53,7 +53,7 @@
 							</span>
 
                         <p class="stext-115 cl6 size-213 p-t-18">
-                            Adana
+                            Odabaşı Mah. Atatürk Blv No:11 ANTAKYA/HATAY 
                         </p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
 							</span>
 
                         <p class="stext-115 cl1 size-213 p-t-18">
-                            0545 548 6587
+                           05412651359
                         </p>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
 
 <!--  Map -->
 <div class="map">
-    <div class="size-303" id="google_map" data-map-x="37.001780" data-map-y="35.328023" data-pin="images/icons/pin.png" data-scrollwhell="0" data-draggable="1" data-zoom="18"></div>
+    <div class="size-303" id="google_map" data-map-x="36.204214" data-map-y="36.160108"  data-scrollwhell="0" data-draggable="1" data-zoom="18"></div>
 </div>
 
 
