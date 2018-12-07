@@ -11,14 +11,13 @@ function header_focus($m){
         if($url_m == $m) return true;
         else return "home";
     }else{
-        return "home";
+        return false;
     }
 }
 
 if(isset($_GET["search"])){
     $url_m = "magaza";
 }
-
 
 ?>
 <!-- Header -->
@@ -146,16 +145,6 @@ if(isset($_GET["search"])){
             <li>
                 <a href="<?=$side_bar_hesabım?>">Hesabım</a>
             </li>
-                <li>
-                    <a href="<?=$home_link?>/index.php?m=hesabim&account=sepetim">Siparişler</a>
-                </li>
-                <li>
-                    <a href="<?=$home_link?>/index.php?m=hesabim&account=hesabim">Hesap Ayaları</a>
-                </li>
-                <li>
-                    <a href="<?=$home_link?>/index.php?m=hesabim&account=hesabim&reload=adres">Adreslerim</a>
-                </li>
-
             <li>
                 <a href="<?=$side_bar_cikis?>">Çıkış Yap</a>
             </li>

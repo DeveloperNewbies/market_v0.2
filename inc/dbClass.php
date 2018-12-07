@@ -277,18 +277,36 @@
         }
         function getUrunKategori($item_cat_id)
         {
-            $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
-            $prepare->execute();
-            if($prepare->rowCount())
+            if($item_cat_id == "all")
             {
-                $result = $prepare->fetchAll();
-                return $result;
-            }
-            else
-            {
-                $error = $this->pdo->errorInfo();
-                echo 'Cant Get Hash '.$error[2];
-            }
+                $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }
+                else
+                {
+                    $error = $this->pdo->errorInfo();
+                    echo 'Cant Get Item Category At All'.$error[2];
+                }
+            }else
+                {
+                    $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
+                    $prepare->execute();
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }
+                    else
+                    {
+                        $error = $this->pdo->errorInfo();
+                        echo 'Cant Get Item Category'.$error[2];
+                    }
+                }
+
         }
         function getUrunImg($id)
         {
@@ -409,7 +427,7 @@
             }
         }
 
-        function adminGetOrderList($limit, $showreq, $dateforcount = false)
+        function adminGetOrderList($limit, $showreq, $dateforcount = false, $order_id = "all")
         {
             if($dateforcount)
             {
@@ -426,17 +444,34 @@
                 }
             }else
                 {
-                    $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4");
-                    $prepare->execute();
+                    if($order_id == "all")
+                    {
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4");
+                        $prepare->execute();
 
-                    if($prepare->rowCount())
-                    {
-                        $result = $prepare->fetchAll();
-                        return $result;
+                        if($prepare->rowCount())
+                        {
+                            $result = $prepare->fetchAll();
+                            return $result;
+                        }else
+                        {
+                            return false;
+                        }
                     }else
-                    {
-                        return false;
-                    }
+                        {
+                            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}'");
+                            $prepare->execute();
+
+                            if($prepare->rowCount())
+                            {
+                                $result = $prepare->fetchAll();
+                                return $result;
+                            }else
+                            {
+                                return false;
+                            }
+                        }
+
                 }
 
         }
@@ -467,6 +502,11 @@
             {
                 return false;
             }
+        }
+
+        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_cat, $urun_img)
+        {
+
         }
 		
 	}

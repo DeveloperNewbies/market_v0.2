@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 07 Ara 2018, 14:43:47
+-- Üretim Zamanı: 07 Ara 2018, 19:00:39
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -38,7 +38,8 @@ CREATE TABLE `m_itemcat` (
 --
 
 INSERT INTO `m_itemcat` (`item_cat_id`, `item_cat_name`) VALUES
-(1, 'İçecek');
+(1, 'İçecek'),
+(2, 'Yiyecek');
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,7 @@ CREATE TABLE `m_market` (
 
 INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `urun_adet`, `urun_tarih`, `urun_grup`) VALUES
 (1, 'Harnup Özü', 'Harnup Özü Faydalıdır. ', 'Harnup Özü Faydalıdır. ', 10.99, 20, '0000-00-00 00:00:00', 1),
-(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13, 5, '0000-00-00 00:00:00', 1),
+(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13, 5, '0000-00-00 00:00:00', 2),
 (3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10, '0000-00-00 00:00:00', 1),
 (4, 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 17.5, 12, '2018-12-03 00:00:00', 1);
 
@@ -229,7 +230,7 @@ CREATE TABLE `m_users` (
 --
 
 INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`, `user_group`) VALUES
-(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '6cd927b40e8175d06f0be44198b043733ac096ba826c66756eb47d667799d0ba', '::1', '2018-11-28 00:00:00', 0, 2),
+(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '6cd927b40e8175d06f0be44198b043733ac096ba826c66756eb47d667799d0ba', '::1', '2018-11-28 00:00:00', 1, 2),
 (2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
@@ -302,7 +303,7 @@ ALTER TABLE `m_users`
 -- Tablo için AUTO_INCREMENT değeri `m_itemcat`
 --
 ALTER TABLE `m_itemcat`
-  MODIFY `item_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `item_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_kategori`

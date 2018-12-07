@@ -29,22 +29,17 @@
                     </a>
                 </li>
 
-
+                <li class="p-b-13">
+                    <a href="<?=$side_bar_isteklerim?>" class="stext-102 cl2 hov-cl1 trans-04">
+                        <?=$side_bar[1]?>
+                    </a>
+                </li>
                 <?php if($islogged){ ?>
                 <li class="p-b-13">
                     <a href="<?=$side_bar_hesabım?>" class="stext-102 cl2 hov-cl1 trans-04">
                         <?=$side_bar[2]?>
                     </a>
                 </li>
-                    <li class="p-b-13">
-                        <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=sepetim">Siparişler</a>
-                    </li>
-                    <li class="p-b-13">
-                        <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=hesabim">Hesabım</a>
-                    </li>
-                    <li class="p-b-13">
-                        <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=hesabim&reload=adres">Adreslerim</a>
-                    </li>
 
                 <li class="p-b-13">
                     <a href="<?=$side_bar_iade?>" class="stext-102 cl2 hov-cl1 trans-04">

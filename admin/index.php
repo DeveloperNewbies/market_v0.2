@@ -115,6 +115,21 @@ if($user_granted)
     //aylık satılan ürünlerin toplam fiyatı
     $monthly_income = $monthly_tmp;
 }
+
+
+if(isset($_POST['add_new_item']))
+{
+    $url_m = "item-list";
+}
+if(isset($_POST['ch_item']))
+{
+    $url_m = "item-list";
+}
+if(isset($_POST['ch_ship']))
+{
+    $url_m = "orders";
+}
+
 $urun = $user->adminGetItem("all");
 if($url_m == "home"){
     //home page ürünler kısmı
@@ -235,14 +250,77 @@ if($url_m == "home"){
     }
 }else if($url_m=="item-editor")
 {
+    $editor_name = "Ürün Ekle";
+    $editor_itemid = "";
+    $editor_itemname = "";
+    $editor_itemdesc = "";
+    $editor_itemprice = "";
+    $editor_itemcat = array();
+    $editor_defaultopt = "";
+    foreach ($user->getUrunKategori("all") as $item)
+    {
+        array_push($editor_itemcat, $item['item_cat_name']);
+    }
+    $editor_itemimg = array("","","");
+    $editor_process = "Ekle";
+
     if(isset($_GET['c']))
     {
-        $result = $user->getUrun("all");
+        $editor_name = "Ürün Düzenle";
+
+        $item_id = $user->security($_GET['c']);
+        $result = $user->getUrun($item_id);
+        foreach ($result as $item)
+        {
+            $editor_itemid = $item['urun_id'];
+            $editor_itemname = $item['urun_ad'];
+            $editor_itemdesc = $item['urun_aciklama'];
+            $editor_itemprice = $item['urun_fiyat'];
+            foreach ($user->getUrun($editor_itemid) as $item1)
+            {
+                $editor_defaultopt = $item1['urun_grup'];
+            }
+            $editor_itemimg = array();
+            $i = 0;
+            foreach ($user->getUrunIMG($editor_itemid) as $item1)
+            {
+                array_push($editor_itemimg, $item1['urun_img']);
+                $i++;
+            }
+            for ($j = $i; $j < 3; $j++)
+                array_push($editor_itemimg, "");
+            $editor_process = "Kaydet";
+        }
     }elseif (isset($_GET['c_siparis']))
     {
+        $editor_name = "Sipariş Düzenle";
+
         $c_siparis = $user->security($_GET['c_siparis']);
-        $result = $user->adminGetItemSoldCount($c_siparis);
-    }
+        $result = $user->adminGetOrderCount("","", $c_siparis);
+        $editor_ship_id = $c_siparis;
+        foreach ($result as $item) {
+            $editor_itemid = $item['urun_id'];
+            $editor_itemname = "";
+            foreach ($user->getUrun($editor_itemid) as $item1) {
+                $editor_itemname = $item1['urun_ad'];
+            }
+
+            $editor_itemprice = $item['urun_fiyat'];
+            $editor_shipcount = $item['urun_adet'];
+            $editor_itemcat = array();
+            $editor_itemimg = array();
+            $editor_shipnumber = $item['kargo_takip_no'];
+            foreach ($user->getUrunIMG($editor_itemid) as $item1)
+            {
+                array_push($editor_itemimg, $item1['urun_img']);
+            }
+            $editor_process = "Siparişi Güncelle";
+        }
+
+    }else
+        {
+            //Add New İtem
+        }
 }
 
 

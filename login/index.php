@@ -78,9 +78,7 @@
 				
 				if($user->isLogged())
 				{
-					$_SESSION["security_pass"] = hash("sha256",$_POST['password']);
-                    $_SESSION["security_username"] = hash("sha256",$_POST['username']);
-
+					
 					$_SESSION['user'] = base64_encode(serialize($user));
 					$_SESSION['loggedin'] = $user->statue;
 					

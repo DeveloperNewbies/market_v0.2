@@ -224,13 +224,19 @@ include('dbClass.php');
         {
             return $this->db->adminGetItemSoldInfoCount($id);
         }
-        function adminGetOrderCount($limit, $showrequest, $dateforcount = false)
+        function adminGetOrderCount($limit, $showrequest, $dateforcount = false, $order_id = "all")
         {
-            return $this->db->adminGetOrderList($limit, $showrequest, $dateforcount);
+            return $this->db->adminGetOrderList($limit, $showrequest, $dateforcount, $order_id);
         }
         function adminFindUser($id)
         {
             return $this->db->adminFindUserFromOrder($id);
+        }
+
+
+        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_cat, $urun_img)
+        {
+            return $this->adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_cat, $urun_img);
         }
 	}
 ?>
