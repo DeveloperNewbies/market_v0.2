@@ -195,6 +195,7 @@ $i = 0;
             var data_notifier = $('<div>');
             data_notifier.load("index.php #sepet_count", function () {
                 $('#sepet_count').attr('data-notify', $(this).children(0).attr('data-notify'));
+                $('#sepet_count_mobile').attr('data-notify', $(this).children(0).attr('data-notify'));
             });
 
         })

@@ -235,7 +235,23 @@
                 echo 'Cant Get Hash '.$error[2];
             }
 		}
-		
+
+
+		function getUserCount()
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_users");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                //$error = $this->pdo->errorInfo();
+                return false;
+            }
+        }
 
 		function getUrun($id)
         {
@@ -363,6 +379,21 @@
 
         //Admin Gets His Sold İtem Count İnfo $id = Sold item ID
 
+        function adminGetFirstLog()
+        {
+            $prepare = $this->pdo->prepare("SELECT tarih FROM m_log LIMIT 1");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result[0][0];
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         function adminGetItemSoldInfoCount($id)
         {
             $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_order WHERE urun_id = '{$id}'");
@@ -378,19 +409,64 @@
             }
         }
 
-        function adminGetOrderList($limit, $showreq)
+        function adminGetOrderList($limit, $showreq, $dateforcount = false)
         {
-            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2");
+            if($dateforcount)
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2 ORDER BY id DESC LIMIT 1");
+                $prepare->execute();
+
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }else
+                {
+                    return false;
+                }
+            }else
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4");
+                    $prepare->execute();
+
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }else
+                    {
+                        return false;
+                    }
+                }
+
+        }
+        function adminFindUserFromOrder($order_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE id = '{$order_id}'");
             $prepare->execute();
 
             if($prepare->rowCount())
             {
-                $result = $prepare->fetchAll();
-                return $result;
-            }else
+                $user_id = "";
+                foreach ($prepare as $item)
                 {
-                    return false;
+                    $user_id = $item['k_id'];
                 }
+                $prepare = $this->pdo->prepare("SELECT * FROM m_uinfo WHERE k_id = '{$user_id}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    return $result;
+                }else
+                    {
+                        return false;
+                    }
+
+            }else
+            {
+                return false;
+            }
         }
 		
 	}

@@ -52,7 +52,7 @@
                     </div>
                     <div class="item-col item-col-header item-col-sales">
                         <div>
-                            <span>Satılan adet sayısı</span>
+                            <span>Satıştaki Adet</span>
                         </div>
                     </div>
                     <div class="item-col item-col-header item-col-stats">
@@ -67,12 +67,12 @@
                     </div>
                     <div class="item-col item-col-header item-col-author">
                         <div class="no-overflow">
-                            <span>Author</span>
+                            <span>Ürün ID</span>
                         </div>
                     </div>
                     <div class="item-col item-col-header item-col-date">
                         <div>
-                            <span>Published</span>
+                            <span>Satış Tarihi</span>
                         </div>
                     </div>
                     <div class="item-col item-col-header fixed item-col-actions-dropdown"> </div>
@@ -80,7 +80,7 @@
             </li>
             <?php
             $foreach = 0;
-            foreach ($item_list_array_list as $result){
+            foreach ($item_list_array as $result){
                 if($foreach >= 10)
                     break;
                 ?>
@@ -98,7 +98,7 @@
                         </div>
                         <div class="item-col fixed pull-left item-col-title">
                             <div>
-                                <a href="<?=$home_link."?m=item-editor&c=".$result[2]?>" class="">
+                                <a href="<?=$home_link."?m=item-editor&c=".$result[5]?>" class="">
                                     <h4 class="item-title"> <?=$result[1]?></h4>
                                 </a>
                             </div>
@@ -106,9 +106,9 @@
                         <div class="item-col item-col-sales">
                             <div> <?=$result[2]?> </div>
                         </div>
-                        <div class="item-col item-col-category no-overflow">
+                        <div class="item-col item-col-stats no-overflow">
                             <div class="no-overflow">
-                                <?=$result[3]?>
+                                <?=$result[3]." ₺"?>
                             </div>
                         </div>
                         <div class="item-col item-col-category no-overflow">
@@ -138,12 +138,12 @@
                                 <div class="item-actions-block">
                                     <ul class="item-actions-list">
                                         <li>
-                                            <a class="remove" href="<?=$home_link."?m=item-editor&e=delete&c=".$result[2]?>" data-toggle="modal" data-target="#confirm-modal">
+                                            <a class="remove" href="<?=$home_link."?m=item-editor&e=delete&c=".$result[5]?>" data-toggle="modal" data-target="#confirm-modal">
                                                 <i class="fa fa-trash-o "></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="edit" href="<?=$home_link."?m=item-editor&c=".$result[2]?>">
+                                            <a class="edit" href="<?=$home_link."?m=item-editor&c=".$result[5]?>">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                         </li>
