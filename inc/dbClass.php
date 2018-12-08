@@ -235,23 +235,7 @@
                 echo 'Cant Get Hash '.$error[2];
             }
 		}
-
-
-		function getUserCount()
-        {
-            $prepare = $this->pdo->prepare("SELECT * FROM m_users");
-            $prepare->execute();
-            if($prepare->rowCount())
-            {
-                $result = $prepare->fetchAll();
-                return $result;
-            }
-            else
-            {
-                //$error = $this->pdo->errorInfo();
-                return false;
-            }
-        }
+		
 
 		function getUrun($id)
         {
@@ -277,36 +261,18 @@
         }
         function getUrunKategori($item_cat_id)
         {
-            if($item_cat_id == "all")
+            $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
             {
-                $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat");
-                $prepare->execute();
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }
-                else
-                {
-                    $error = $this->pdo->errorInfo();
-                    echo 'Cant Get Item Category At All'.$error[2];
-                }
-            }else
-                {
-                    $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
-                    $prepare->execute();
-                    if($prepare->rowCount())
-                    {
-                        $result = $prepare->fetchAll();
-                        return $result;
-                    }
-                    else
-                    {
-                        $error = $this->pdo->errorInfo();
-                        echo 'Cant Get Item Category'.$error[2];
-                    }
-                }
-
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Hash '.$error[2];
+            }
         }
         function getUrunImg($id)
         {
@@ -397,21 +363,6 @@
 
         //Admin Gets His Sold İtem Count İnfo $id = Sold item ID
 
-        function adminGetFirstLog()
-        {
-            $prepare = $this->pdo->prepare("SELECT tarih FROM m_log LIMIT 1");
-            $prepare->execute();
-            if($prepare->rowCount())
-            {
-                $result = $prepare->fetchAll();
-                return $result[0][0];
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         function adminGetItemSoldInfoCount($id)
         {
             $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_order WHERE urun_id = '{$id}'");
@@ -427,86 +378,19 @@
             }
         }
 
-        function adminGetOrderList($limit, $showreq, $dateforcount = false, $order_id = "all")
+        function adminGetOrderList($limit, $showreq)
         {
-            if($dateforcount)
-            {
-                $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2 ORDER BY id DESC LIMIT 1");
-                $prepare->execute();
-
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }else
-                {
-                    return false;
-                }
-            }else
-                {
-                    if($order_id == "all")
-                    {
-                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4");
-                        $prepare->execute();
-
-                        if($prepare->rowCount())
-                        {
-                            $result = $prepare->fetchAll();
-                            return $result;
-                        }else
-                        {
-                            return false;
-                        }
-                    }else
-                        {
-                            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}'");
-                            $prepare->execute();
-
-                            if($prepare->rowCount())
-                            {
-                                $result = $prepare->fetchAll();
-                                return $result;
-                            }else
-                            {
-                                return false;
-                            }
-                        }
-
-                }
-
-        }
-        function adminFindUserFromOrder($order_id)
-        {
-            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE id = '{$order_id}'");
+            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2");
             $prepare->execute();
 
             if($prepare->rowCount())
             {
-                $user_id = "";
-                foreach ($prepare as $item)
-                {
-                    $user_id = $item['k_id'];
-                }
-                $prepare = $this->pdo->prepare("SELECT * FROM m_uinfo WHERE k_id = '{$user_id}'");
-                $prepare->execute();
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }else
-                    {
-                        return false;
-                    }
-
+                $result = $prepare->fetchAll();
+                return $result;
             }else
-            {
-                return false;
-            }
-        }
-
-        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_cat, $urun_img)
-        {
-
+                {
+                    return false;
+                }
         }
 		
 	}

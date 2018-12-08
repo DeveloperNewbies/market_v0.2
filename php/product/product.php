@@ -199,9 +199,9 @@ $user = new user();
                                            </div>
                                        </div>
                                        <input type="hidden" id="urun_id" name="urun_id" value="<?=$id?>">
-                                       <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="Sepete Ekle">
+                                       <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " style="margin-bottom:20px;" type="submit" name="urun_ekle" value="Sepete Ekle">
 
-
+                                      <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" value="Alışverişe Devam Et" >
                                    </div>
 
                                </div>
@@ -496,4 +496,3 @@ $user = new user();
 
 
 <?php } ?>
-

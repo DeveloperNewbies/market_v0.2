@@ -3,7 +3,6 @@
  * Date: 30.11.2018
  * Time: 20:28
  */
-date_default_timezone_set('Europe/Istanbul');
 
 require_once('../inc/secIP.php');
 require_once('../inc/userClass.php');
@@ -11,7 +10,7 @@ session_start();
 $ipset = new secIP();
 $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $user_granted = false;
-/** @var $user user  */
+/** @var user $user */
 $user;
 if(isset($_SESSION['user']))
 {
@@ -35,7 +34,6 @@ if(isset($_SESSION['user']))
     }
     if($user->getPermission() < 2)
     {
-
         header("Refresh: 0; url=http://".$realip."/admin/login.php");
         return;
     }
@@ -56,6 +54,7 @@ if(isset($_SESSION['user']))
     {
 
         header("Refresh: 0; url=http://".$realip."/admin/login.php");
+
         return;
     }
 
@@ -79,57 +78,18 @@ if($user_granted)
     //admin variable
     $admin_username = $user->name." ".$user->surname;
     //aktif satılan ürün sayısı mağazada bulunan
-    $active_items =count($user->getUrun("all"));
+    $active_items ="1024";
     //toplam satılan ürün sayısı
-    $items_sold =count($user->adminGetOrderCount("",""));
-
-    //toplam kullanıcı sayısı
-    $total_users = ($user->getUserCount()) ? count($user->getUserCount()) : 0;
-    //kullanıcı geri bildiirmleri (iade vs)
-    $tickets_closed="0";
-    //toplam gelir
-    $total_tmp = $user->adminGetOrderCount("","");
-    $total_income = 0;
-
-    //Calculate And Set User Monthly and Total İncome
-    foreach ($total_tmp as $item)
-    {
-        $total_income += $item['urun_fiyat'];
-    }
-    $monthly_tmp = $user->adminGetOrderCount("", "", true);
-    foreach ($monthly_tmp as $item)
-        $monthly_tmp = new DateTime($item['tarih']);
-
-    $monthly_tmp->format("Y-m-d H-i-s");
-
-    $first_time_tmp = new DateTime($user->adminGetFirstLog());
-    $first_time_tmp->format("Y-m-d H-i-s");
-
-    /** @var $difference DateTime */
-    $difference = $monthly_tmp->diff($first_time_tmp);
-    $monthly_tmp = (($difference->y * 12) + $difference->m);
-    $monthly_tmp = ($monthly_tmp > 0) ? $monthly_tmp:1;
-    $monthly_tmp = $total_income / $monthly_tmp;
-
-    $total_income = $total_income." ₺";
+    $items_sold ="2048";
     //aylık satılan ürünlerin toplam fiyatı
-    $monthly_income = $monthly_tmp;
+    $monthly_income ="20345";
+    //toplam kullanıcı sayısı
+    $total_users ="512";
+    //kullanıcı geri bildiirmleri (iade vs)
+    $tickets_closed="10";
+    //toplam gelir
+    $total_income="100000 ₺";
 }
-
-
-if(isset($_POST['add_new_item']))
-{
-    $url_m = "item-list";
-}
-if(isset($_POST['ch_item']))
-{
-    $url_m = "item-list";
-}
-if(isset($_POST['ch_ship']))
-{
-    $url_m = "orders";
-}
-
 $urun = $user->adminGetItem("all");
 if($url_m == "home"){
     //home page ürünler kısmı
@@ -164,163 +124,95 @@ if($url_m == "home"){
     //database deki toplam sipariş sayısı
     $orders_full_item ="20";
 
-    $shipping_list_array = array(
-        //0 index ürün görsel linki
-        //1 index ürün title
-        //2 index ürün sipariş id si
-        //3 index sipariş adeti
-        //4 index Fiyat
-        //5 index Kategori
-        //6 index Alıcı
-        //7 index Kargo Numarası
-        //8 index Sipariş Durum
-        //9 index Sipariş Tarih
-    );
-
     $result = $user->adminGetOrderCount(0 , 15);
 
-    if($result)
-    {
-        $i = 0;
-        foreach ($result as $item)
-        {
-            array_push($shipping_list_array, array());
-            array_push($shipping_list_array[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
-            foreach ($user->getUrun($item['urun_id']) as $item1)
-            {
-                array_push($shipping_list_array[$i], $item1['urun_ad']);
-            }
-            array_push($shipping_list_array[$i], $item['id']);
-            array_push($shipping_list_array[$i], $item['urun_adet']);
-            array_push($shipping_list_array[$i], $item['urun_fiyat']);
-            foreach ($user->getUrun($item['urun_id']) as $item1)
-            {
-                array_push($shipping_list_array[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
-            }
-            foreach ($user->adminFindUser($item['urun_id']) as $item1)
-            {
-                array_push($shipping_list_array[$i], $item1['k_ad']);
-            }
-            array_push($shipping_list_array[$i], $item['kargo_takip_no']);
-            array_push($shipping_list_array[$i], $item['satis_sonuc']);
-            array_push($shipping_list_array[$i], $item['tarih']);
-            $i++;
-        }
-        $i = 0;
-    }else
-        echo 'Cant Find Any Shipping';
+    //orders page ürünler kısmı
+    //max 15 item
+      $item_list_array_list = array(
+          //0 index ürün görsel linki
+          //1 index ürün title
+          //2 index ürün id si
+          //3 index satılan adet sayısı
+          //4 index Fiyat
+          //5 index Kategori
+      );
+      if($result)
+      {
+
+          for ($i = 0; $i < count($result); $i++)
+          {
+              array_push($item_list_array_list, array());
+
+          }
+          $i = 0;
+
+          foreach ($result as $item)
+          {
+              array_push($item_list_array_list[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
+              $urun = $user->getUrun($item['urun_id']);
+              foreach ($urun as $item1)
+              {
+                  array_push($item_list_array_list[$i], $item1['urun_ad']);
+                  array_push($item_list_array_list[$i], $item1['urun_id']);
+              }
+              array_push($item_list_array_list[$i], $item['urun_adet']);
+              array_push($item_list_array_list[$i], $item['urun_fiyat']);
+              foreach ($urun as $item1)
+              {
+                  array_push($item_list_array_list[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
+              }
+              array_push($item_list_array_list[$i], $item['tarih']);
+              $i++;
+          }
+      }else
+          echo 'Hello';
 
 }else if($url_m=="item-list"){
    //database deki toplam sipariş sayısı
    $orders_full_item ="20";
 
-
+   $result = $user->adminGetOrderCount(0 , 15);
 
    //orders page ürünler kısmı
    //max 15 item
-     $item_list_array = array(
+     $item_list_array_list = array(
          //0 index ürün görsel linki
          //1 index ürün title
-         //2 index ürün Satıştaki adeti
-         //3 index Fiyat
-         //4 index Kategori
-         //5 index Ürün ID
-         //6 index Satış Tarihi
+         //2 index ürün id si
+         //3 index satılan adet sayısı
+         //4 index Fiyat
+         //5 index Kategori
      );
+     if($result)
+     {
 
-    $result = $user->getUrun("all");
-    if($result)
-    {
-        $i = 0;
-        foreach ($result as $item)
-        {
-            array_push($item_list_array, array());
-            array_push($item_list_array[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
-            array_push($item_list_array[$i], $item['urun_ad']);
-            array_push($item_list_array[$i], $item['urun_adet']);
-            array_push($item_list_array[$i], $item['urun_fiyat']);
-            foreach ($user->getUrun($item['urun_id']) as $item1)
-            {
-                array_push($item_list_array[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
-            }
-            array_push($item_list_array[$i], $item['urun_id']);
-            array_push($item_list_array[$i], $item['urun_tarih']);
-            $i++;
-        }
-    }
-}else if($url_m=="item-editor")
-{
-    $editor_name = "Ürün Ekle";
-    $editor_itemid = "";
-    $editor_itemname = "";
-    $editor_itemdesc = "";
-    $editor_itemprice = "";
-    $editor_itemcat = array();
-    $editor_defaultopt = "";
-    foreach ($user->getUrunKategori("all") as $item)
-    {
-        array_push($editor_itemcat, $item['item_cat_name']);
-    }
-    $editor_itemimg = array("","","");
-    $editor_process = "Ekle";
+         for ($i = 0; $i < count($result); $i++)
+         {
+             array_push($item_list_array_list, array());
 
-    if(isset($_GET['c']))
-    {
-        $editor_name = "Ürün Düzenle";
+         }
+         $i = 0;
 
-        $item_id = $user->security($_GET['c']);
-        $result = $user->getUrun($item_id);
-        foreach ($result as $item)
-        {
-            $editor_itemid = $item['urun_id'];
-            $editor_itemname = $item['urun_ad'];
-            $editor_itemdesc = $item['urun_aciklama'];
-            $editor_itemprice = $item['urun_fiyat'];
-            foreach ($user->getUrun($editor_itemid) as $item1)
-            {
-                $editor_defaultopt = $item1['urun_grup'];
-            }
-            $editor_itemimg = array();
-            $i = 0;
-            foreach ($user->getUrunIMG($editor_itemid) as $item1)
-            {
-                array_push($editor_itemimg, $item1['urun_img']);
-                $i++;
-            }
-            for ($j = $i; $j < 3; $j++)
-                array_push($editor_itemimg, "");
-            $editor_process = "Kaydet";
-        }
-    }elseif (isset($_GET['c_siparis']))
-    {
-        $editor_name = "Sipariş Düzenle";
-
-        $c_siparis = $user->security($_GET['c_siparis']);
-        $result = $user->adminGetOrderCount("","", $c_siparis);
-        $editor_ship_id = $c_siparis;
-        foreach ($result as $item) {
-            $editor_itemid = $item['urun_id'];
-            $editor_itemname = "";
-            foreach ($user->getUrun($editor_itemid) as $item1) {
-                $editor_itemname = $item1['urun_ad'];
-            }
-
-            $editor_itemprice = $item['urun_fiyat'];
-            $editor_shipcount = $item['urun_adet'];
-            $editor_itemcat = array();
-            $editor_itemimg = array();
-            $editor_shipnumber = $item['kargo_takip_no'];
-            foreach ($user->getUrunIMG($editor_itemid) as $item1)
-            {
-                array_push($editor_itemimg, $item1['urun_img']);
-            }
-            $editor_process = "Siparişi Güncelle";
-        }
-
-    }else
-        {
-            //Add New İtem
-        }
+         foreach ($result as $item)
+         {
+             array_push($item_list_array_list[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
+             $urun = $user->getUrun($item['urun_id']);
+             foreach ($urun as $item1)
+             {
+                 array_push($item_list_array_list[$i], $item1['urun_ad']);
+                 array_push($item_list_array_list[$i], $item1['urun_id']);
+             }
+             array_push($item_list_array_list[$i], $item['urun_adet']);
+             array_push($item_list_array_list[$i], $item['urun_fiyat']);
+             foreach ($urun as $item1)
+             {
+                 array_push($item_list_array_list[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
+             }
+             array_push($item_list_array_list[$i], $item['tarih']);
+             $i++;
+         }
+     }else
+         echo 'Hello';
 }
 
 

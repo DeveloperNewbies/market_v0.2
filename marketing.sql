@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 07 Ara 2018, 19:00:39
+-- Üretim Zamanı: 05 Ara 2018, 17:54:11
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -38,8 +38,7 @@ CREATE TABLE `m_itemcat` (
 --
 
 INSERT INTO `m_itemcat` (`item_cat_id`, `item_cat_name`) VALUES
-(1, 'İçecek'),
-(2, 'Yiyecek');
+(1, 'İçecek');
 
 -- --------------------------------------------------------
 
@@ -77,13 +76,6 @@ CREATE TABLE `m_log` (
   `tarih` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin5;
 
---
--- Tablo döküm verisi `m_log`
---
-
-INSERT INTO `m_log` (`id`, `k_adi`, `log`, `log_cat`, `ip`, `tarih`) VALUES
-(1, 'root', 'Systems Created For Client!', 0, '-', '2018-12-07 11:51:46');
-
 -- --------------------------------------------------------
 
 --
@@ -107,8 +99,8 @@ CREATE TABLE `m_market` (
 
 INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `urun_adet`, `urun_tarih`, `urun_grup`) VALUES
 (1, 'Harnup Özü', 'Harnup Özü Faydalıdır. ', 'Harnup Özü Faydalıdır. ', 10.99, 20, '0000-00-00 00:00:00', 1),
-(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13, 5, '0000-00-00 00:00:00', 2),
-(3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10, '0000-00-00 00:00:00', 1),
+(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13, 0, '0000-00-00 00:00:00', 0),
+(3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 10, '0000-00-00 00:00:00', 0),
 (4, 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 17.5, 12, '2018-12-03 00:00:00', 1);
 
 -- --------------------------------------------------------
@@ -178,9 +170,7 @@ CREATE TABLE `m_order` (
 --
 
 INSERT INTO `m_order` (`id`, `urun_id`, `k_id`, `urun_fiyat`, `urun_adet`, `tarih`, `k_ip`, `kargo_takip_no`, `satis_sonuc`) VALUES
-(1, 1, 2, 5, 2, '2018-12-07 18:46:00', '::81', 0, 3),
-(2, 2, 3, 10, 3, '2018-12-07 13:38:00', '::81', 0, 1),
-(3, 3, 4, 10, 3, '2018-12-07 13:38:00', '::81', 0, 1);
+(1, 1, 2, 5, 2, '2018-12-01 00:00:00', '::81', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -202,9 +192,7 @@ CREATE TABLE `m_uinfo` (
 
 INSERT INTO `m_uinfo` (`k_id`, `k_ad`, `k_soyad`, `k_tel`, `k_adresi`) VALUES
 (1, 'Doruk', 'Han', 0, '-'),
-(2, 'Mehmet', 'Sincap', 0, '-'),
-(3, 'Sincap', 'Mehmet', 0, '-'),
-(4, 'Sincap', 'Sincap', 0, '-'),
+(4, '', '', 0, ''),
 (5, 'Test', 'Test', 0, '-'),
 (6, 'Alp', 'Deny', 0, '');
 
@@ -230,11 +218,11 @@ CREATE TABLE `m_users` (
 --
 
 INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`, `user_group`) VALUES
-(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '6cd927b40e8175d06f0be44198b043733ac096ba826c66756eb47d667799d0ba', '::1', '2018-11-28 00:00:00', 1, 2),
+(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '6cd927b40e8175d06f0be44198b043733ac096ba826c66756eb47d667799d0ba', '::1', '2018-11-28 00:00:00', 0, 2),
 (2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
-(5, 'test@hotmail.com', '4297f44b13955235245b2497399d7a93', 'dd1808e11030f63510f8303a91ed6e27acfb655738d6c2776eb2af0b2912ac35', '::1', '2018-11-28 00:00:00', 1, 2),
+(5, 'test@hotmail.com', '4297f44b13955235245b2497399d7a93', '57e46f0130ec1b654382159e7b08b6cd5797fed0793279794b31e892b23c2a47', '::1', '2018-11-28 00:00:00', 1, 2),
 (6, 'adeny@hotmail.com', '4297f44b13955235245b2497399d7a93', 'cce49dcaeb2e51f13c124d1ab13c52be8b61a5799f594fef8aa1e9b42abdcc91', '192.168.43.209', '2018-12-01 00:00:00', 0, 1);
 
 --
@@ -303,7 +291,7 @@ ALTER TABLE `m_users`
 -- Tablo için AUTO_INCREMENT değeri `m_itemcat`
 --
 ALTER TABLE `m_itemcat`
-  MODIFY `item_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `item_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_kategori`
@@ -315,7 +303,7 @@ ALTER TABLE `m_kategori`
 -- Tablo için AUTO_INCREMENT değeri `m_log`
 --
 ALTER TABLE `m_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_market`
@@ -339,7 +327,7 @@ ALTER TABLE `m_marketinfo`
 -- Tablo için AUTO_INCREMENT değeri `m_order`
 --
 ALTER TABLE `m_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_users`

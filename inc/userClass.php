@@ -61,7 +61,6 @@ include('dbClass.php');
 			if($this->isLogged())
 			{
                 $this->getUserInfos($nuname, $nupass);
-
                 $this->permission = $this->db->getUserPermission($this->id);
 
             }
@@ -169,7 +168,7 @@ include('dbClass.php');
 			return $this->id;
 		}
 		
-
+		
 		function showUserInfo()
 		{
 			echo ' Kullanıcı: ' . $this->username;
@@ -177,11 +176,6 @@ include('dbClass.php');
 			echo ' Tarih: ' . $this->udate;
 		}
 
-
-		function getUserCount()
-        {
-            return $this->db->getUserCount();
-        }
 
         function getPermission()
         {
@@ -212,10 +206,6 @@ include('dbClass.php');
 		 * $permission > 1
 		 * Admin Privileges Granted
 		 * */
-		function adminGetFirstLog()
-        {
-            return $this->db->adminGetFirstLog();
-        }
         function adminGetItem($id)
         {
             return $this->db->getUrun($id);
@@ -224,19 +214,9 @@ include('dbClass.php');
         {
             return $this->db->adminGetItemSoldInfoCount($id);
         }
-        function adminGetOrderCount($limit, $showrequest, $dateforcount = false, $order_id = "all")
+        function adminGetOrderCount($limit, $showrequest)
         {
-            return $this->db->adminGetOrderList($limit, $showrequest, $dateforcount, $order_id);
-        }
-        function adminFindUser($id)
-        {
-            return $this->db->adminFindUserFromOrder($id);
-        }
-
-
-        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_cat, $urun_img)
-        {
-            return $this->adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_cat, $urun_img);
+            return $this->db->adminGetOrderList($limit, $showrequest);
         }
 	}
 ?>
