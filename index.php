@@ -24,7 +24,7 @@ $header_magaza = $home_link."/index.php?m=magaza";
 $header_sepetim = $home_link."/index.php?m=sepetim";
 $header_about = $home_link."/index.php?m=hakkinda";
 $header_contact = $home_link."/index.php?m=iletisim";
-$header_url = array("Anasayfa","Mağaza","Sepetim","Hakkında","İletişim");
+$header_url = array("Anasayfa","Online Alışveriş","Sepetim","Hakkında","İletişim");
 
 
 
@@ -329,12 +329,10 @@ if(isset($_POST['urun_cikar'])){
             require_once ("php/account/account.php");
             require_once ("php/back_to_top.php");
             break;
-        case "sozlesme":
-
-            break;
-        case "politic":
-
-            break;
+            case "sozlesme":
+           break;
+           case "politic":
+           break;
         default :
             require_once("php/sidebar.php");
             require_once ("php/cart.php");

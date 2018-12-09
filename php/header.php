@@ -71,7 +71,7 @@ if(isset($_GET["search"])){
                 <div class="wrap-icon-header flex-w flex-r-m h-full">
                     <div class="flex-c-m h-full p-r-24">
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
-                            <i class="zmdi zmdi-search"></i>
+                            <i class="zmdi zmdi-search" ></i>
                         </div>
                     </div>
 

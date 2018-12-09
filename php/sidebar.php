@@ -36,6 +36,12 @@
                         <?=$side_bar[1]?>
                     </a>
                 </li>
+                <li class="p-b-13">
+                       <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=sepetim">Siparişler</a>
+                   </li>
+                   <li class="p-b-13">
+                       <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=hesabim&reload=adres">Adreslerim</a>
+                   </li>
 
                 <li class="p-b-13">
                     <a href="<?=$side_bar_iade?>" class="stext-102 cl2 hov-cl1 trans-04">
@@ -55,6 +61,7 @@
                         <?=$side_bar[4]?>
                     </a>
                 </li>
+
                 <?php }else{ ?>
                 <li class="p-b-13">
                     <a href="<?=$side_bar_iade?>" class="stext-102 cl2 hov-cl1 trans-04">
@@ -67,6 +74,7 @@
                         <?=$side_bar[2]?>
                     </a>
                 </li>
+
                 <li class="p-b-13">
                     <a href="<?=$side_bar_giris?>" class="stext-102 cl2 hov-cl1 trans-04">
                         <?=$side_bar[3]?>
@@ -78,11 +86,10 @@
 
             <div class="sidebar-gallery w-full">
 					<span class="mtext-101 cl5">
-                        <a href="<?=$home_url."/index.php?m=hakkinda"?>"> Hakkında</a>
-
+                         <a href="<?=$header_about?>">Hakkında</a>
 					</span>
-
             </div>
+
         </div>
     </div>
 </aside>

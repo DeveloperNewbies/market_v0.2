@@ -9,7 +9,7 @@
 ?>
 <!-- Footer -->
 <footer class="bg3 p-t-75 p-b-32">
-  <div class="container" style="padding-left:20%;">
+  <div class="container" >
     <div class="row">
       <div class="col-sm-6 col-lg-3 p-b-50">
         <h4 class="stext-301 cl0 p-b-30">
@@ -41,10 +41,11 @@
             </a>
           </li>
           <li class="p-b-10">
-            <a href="<?=$home_url."/index.php?m=hakkinda"?>" class="stext-107 cl7 hov-cl1 trans-04">
-              S.S.S
+            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+              Teslimat, İptal ve İade Şartları
             </a>
           </li>
+
 
         </ul>
       </div>
@@ -72,6 +73,38 @@
               Gıda Takviyesi
             </a>
           </li>
+          <li class="p-b-10">
+            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+              Doğal ve Gurme Gıda
+            </a>
+          </li>
+
+
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-3 p-b-50">
+        <h4 class="stext-301 cl0 p-b-30">
+          MÜŞTERİ HİZMETLERİ
+        </h4>
+
+        <ul>
+          <li class="p-b-10">
+            <a href="<?=$home_url."/index.php?m=hakkinda"?>" class="stext-107 cl7 hov-cl1 trans-04">
+              Sıkça Sorulan Sorular
+            </a>
+          </li>
+
+          <li class="p-b-10">
+            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+              Görüş ve Önerileriniz
+            </a>
+          </li>
+          <li class="p-b-10">
+            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+              Kargo Takip Formu
+            </a>
+          </li>
+
 
 
         </ul>
@@ -102,7 +135,7 @@
 
 
 
-    <p class=" cl6 txt-center" style="padding-right:20%;">
+    <p class=" cl6 txt-center" >
 
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tüm Hakları Saklıdır |    <a href="http://www.ay-soft.com" target="_blank">AY-SOFT</a>
 

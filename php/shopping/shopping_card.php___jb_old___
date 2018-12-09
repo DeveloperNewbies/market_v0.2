@@ -96,7 +96,7 @@ $point_top = 0;
                         <td>
 
                 <span class="mtext-110 cl2" id="s_sepet_top">
-                  <?php echo round(floatval($point_top) / 1.18,2) ; ?> ₺
+                  <?php echo round(($point_top / 1,18),2) ; ?> ₺
                 </span>
 
                         </td>
@@ -104,7 +104,7 @@ $point_top = 0;
 
                         <tr>
                           <td>KDV</td>
-                          <td  id="s_sepetfull_vergi">    <?=round((round(floatval($point_top) / 1.18,2)*(0.18)),2) ?> ₺   </td>
+                          <td  id="s_sepetfull_vergi">    <?=round(($point_top*(0.18)),2) ?> ₺   </td>
                         </tr>
                         <tr>
                           <td>KDV DAHİL</td>

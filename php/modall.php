@@ -114,7 +114,7 @@ $i = 0;
                                         Sepete ekle
                                     </button>
                                     <button  class="btn-num-product-submit<?=$modal_item[$i][0]?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " >
-                                       <a href="<?= $home_url."/index.php?m=sepetim" ?>" style="color:white;"> Satın al</a>
+                                       <a href="<?= $home_url."/index.php?m=sepetim" ?>" style="color:white;"> Hemen al</a>
                                     </button>
 
 

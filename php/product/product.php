@@ -113,7 +113,7 @@ $user = new user();
        <section class="sec-product-detail bg0 p-t-65 p-b-60">
            <div class="container">
                <div class="row">
-                   <div class="col-md-6 col-lg-7 p-b-30">
+                   <div class="col-md-0 col-lg-6 p-b-30">
                        <div class="p-l-25 p-r-30 p-lr-0-lg">
                            <div class="wrap-slick3 flex-sb flex-w">
                                <div class="wrap-slick3-dots"></div>
@@ -140,7 +140,7 @@ $user = new user();
                        </div>
                    </div>
 
-                   <div class="col-md-6 col-lg-5 p-b-30">
+                   <div class="col-md-0 col-lg-4 p-b-30">
                        <div class="p-r-50 p-t-5 p-lr-0-lg">
                            <h4 class="mtext-105 cl2 js-name-detail p-b-14">
                                <?=$product_title?>
@@ -206,8 +206,9 @@ $user = new user();
                                            </div>
                                        </div>
                                      <input type="hidden" id="urun_id" name="urun_id" value="<?=$id?>">
-                                     <input style="margin-bottom:20px;" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="Sepete Ekle">
-                                      <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail "> <a href="<?=$home_url."/index.php?m=magaza"?>">Alışverişe Devam Et</a></button>
+                                     <input style="margin-bottom:20px;" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="          Sepete Ekle         ">
+
+                                     <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail "> <a href="<?=$home_url."/index.php?m=magaza"?>">Alışverişe Devam Et</a></button>
                                    </div>
 
                                </div>
@@ -218,7 +219,7 @@ $user = new user();
                    </div>
                </div>
 
-               <div class="bor10 m-t-50 p-t-43 p-b-40">
+               <div class="bor10 m-t-0 p-t-43 p-b-40">
                    <!-- Tab01 -->
                    <div class="tab01">
                        <!-- Nav tabs -->

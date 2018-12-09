@@ -5,9 +5,9 @@
  * Date: 28.11.2018
  * Time: 12:02
  */
-
-$sepet_item_toplam = 0;
+ $sepet_item_toplam = 0;
 ?>
+
 <!-- Cart -->
 <div class="wrap-header-cart js-panel-cart">
     <div class="s-full js-hide-cart"></div>
@@ -26,10 +26,10 @@ $sepet_item_toplam = 0;
         <div class="header-cart-content flex-w js-pscroll" id="sepetim">
             <ul class="header-cart-wrapitem w-full">
                 <?php if(count($user_shopping_item) < 1){   ?>
-                    Sepetiniz boş
-                    <button class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                        <a href="<?=$home_url."/index.pph?m=magaza"?>">Alışverişe Başla</a>
-                    </button>
+                    <h2>Sepetiniz boş</h2>
+                    <button style="margin-top:30px;" class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                       <a href="<?=$home_url."/index.php?m=magaza"?>">Alışverişe Başla</a>
+                   </button>
 
                 <?php }else{ ?>
                 <?php foreach ($user_shopping_item as $result){   ?>
@@ -44,8 +44,8 @@ $sepet_item_toplam = 0;
                         </a>
 
                         <span class="header-cart-item-info">
-								<?=$result[3]?>₺ x <?=$result[4]?>
-                            <?php  $sepet_item_toplam +=($result[3]*$result[4])?>
+                          <?=$result[3]?>₺ x <?=$result[4]?>
+                                      <?php  $sepet_item_toplam +=($result[3]*$result[4])?>
 							</span>
                     </div>
                     <div class="p-0"></div>
@@ -67,7 +67,7 @@ $sepet_item_toplam = 0;
                   <span class="mtext-112 cl2" id="s_sepetfull_top">
                      <?= $sepet_item_toplam ?> ₺
                   </span>
-                              <span class="mtext-100 cl2" id="s_sepetfull_vergi"> <br> (KDV <?= $sepet_item_toplam-round($sepet_item_toplam/1.18,2) ?>  ₺ )</span>
+                               <span class="mtext-100 cl2" id="s_sepetfull_vergi"> <br> (KDV <?= $sepet_item_toplam-round($sepet_item_toplam/1.18,2) ?>  ₺ )</span>
                           </div>
                       </div>
                 <form action="index.php" method="post">
