@@ -168,7 +168,7 @@ $kategoriler = array("1","2","3");
                 <div class="form-group row">
                     <label class="col-sm-2 form-control-label text-xs-right"> Ürün görseli: </label>
                     <div class="col-sm-10" style="max-width: 65%;">
-                        <input type="file" class="form-control " name="item-image-<?php echo $a; ?>" value="<?php echo $editor_itemimg[$a]; ?>">
+                        <input type="file" class="form-control " name="item-image-<?php echo $a; ?>">
                     </div><div class="" style="width: 60px; height: 60px; position: relative; margin-left: 5%;"> <img src="<?="../".$editor_itemimg[$a]?>" style="width: 60px; height: 60px;" alt="IMG-LOGO"> </div>
 
                 </div>

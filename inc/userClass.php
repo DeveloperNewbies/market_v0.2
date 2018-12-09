@@ -259,6 +259,9 @@ include('dbClass.php');
         {
             return $this->db->adminDeleteItem($item_id);
         }
-
+        function adminDeleteOrder($order_id)
+        {
+            return $this->db->adminDeleteOrder($order_id);
+        }
 	}
 ?>

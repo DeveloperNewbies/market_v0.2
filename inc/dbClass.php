@@ -50,12 +50,14 @@
 
         function security($text, $texttype = "normal")
         {
+
             if($texttype == "normal")
                 $text = substr($text, 0, 32);
             else
                 $text = substr($text, 0, 1024);
 
-            $text = addslashes(htmlspecialchars(strip_tags(htmlentities(trim($text)))));
+            $text = addslashes(htmlspecialchars(strip_tags(trim($text)), ENT_NOQUOTES || ENT_SUBSTITUTE, "UTF-8"));
+
             return $text;
         }
 
@@ -604,7 +606,7 @@
                 return false;
             }
         }
-
+//TODO Warning about Delete ..// like directories maybe $item_img_desc['1'] could be empty like, and it can delete all images.
         function adminDeleteItem($item_id)
         {
             try
@@ -617,18 +619,41 @@
                 try
                 {
                     $item_img = $this->getUrunImg($item_id);
-                    foreach($item_img as $item)
+                    if($item_img)
                     {
-                        $item_img_desc = explode("/", $item[2]);
-                        break;
-                    }
-                    $dirPath = "../".$item_img_desc[0]."/".$item_img_desc[1];
+                        foreach($item_img as $item)
+                        {
+                            $item_img_desc = explode("/", $item[2]);
+                            break;
+                        }
+                        $secure = false;
+                        if(empty($item_img_desc[1]))
+                        {
+                            $secure = false;
+                        }else
+                            {
+                                $dirPath = "../images/".$item_img_desc[1];
+                                $secure = true;
+                            }
 
-                    $prepare = $this->pdo->prepare("DELETE FROM m_marketimg WHERE urun_id=:u_id");
-                    $adate = date('Y-m-d H-i-s');
-                    $prepare->execute(array(
-                        "u_id" => $item_id
-                    ));
+
+                        $prepare = $this->pdo->prepare("DELETE FROM m_marketimg WHERE urun_id=:u_id");
+                        $adate = date('Y-m-d H-i-s');
+                        $prepare->execute(array(
+                            "u_id" => $item_id
+                        ));
+                        if($prepare->rowCount() > 0 && $secure)
+                        {
+                            //Its So Dangerous Deleting Be CareFULL!
+                            $this->deleteDir($dirPath);
+                            return true;
+                        }
+
+
+                    }else
+                        {
+                            echo "Ürünü Sildiniz yada Öyle Bir Ürün Bulunamadı..";
+                        }
 
 
                 }catch (PDOException $e)
@@ -643,9 +668,28 @@
             }
         }
 
-        public static function deleteDir($dirPath) {
-            if (! is_dir($dirPath)) {
+        function adminDeleteOrder($order_id)
+        {
+            try
+            {
+                $prepare = $this->pdo->prepare("DELETE FROM m_order WHERE id=:o_id");
+                $adate = date('Y-m-d H-i-s');
+                $prepare->execute(array(
+                    "o_id" => $order_id
+                ));
+                return true;
+
+            }catch (PDOException $e)
+            {
+                return false;
+            }
+        }
+
+        //Be CAREFULL
+        private function deleteDir($dirPath) {
+            if (! is_dir($dirPath) || strlen($dirPath) < 10) {
                 throw new InvalidArgumentException("$dirPath must be a directory");
+                return;
             }
             if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
                 $dirPath .= '/';

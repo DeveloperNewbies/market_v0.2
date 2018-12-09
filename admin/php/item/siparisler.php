@@ -164,7 +164,7 @@
                             <div class="item-actions-block">
                                 <ul class="item-actions-list">
                                     <li>
-                                        <a class="remove" href="<?=$home_link."?m=item-editor&e=delete&c_siparis=".$result[2]?>" data-toggle="modal" data-target="#confirm-modal">
+                                        <a class="remove" href="<?=$home_link."?m=item-editor&c_siparis=".$result[2]?>&e=delete" data-toggle="modal" data-target="#confirm-modal">
                                             <i class="fa fa-trash-o "></i>
                                         </a>
                                     </li>

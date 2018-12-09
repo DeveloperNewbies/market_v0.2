@@ -1,3 +1,5 @@
+
+
 <?php
 /**
  * Date: 30.11.2018
@@ -159,7 +161,7 @@ if(isset($_POST['add_new_item']))
                 $expensions= array("jpeg","jpg","png");
                 $img_counter = 0;
                 for($i = 0; $i<3; $i++) {
-                    if (isset($_FILES['item-image-'.$i])) {
+                    if (isset($_FILES['item-image-'.$i]) && !empty($_FILES['item-image-'.$i]['name'])) {
                         $errors = array();
                         $file_name = $_FILES['item-image-'.$i]['name'];
                         $file_size = $_FILES['item-image-'.$i]['size'];
@@ -524,29 +526,47 @@ if($url_m == "home"){
 
     }else if (isset($_GET['c_siparis']))
     {
-        $editor_name = "Sipariş Düzenle";
 
-        $c_siparis = $user->security($_GET['c_siparis']);
-        $result = $user->adminGetOrderCount("","", '' ,$c_siparis);
-        $editor_ship_id = $c_siparis;
-        foreach ($result as $item) {
-            $editor_itemid = $item['urun_id'];
-            $editor_itemname = "";
-            foreach ($user->getUrun($editor_itemid) as $item1) {
-                $editor_itemname = $item1['urun_ad'];
-            }
-
-            $editor_itemprice = $item['urun_fiyat'];
-            $editor_shipcount = $item['urun_adet'];
-            $editor_itemcat = array();
-            $editor_itemimg = array();
-            $editor_shipnumber = $item['kargo_takip_no'];
-            foreach ($user->getUrunIMG($editor_itemid) as $item1)
+        if(isset($_GET['e']))
+        {
+            if($_GET['e'] == "delete")
             {
-                array_push($editor_itemimg, $item1['urun_img']);
+                $delete = $user->adminDeleteOrder($user->security($_GET['c_siparis']));
+                if($delete)
+                {
+                    echo "Sipariş Silindi";
+                }else
+                    {
+                        echo "Sipariş Bulunamadı Yada silinemedi";
+                    }
             }
-            $editor_process = "Siparişi Güncelle";
-        }
+        }else
+            {
+                $editor_name = "Sipariş Düzenle";
+
+                $c_siparis = $user->security($_GET['c_siparis']);
+                $result = $user->adminGetOrderCount("","", '' ,$c_siparis);
+                $editor_ship_id = $c_siparis;
+                foreach ($result as $item) {
+                    $editor_itemid = $item['urun_id'];
+                    $editor_itemname = "";
+                    foreach ($user->getUrun($editor_itemid) as $item1) {
+                        $editor_itemname = $item1['urun_ad'];
+                    }
+
+                    $editor_itemprice = $item['urun_fiyat'];
+                    $editor_shipcount = $item['urun_adet'];
+                    $editor_itemcat = array();
+                    $editor_itemimg = array();
+                    $editor_shipnumber = $item['kargo_takip_no'];
+                    foreach ($user->getUrunIMG($editor_itemid) as $item1)
+                    {
+                        array_push($editor_itemimg, $item1['urun_img']);
+                    }
+                    $editor_process = "Siparişi Güncelle";
+                }
+            }
+
 
     }else
         {
@@ -563,7 +583,7 @@ if($url_m == "home"){
 <!doctype html>
 <html class="no-js" lang="<?=$language?>">
 <head>
-    <meta charset=""<?=$charset?>>
+    <meta charset="<?=$charset?>">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title> <?=$title?></title>
     <meta name="description" content="">
