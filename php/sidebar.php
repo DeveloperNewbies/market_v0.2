@@ -29,51 +29,47 @@
                     </a>
                 </li>
 
-                <li class="p-b-13">
-                    <a href="<?=$side_bar_isteklerim?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[1]?>
-                    </a>
-                </li>
+
                 <?php if($islogged){ ?>
                 <li class="p-b-13">
                     <a href="<?=$side_bar_hesabım?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[2]?>
+                        <?=$side_bar[1]?>
                     </a>
                 </li>
 
                 <li class="p-b-13">
                     <a href="<?=$side_bar_iade?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[3]?>
+                        <?=$side_bar[2]?>
                     </a>
                 </li>
 
                 <li class="p-b-13">
                     <a href="<?=$side_bar_yardim?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[4]?>
+                        <?=$side_bar[3]?>
                     </a>
                 </li>
 
 
                 <li class="p-b-13">
                     <a href="<?=$side_bar_cikis?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[5]?>
+                        <?=$side_bar[4]?>
                     </a>
                 </li>
                 <?php }else{ ?>
                 <li class="p-b-13">
                     <a href="<?=$side_bar_iade?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[2]?>
+                        <?=$side_bar[1]?>
                     </a>
                 </li>
 
                 <li class="p-b-13">
                     <a href="<?=$side_bar_yardim?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[3]?>
+                        <?=$side_bar[2]?>
                     </a>
                 </li>
                 <li class="p-b-13">
                     <a href="<?=$side_bar_giris?>" class="stext-102 cl2 hov-cl1 trans-04">
-                        <?=$side_bar[4]?>
+                        <?=$side_bar[3]?>
                     </a>
                 </li>
                 <?php } ?>
@@ -82,12 +78,10 @@
 
             <div class="sidebar-gallery w-full">
 					<span class="mtext-101 cl5">
-                        Hakkında
+                        <a href="<?=$home_url."/index.php?m=hakkinda"?>"> Hakkında</a>
+
 					</span>
 
-                <p class="stext-108 cl6 p-t-27">
-                   <?=$site_about?>
-                </p>
             </div>
         </div>
     </div>

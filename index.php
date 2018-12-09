@@ -82,7 +82,7 @@ if(isset($_GET['logout']))
 }
 
 if($islogged){
-    $side_bar = array("Anasayfa","İsteklerim","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
+    $side_bar = array("Anasayfa","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
 
     //php/account/account.php
 //user account page variable
@@ -92,7 +92,7 @@ if($islogged){
     $account_adres="" ; //adres
 
 }else{
-    $side_bar = array("Anasayfa","İsteklerim","İade","Yardım & SSS", "Giriş Yap");
+    $side_bar = array("Anasayfa","İade","Yardım & SSS", "Giriş Yap");
 }
 
 
@@ -328,6 +328,12 @@ if(isset($_POST['urun_cikar'])){
             require_once ("php/cart.php");
             require_once ("php/account/account.php");
             require_once ("php/back_to_top.php");
+            break;
+        case "sozlesme":
+
+            break;
+        case "politic":
+
             break;
         default :
             require_once("php/sidebar.php");

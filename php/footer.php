@@ -18,30 +18,30 @@
 
         <ul>
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=hakkinda"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Hakkımızda
             </a>
           </li>
 
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=iletisim"?>" class="stext-107 cl7 hov-cl1 trans-04">
               İletişim
             </a>
           </li>
 
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=politic"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Gizlilik Politikası
             </a>
           </li>
 
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=sozlesme"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Kullanıcı Sözleşmesi
             </a>
           </li>
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=hakkinda"?>" class="stext-107 cl7 hov-cl1 trans-04">
               S.S.S
             </a>
           </li>
