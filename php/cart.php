@@ -49,20 +49,6 @@
                 </li>
 
                       <?php } ?>
-                      <div class="flex-w flex-t p-t-27 p-b-33">
-                          <div class="size-208">
-                  <span class="mtext-101 cl2">
-                    Toplam:
-                  </span>
-                          </div>
-
-                          <div class="size-209 p-t-1">
-                  <span class="mtext-112 cl2" id="s_sepetfull_top">
-                     ₺
-                  </span>
-                              <span class="mtext-100 cl2" id="s_sepetfull_vergi">  <br>(KDV ₺ )</span>
-                          </div>
-                      </div>
                 <form action="index.php" method="post">
                     <input  type="submit" name="completeshopping" value="Alışverişi Tamamla" class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
                 </form>

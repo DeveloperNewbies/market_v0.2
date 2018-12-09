@@ -3,6 +3,7 @@
  * Date: 30.11.2018
  * Time: 20:28
  */
+date_default_timezone_set('Europe/Istanbul');
 
 require_once('../inc/secIP.php');
 require_once('../inc/userClass.php');
@@ -10,7 +11,7 @@ session_start();
 $ipset = new secIP();
 $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $user_granted = false;
-/** @var user $user */
+/** @var $user user  */
 $user;
 if(isset($_SESSION['user']))
 {
@@ -34,6 +35,7 @@ if(isset($_SESSION['user']))
     }
     if($user->getPermission() < 2)
     {
+
         header("Refresh: 0; url=http://".$realip."/admin/login.php");
         return;
     }
@@ -54,7 +56,6 @@ if(isset($_SESSION['user']))
     {
 
         header("Refresh: 0; url=http://".$realip."/admin/login.php");
-
         return;
     }
 
@@ -78,18 +79,275 @@ if($user_granted)
     //admin variable
     $admin_username = $user->name." ".$user->surname;
     //aktif satılan ürün sayısı mağazada bulunan
-    $active_items ="1024";
+    $active_items =count($user->getUrun("all"));
     //toplam satılan ürün sayısı
-    $items_sold ="2048";
-    //aylık satılan ürünlerin toplam fiyatı
-    $monthly_income ="20345";
+    $items_sold =count($user->adminGetOrderCount("",""));
+
     //toplam kullanıcı sayısı
-    $total_users ="512";
+    $total_users = ($user->getUserCount()) ? count($user->getUserCount()) : 0;
     //kullanıcı geri bildiirmleri (iade vs)
-    $tickets_closed="10";
+    $tickets_closed="0";
     //toplam gelir
-    $total_income="100000 ₺";
+    $total_tmp = $user->adminGetOrderCount("","");
+    $total_income = 0;
+    if($total_tmp)
+    {
+        foreach ($total_tmp as $item)
+        {
+            $total_income += $item['urun_fiyat'];
+        }
+    }else
+        {
+            $total_income = 0;
+        }
+
+
+    //Calculate And Set User Monthly and Total İncome
+
+    $monthly_tmp = $user->adminGetOrderCount("", "", true);
+    if($monthly_tmp)
+    {
+        foreach ($monthly_tmp as $item)
+            $monthly_tmp = new DateTime($item['tarih']);
+
+        $monthly_tmp->format("Y-m-d H-i-s");
+
+        $first_time_tmp = new DateTime($user->adminGetFirstLog());
+        $first_time_tmp->format("Y-m-d H-i-s");
+
+        /** @var $difference DateTime */
+        $difference = $monthly_tmp->diff($first_time_tmp);
+        $monthly_tmp = (($difference->y * 12) + $difference->m);
+        $monthly_tmp = ($monthly_tmp > 0) ? $monthly_tmp:1;
+        $monthly_tmp = $total_income / $monthly_tmp;
+
+        $total_income = $total_income." ₺";
+        //aylık satılan ürünlerin toplam fiyatı
+        $monthly_income = $monthly_tmp;
+    }else
+        {
+            $monthly_income = $total_income;
+        }
+
 }
+
+
+if(isset($_POST['add_new_item']))
+{
+    //TODO check Security of Image And Add Category for The İtem. chmod Cant be 0777 img folder and name cant be Exactly Uploaded Name. Hash Them
+    $url_m = "item-list";
+    if(isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']))
+    {
+        if($_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "")
+        {
+            echo "Ürün İsmi, Fiyatı, Adeti veya Kategorisi boş bırakılamaz";
+        }else
+            {
+
+                $item_name = $user->security($_POST['item_name']);
+                $item_desc = $user->security($_POST['item_desc'], "desc");
+                $item_price = $user->security($_POST['item_price']);
+                $item_count = $user->security($_POST['item_count']);
+                $item_category = $user->security($_POST['category']);
+                $item_category += 1;
+
+                $item_img = array();
+                $img_dest = preg_replace('/\s+/', '_', $item_name);
+
+
+
+                $expensions= array("jpeg","jpg","png");
+                $img_counter = 0;
+                for($i = 0; $i<3; $i++) {
+                    if (isset($_FILES['item-image-'.$i])) {
+                        $errors = array();
+                        $file_name = $_FILES['item-image-'.$i]['name'];
+                        $file_size = $_FILES['item-image-'.$i]['size'];
+                        $file_tmp = $_FILES['item-image-'.$i]['tmp_name'];
+                        $tmp = explode('.', $_FILES[('item-image-'.$i)]['name']);
+                        $file_ext = strtolower(end($tmp));
+                        $expensions = array("jpeg", "jpg", "png");
+
+                        if (in_array($file_ext, $expensions) === false) {
+                            array_push($errors, $file_name . " Farklı Uzantılar Kabul Edilemez, Lütfen JPEG yada PNG Dosyası Yükleyin.");
+                        }
+
+                        if ($file_size > 4194304) {
+                            array_push($errors, $file_name . " Dosya Boyutu 4 MB Aşamaz");
+                        }
+
+                        if (empty($errors) == true) {
+                            array_push($item_img, array($file_tmp, $file_name));
+                            //move_uploaded_file($file_tmp, "images/".$file_name);
+                        }
+                    }else
+                        {
+                            $img_counter++;
+                        }
+                }
+                if($img_counter < 3)
+                {
+                    $last_id = $user->adminAddNewItem($item_name, $item_desc, $item_price, $item_count, $item_category);
+                    if($last_id)
+                    {
+                        if (!file_exists("../images/".$img_dest.$last_id)) {
+                            mkdir("../images/".$img_dest.$last_id, 0777, true);
+                        }
+                        foreach ($item_img as $item)
+                        {
+                            move_uploaded_file($item[0], "../images/".$img_dest.$last_id."/".$item[1]);
+                            $add_img = $user->adminAddNewItemImg($last_id, $img_dest, $item[1]);
+                        }
+                        echo "Yeni Ürün Ekleme Başarılı";
+
+                    }else
+                    {
+                        echo "Yeni Ürün Ekleme Başarısız.";
+                    }
+                }else
+                    {
+                        echo "En Az 1 Adet Ürün Görseli Eklemelisiniz.";
+                    }
+
+            }
+    }else
+        {
+            echo "Forma Boş Veri Gönderilemez";
+        }
+
+}
+//TODO Add to Market Boolean is_active And Set this Here!. and Check Variables is Secure?..
+if(isset($_POST['ch_item']))
+{
+    $url_m = "item-list";
+
+    if(isset($_POST['item_id']) && isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']))
+    {
+        if($_POST['item_id'] == "" || $_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "")
+        {
+            echo "Ürün İsmi, Fiyatı, Adeti veya Kategorisi boş bırakılamaz";
+        }else
+        {
+
+            $item_id = $user->security($_POST['item_id']);
+            $item_name = $user->security($_POST['item_name']);
+            $item_desc = $user->security($_POST['item_desc'], "desc");
+            $item_price = $user->security($_POST['item_price']);
+            $item_count = $user->security($_POST['item_count']);
+            $item_category = $user->security($_POST['category']);
+            $item_category += 1;
+
+            $item_img = array();
+            $img_dest = preg_replace('/\s+/', '_', $item_name);
+
+
+
+            $expensions= array("jpeg","jpg","png");
+            $img_counter = 0;
+            for($i = 0; $i<3; $i++) {
+                if (isset($_FILES['item-image-'.$i])) {
+                    $errors = array();
+                    $file_name = $_FILES['item-image-'.$i]['name'];
+                    $file_size = $_FILES['item-image-'.$i]['size'];
+                    $file_tmp = $_FILES['item-image-'.$i]['tmp_name'];
+                    $tmp = explode('.', $_FILES[('item-image-'.$i)]['name']);
+                    $file_ext = strtolower(end($tmp));
+                    $expensions = array("jpeg", "jpg", "png");
+
+                    if (in_array($file_ext, $expensions) === false) {
+                        array_push($errors, $file_name . " Farklı Uzantılar Kabul Edilemez, Lütfen JPEG yada PNG Dosyası Yükleyin.");
+                    }
+
+                    if ($file_size > 4194304) {
+                        array_push($errors, $file_name . " Dosya Boyutu 4 MB Aşamaz");
+                    }
+
+                    if (empty($errors) == true) {
+                        $j = 0;
+                        foreach ($user->getUrunIMG($item_id) as $item) {
+                            if($j == $i)
+                            {
+                                array_push($item_img, array($file_tmp, $file_name, $item['id']));
+                            }
+                            $j++;
+                            //move_uploaded_file($file_tmp, "images/".$file_name);
+                        }
+                        $j = 0;
+                    }
+                }else
+                {
+                    $img_counter++;
+                }
+            }
+            if($img_counter < 3)
+            {
+                $is_ok = $user->adminEditItem($item_id, $item_name, $item_desc, $item_price, $item_count, $item_category);
+                if($is_ok)
+                {
+                    foreach ($item_img as $item)
+                    {
+                        if (!file_exists("../images/".$img_dest.$item_id."/".$item[1])) {
+                            move_uploaded_file($item[0], "../images/".$img_dest.$item_id."/".$item[1]);
+                        }else
+                            {
+
+                            }
+                        $add_img = $user->adminEditItemImg($item_id, $item[2], $img_dest, $item[1]);
+                        //Delete Old Files in Server
+                        $leave_files = array();
+                        $new_files = $user->getUrunIMG($item_id);
+                        foreach ($new_files as $file)
+                        {
+                            $img_name = explode("/", $file['urun_img']);
+                            array_push($leave_files, $img_name[(count($img_name)-1)]);
+                        }
+                        foreach( glob("../images/".$img_dest.$item_id."/"."*") as $file ) {
+                            if( !in_array(basename($file), $leave_files) )
+                                unlink($file);
+                        }
+                        echo "Herşey Yolunda";
+                    }
+                    echo "Ürün Düzenleme Başarılı";
+
+                }else
+                {
+                    echo "Ürün Düzenleme Başarısız.";
+                }
+            }else
+            {
+                echo "En Az 1 Adet Ürün Görseli Eklemelisiniz.";
+            }
+
+        }
+    }else
+    {
+        echo "Forma Boş Veri Gönderilemez";
+    }
+
+
+}
+
+if(isset($_POST['ch_ship']))
+{
+    $url_m = "orders";
+
+    if(isset($_POST['ship_id']) && isset($_POST['ship_shipnumber']))
+    {
+        $ship_id = $user->security($_POST['ship_id']);
+        $ship_number = $user->security($_POST['ship_shipnumber']);
+        $shipment_result = ($ship_number == "0") ? 0:(isset($_POST['is_ship_reject']) ? 2:(isset($_POST['is_ship_ok']) ? 3: 1));
+        $is_ok = $user->adminEditShipInfo($ship_id,$ship_number,$shipment_result);
+        if($is_ok)
+        {
+            echo "Sipariş Bilgisi Güncellendi!";
+        }else
+            {
+                echo "Sipariş Bilgilerini Güncellerken Hata!";
+            }
+    }
+
+}
+
 $urun = $user->adminGetItem("all");
 if($url_m == "home"){
     //home page ürünler kısmı
@@ -124,95 +382,176 @@ if($url_m == "home"){
     //database deki toplam sipariş sayısı
     $orders_full_item ="20";
 
+    $shipping_list_array = array(
+        //0 index ürün görsel linki
+        //1 index ürün title
+        //2 index ürün sipariş id si
+        //3 index sipariş adeti
+        //4 index Fiyat
+        //5 index Kategori
+        //6 index Alıcı
+        //7 index Kargo Numarası
+        //8 index Sipariş Durum
+        //9 index Sipariş Tarih
+    );
+
     $result = $user->adminGetOrderCount(0 , 15);
 
-    //orders page ürünler kısmı
-    //max 15 item
-      $item_list_array_list = array(
-          //0 index ürün görsel linki
-          //1 index ürün title
-          //2 index ürün id si
-          //3 index satılan adet sayısı
-          //4 index Fiyat
-          //5 index Kategori
-      );
-      if($result)
-      {
-
-          for ($i = 0; $i < count($result); $i++)
-          {
-              array_push($item_list_array_list, array());
-
-          }
-          $i = 0;
-
-          foreach ($result as $item)
-          {
-              array_push($item_list_array_list[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
-              $urun = $user->getUrun($item['urun_id']);
-              foreach ($urun as $item1)
-              {
-                  array_push($item_list_array_list[$i], $item1['urun_ad']);
-                  array_push($item_list_array_list[$i], $item1['urun_id']);
-              }
-              array_push($item_list_array_list[$i], $item['urun_adet']);
-              array_push($item_list_array_list[$i], $item['urun_fiyat']);
-              foreach ($urun as $item1)
-              {
-                  array_push($item_list_array_list[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
-              }
-              array_push($item_list_array_list[$i], $item['tarih']);
-              $i++;
-          }
-      }else
-          echo 'Hello';
+    if($result)
+    {
+        $i = 0;
+        foreach ($result as $item)
+        {
+            array_push($shipping_list_array, array());
+            array_push($shipping_list_array[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
+            foreach ($user->getUrun($item['urun_id']) as $item1)
+            {
+                array_push($shipping_list_array[$i], $item1['urun_ad']);
+            }
+            array_push($shipping_list_array[$i], $item['id']);
+            array_push($shipping_list_array[$i], $item['urun_adet']);
+            array_push($shipping_list_array[$i], $item['urun_fiyat']);
+            foreach ($user->getUrun($item['urun_id']) as $item1)
+            {
+                array_push($shipping_list_array[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
+            }
+            foreach ($user->adminFindUser($item['urun_id']) as $item1)
+            {
+                array_push($shipping_list_array[$i], $item1['k_ad']);
+            }
+            array_push($shipping_list_array[$i], $item['kargo_takip_no']);
+            array_push($shipping_list_array[$i], $item['satis_sonuc']);
+            array_push($shipping_list_array[$i], $item['tarih']);
+            $i++;
+        }
+        $i = 0;
+    }else
+        echo 'Cant Find Any Shipping';
 
 }else if($url_m=="item-list"){
    //database deki toplam sipariş sayısı
    $orders_full_item ="20";
 
-   $result = $user->adminGetOrderCount(0 , 15);
+
 
    //orders page ürünler kısmı
    //max 15 item
-     $item_list_array_list = array(
+     $item_list_array = array(
          //0 index ürün görsel linki
          //1 index ürün title
-         //2 index ürün id si
-         //3 index satılan adet sayısı
-         //4 index Fiyat
-         //5 index Kategori
+         //2 index ürün Satıştaki adeti
+         //3 index Fiyat
+         //4 index Kategori
+         //5 index Ürün ID
+         //6 index Satış Tarihi
      );
-     if($result)
-     {
 
-         for ($i = 0; $i < count($result); $i++)
-         {
-             array_push($item_list_array_list, array());
+    $result = $user->getUrun("all");
+    if($result)
+    {
+        $i = 0;
+        foreach ($result as $item)
+        {
+            array_push($item_list_array, array());
+            array_push($item_list_array[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
+            array_push($item_list_array[$i], $item['urun_ad']);
+            array_push($item_list_array[$i], $item['urun_adet']);
+            array_push($item_list_array[$i], $item['urun_fiyat']);
+            foreach ($user->getUrun($item['urun_id']) as $item1)
+            {
+                array_push($item_list_array[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
+            }
+            array_push($item_list_array[$i], $item['urun_id']);
+            array_push($item_list_array[$i], $item['urun_tarih']);
+            $i++;
+        }
+    }
+}else if($url_m=="item-editor")
+{
+    $editor_name = "Ürün Ekle";
+    $editor_itemid = "";
+    $editor_itemname = "";
+    $editor_itemdesc = "";
+    $editor_itemprice = "";
+    $editor_itemcount = "";
+    $editor_itemcat = array();
+    $editor_defaultopt = "";
+    foreach ($user->getUrunKategori("all") as $item)
+    {
+        array_push($editor_itemcat, $item['item_cat_name']);
+    }
+    $editor_itemimg = array("","","");
+    $editor_process = "Ekle";
 
-         }
-         $i = 0;
+    if(isset($_GET['c']))
+    {
 
-         foreach ($result as $item)
-         {
-             array_push($item_list_array_list[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
-             $urun = $user->getUrun($item['urun_id']);
-             foreach ($urun as $item1)
-             {
-                 array_push($item_list_array_list[$i], $item1['urun_ad']);
-                 array_push($item_list_array_list[$i], $item1['urun_id']);
-             }
-             array_push($item_list_array_list[$i], $item['urun_adet']);
-             array_push($item_list_array_list[$i], $item['urun_fiyat']);
-             foreach ($urun as $item1)
-             {
-                 array_push($item_list_array_list[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
-             }
-             array_push($item_list_array_list[$i], $item['tarih']);
-             $i++;
-         }
-     }else
-         echo 'Hello';
+        if(isset($_GET['e']))
+        {
+            if($_GET['e'] == "delete")
+            {
+                $user->adminDeleteItem($user->security($_GET['c']));
+            }
+        }else
+            {
+                $editor_name = "Ürün Düzenle";
+
+                $item_id = $user->security($_GET['c']);
+                $result = $user->getUrun($item_id);
+                foreach ($result as $item)
+                {
+                    $editor_itemid = $item['urun_id'];
+                    $editor_itemname = $item['urun_ad'];
+                    $editor_itemdesc = $item['urun_aciklama'];
+                    $editor_itemprice = $item['urun_fiyat'];
+                    $editor_itemcount = $item['urun_adet'];
+                    foreach ($user->getUrun($editor_itemid) as $item1)
+                    {
+                        $editor_defaultopt = $item1['urun_grup'];
+                    }
+                    $editor_itemimg = array();
+                    $i = 0;
+                    foreach ($user->getUrunIMG($editor_itemid) as $item1)
+                    {
+                        array_push($editor_itemimg, $item1['urun_img']);
+                        $i++;
+                    }
+                    for ($j = $i; $j < 3; $j++)
+                        array_push($editor_itemimg, "");
+                    $editor_process = "Kaydet";
+                }
+            }
+
+    }else if (isset($_GET['c_siparis']))
+    {
+        $editor_name = "Sipariş Düzenle";
+
+        $c_siparis = $user->security($_GET['c_siparis']);
+        $result = $user->adminGetOrderCount("","", '' ,$c_siparis);
+        $editor_ship_id = $c_siparis;
+        foreach ($result as $item) {
+            $editor_itemid = $item['urun_id'];
+            $editor_itemname = "";
+            foreach ($user->getUrun($editor_itemid) as $item1) {
+                $editor_itemname = $item1['urun_ad'];
+            }
+
+            $editor_itemprice = $item['urun_fiyat'];
+            $editor_shipcount = $item['urun_adet'];
+            $editor_itemcat = array();
+            $editor_itemimg = array();
+            $editor_shipnumber = $item['kargo_takip_no'];
+            foreach ($user->getUrunIMG($editor_itemid) as $item1)
+            {
+                array_push($editor_itemimg, $item1['urun_img']);
+            }
+            $editor_process = "Siparişi Güncelle";
+        }
+
+    }else
+        {
+            //Add New İtem
+        }
 }
 
 

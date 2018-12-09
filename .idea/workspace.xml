@@ -2,9 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97b51aeb-5e45-4ea8-87a1-11061892f577" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/css/account.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Taze_Ukraynalı_Kadın9/product-10.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/Taze_Ukraynalı_Kadın9/product-13.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/cilek.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/cream1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/enes.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/gidatakviyesi.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/harnupozu250mlbanner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/havuc.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/php/account/account.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/php/account/my_account.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/php/account/orders.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/php/account/siparis.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/php/checkout/checkout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/php/checkout/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Yeni Metin Belgesi.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/fonts/FontAwesome.otf" beforeDir="false" afterPath="$PROJECT_DIR$/admin/fonts/FontAwesome.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/admin/fonts/fontawesome-webfont.woff2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/login.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/php/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/php/header.php" afterDir="false" />
@@ -15,6 +37,61 @@
       <change beforePath="$PROJECT_DIR$/admin/php/metric/item.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/php/metric/item.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/php/website_metric.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/php/website_metric.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Black.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Black.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-BlackItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-BlackItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Bold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Bold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-BoldItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-BoldItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraBold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraBold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraLight.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraLight.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Italic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Italic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Light.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Light.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-LightItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-LightItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Medium.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Medium.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-MediumItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-MediumItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-SemiBold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-SemiBold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Thin.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-Thin.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ThinItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Montserrat/Montserrat-ThinItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Black.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Black.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-BlackItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-BlackItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-BoldItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-BoldItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Italic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Italic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/PlayfairDisplay/PlayfairDisplay-Regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-Black.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-Black.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-BlackItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-BlackItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-Bold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-Bold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-BoldItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-BoldItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraBold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraBold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraBoldItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraBoldItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraLight.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraLight.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraLightItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-ExtraLightItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-Italic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-Italic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-Light.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-Light.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-LightItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-LightItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-Medium.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-Medium.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-MediumItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-MediumItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-Regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-Regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-SemiBold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-SemiBold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-SemiBoldItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-SemiBoldItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-Thin.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-Thin.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/Poppins/Poppins-ThinItalic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/Poppins/Poppins-ThinItalic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/FontAwesome.otf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/FontAwesome.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.eot" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.woff" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/iconic/fonts/Material-Design-Iconic-Font.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.eot" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.woff" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/linearicons-v1.0.0/WebFont/Linearicons-Free.woff2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/icons/logo-01.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/icons/logo-01.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/images/icons/pin.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/icons/pin.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inc/dbClass.php" beforeDir="false" afterPath="$PROJECT_DIR$/inc/dbClass.php" afterDir="false" />
@@ -24,6 +101,16 @@
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/map-custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/map-custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/FontAwesome.otf" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/FontAwesome.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.eot" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.woff" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/login/fonts/glyphicons-halflings-regular.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/images/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/login/images/Thumbs.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/login/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/m_admin/assets/demo.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/m_admin/assets/features.png" beforeDir="false" />
@@ -77,6 +164,9 @@
       <change beforePath="$PROJECT_DIR$/php/shopping/shopping_card.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/shopping/shopping_card.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/php/sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/sidebar.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/php/slider.php" beforeDir="false" afterPath="$PROJECT_DIR$/php/slider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/slick/fonts/slick.eot" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/slick/fonts/slick.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/slick/fonts/slick.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/slick/fonts/slick.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/slick/fonts/slick.woff" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/slick/fonts/slick.woff" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,66 +175,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.php">
+        <entry file="file://$PROJECT_DIR$/inc/dbClass.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-364">
-              <caret line="270" column="24" selection-start-line="270" selection-start-column="24" selection-end-line="270" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/php/body_script.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1168">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/php/cart.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="23" column="62" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/php/product/product.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="421" column="37" selection-start-line="421" selection-start-column="34" selection-end-line="421" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/php/header.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="78" column="106" selection-start-line="78" selection-start-column="102" selection-end-line="78" selection-end-column="106" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/php/modall.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="194" column="43" lean-forward="true" selection-start-line="194" selection-start-column="43" selection-end-line="194" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/php/shopping/shopping_card.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-746">
-              <caret line="106" column="42" selection-end-line="211" />
+            <state relative-caret-position="512">
+              <caret line="635" column="33" lean-forward="true" selection-start-line="635" selection-start-column="33" selection-end-line="635" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -152,17 +188,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/inc/userClass.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="191" column="38" lean-forward="true" selection-start-line="191" selection-start-column="38" selection-end-line="191" selection-end-column="38" />
-            </state>
+            <state relative-caret-position="-3740" />
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inc/dbClass.php">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/admin/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4224">
-              <caret line="264" column="32" lean-forward="true" selection-start-line="264" selection-start-column="32" selection-end-line="264" selection-end-column="32" />
+            <state relative-caret-position="976">
+              <caret line="344" column="40" selection-start-line="344" selection-start-column="40" selection-end-line="344" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -171,20 +205,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>js-show-modal</find>
-      <find>block2-txt-child1 flex-col-l</find>
-      <find>wrap-m</find>
-      <find>modal</find>
-      <find>overlay-moda</find>
-      <find>overlay</find>
-      <find>p-t-60 p-b-20</find>
-      <find>wrap-modal</find>
-      <find>show-modal1</find>
-      <find>wrap-moda</find>
-      <find>wrap</find>
-      <find>show-moda</find>
-      <find>-modal</find>
-      <find>show-modal</find>
       <find>sepe</find>
       <find>btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m</find>
       <find>&lt;form</find>
@@ -197,10 +217,24 @@
       <find>$item_method_name</find>
       <find>$_GET['search']</find>
       <find>swal</find>
-      <find>id=</find>
       <find>form</find>
       <find>iss</find>
       <find>isset($user_shopping_item)</find>
+      <find>id=</find>
+      <find>setSec</find>
+      <find>set</find>
+      <find>getUserpe</find>
+      <find>side_bar</find>
+      <find>find</find>
+      <find>user</find>
+      <find>getHash</find>
+      <find>getUrunKat</find>
+      <find>adminFindUser</find>
+      <find>$item_list_array_list</find>
+      <find>$item_memthod</find>
+      <find>echo</find>
+      <find>security</find>
+      <find>Cant Get Urun IMG</find>
     </findStrings>
     <replaceStrings>
       <replace>$urun</replace>
@@ -220,24 +254,26 @@
         <option value="D:/Site Repo/market_v0.2/admin/php/website_metric.php" />
         <option value="$PROJECT_DIR$/admin/php/website_metric.php" />
         <option value="$PROJECT_DIR$/php/sidebar.php" />
-        <option value="$PROJECT_DIR$/admin/php/item/siparisler.php" />
         <option value="$PROJECT_DIR$/admin/php/metric/item.php" />
         <option value="$PROJECT_DIR$/php/css/main.css" />
         <option value="$PROJECT_DIR$/css/main.css" />
-        <option value="$PROJECT_DIR$/php/product.php" />
         <option value="G:/web/index.php" />
         <option value="$PROJECT_DIR$/inc/secIP.php" />
         <option value="$PROJECT_DIR$/js/main.js" />
-        <option value="$PROJECT_DIR$/inc/userClass.php" />
-        <option value="$PROJECT_DIR$/inc/dbClass.php" />
-        <option value="$PROJECT_DIR$/php/product/product.php" />
-        <option value="$PROJECT_DIR$/admin/index.php" />
         <option value="$PROJECT_DIR$/php/body_script.php" />
         <option value="$PROJECT_DIR$/php/cart.php" />
+        <option value="$PROJECT_DIR$/php/shopping/shopping_card.php" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/php/header.php" />
+        <option value="$PROJECT_DIR$/admin/php/item/siparisler.php" />
         <option value="$PROJECT_DIR$/php/modall.php" />
-        <option value="$PROJECT_DIR$/php/shopping/shopping_card.php" />
+        <option value="$PROJECT_DIR$/php/product.php" />
+        <option value="$PROJECT_DIR$/php/product/product.php" />
+        <option value="$PROJECT_DIR$/admin/php/item/item_editor.php" />
+        <option value="$PROJECT_DIR$/inc/userClass.php" />
+        <option value="$PROJECT_DIR$/admin/index.php" />
+        <option value="$PROJECT_DIR$/admin/php/item/item_list.php" />
+        <option value="$PROJECT_DIR$/inc/dbClass.php" />
       </list>
     </option>
   </component>
@@ -263,24 +299,25 @@
             <path>
               <item name="htdocs" type="b2602c69:ProjectViewProjectNode" />
               <item name="htdocs" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="htdocs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="htdocs" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
               <item name="php" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="htdocs" type="b2602c69:ProjectViewProjectNode" />
               <item name="htdocs" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
               <item name="php" type="462c0819:PsiDirectoryNode" />
-              <item name="shopping" type="462c0819:PsiDirectoryNode" />
+              <item name="item" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="htdocs" type="b2602c69:ProjectViewProjectNode" />
               <item name="htdocs" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="htdocs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="htdocs" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="sweetalert" type="462c0819:PsiDirectoryNode" />
+              <item name="inc" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -341,18 +378,22 @@
       <workItem from="1543995270580" duration="7144000" />
       <workItem from="1544008562025" duration="7645000" />
       <workItem from="1544024400866" duration="11904000" />
-      <workItem from="1544103064945" duration="17417000" />
+      <workItem from="1544103064945" duration="17636000" />
+      <workItem from="1544166589151" duration="734000" />
+      <workItem from="1544167385237" duration="32806000" />
+      <workItem from="1544271789721" duration="21067000" />
+      <workItem from="1544320339857" duration="1312000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118419000" />
+    <option name="totallyTimeSpent" value="174557000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22844176" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24357034" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -377,142 +418,25 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/php/product/product_detail.php" />
-    <entry file="file://$PROJECT_DIR$/php/back_to_top.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="1" column="3" lean-forward="true" selection-start-line="1" selection-start-column="3" selection-end-line="1" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/modal_4.php" />
     <entry file="file://$PROJECT_DIR$/php/modal_3.php" />
-    <entry file="file://$PROJECT_DIR$/js/map-custom.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/slick-custom.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/jquery/jquery-3.2.1.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="3" column="15171" selection-start-line="3" selection-start-column="15167" selection-end-line="3" selection-end-column="15171" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/jqueryui/jquery-ui.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="12811" column="32" selection-start-line="12811" selection-start-column="27" selection-end-line="12811" selection-end-column="32" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/jqueryui/external/jquery/jquery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/lightbox2/js/lightbox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="n#src#0;n#img#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/MagnificPopup/jquery.magnific-popup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="61" column="6" selection-start-line="61" selection-start-column="6" selection-end-line="61" selection-end-column="6" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/lightbox2/js/lightbox-plus-jquery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="9302" column="48" selection-start-line="9302" selection-start-column="48" selection-end-line="9302" selection-end-column="48" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/slick/slick.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/js/bootstrap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="559" column="17" selection-start-line="559" selection-start-column="17" selection-end-line="559" selection-end-column="17" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/js/tooltip.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/js/popper.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/animsition/js/animsition.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="51" column="38" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="38" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/perfect-scrollbar/perfect-scrollbar.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/js/map-custom.js" />
+    <entry file="file://$PROJECT_DIR$/js/slick-custom.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/jquery/jquery-3.2.1.min.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/jqueryui/jquery-ui.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/jqueryui/external/jquery/jquery.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/lightbox2/js/lightbox.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/MagnificPopup/jquery.magnific-popup.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/lightbox2/js/lightbox-plus-jquery.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/slick/slick.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/js/bootstrap.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/js/tooltip.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/bootstrap/js/popper.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/animsition/js/animsition.js" />
+    <entry file="file://$PROJECT_DIR$/vendor/perfect-scrollbar/perfect-scrollbar.min.js" />
     <entry file="file://$PROJECT_DIR$/php/modal_2.php" />
-    <entry file="file://$PROJECT_DIR$/php/css/util.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="692">
-          <caret line="1901" column="1" lean-forward="true" selection-start-line="1901" selection-start-column="1" selection-end-line="1901" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/util.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/php/css/util.css" />
+    <entry file="file://$PROJECT_DIR$/php/css/main.css" />
+    <entry file="file://$PROJECT_DIR$/css/util.css" />
     <entry file="file://D:/Site Repo/market_v0.2/php/back_to_top.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -533,129 +457,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30464">
-          <caret line="1904" selection-start-line="1904" selection-end-line="1904" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css" />
     <entry file="file://G:/web/index.php" />
-    <entry file="file://$PROJECT_DIR$/inc/secIP.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://F:/değişiklikler/main.js" />
     <entry file="file://F:/değişiklikler/shopping_card.php" />
     <entry file="file://F:/değişiklikler/cart.php" />
-    <entry file="file://$PROJECT_DIR$/js_ema/sepet_add_item.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/js_ema/sepet_add_item.js" />
     <entry file="file://$PROJECT_DIR$/inc/users.php" />
-    <entry file="file://$PROJECT_DIR$/php/product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Site Repo/market_v0.2/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-16" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/admin/php/item/item_list.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-688" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3776">
-          <caret line="267" column="10" lean-forward="true" selection-start-line="267" selection-start-column="10" selection-end-line="267" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/sweetalert/sweetalert.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="1078" selection-start-column="1078" selection-end-column="1078" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/vendor/sweetalert/sweetalert.min.js" />
+    <entry file="file://$PROJECT_DIR$/js/main.js" />
+    <entry file="file://$PROJECT_DIR$/php/body_script.php" />
+    <entry file="file://$PROJECT_DIR$/php/cart.php" />
+    <entry file="file://$PROJECT_DIR$/php/header.php" />
+    <entry file="file://$PROJECT_DIR$/php/sidebar.php" />
+    <entry file="file://$PROJECT_DIR$/php/account/orders.php" />
+    <entry file="file://$PROJECT_DIR$/login/index.php" />
+    <entry file="file://$PROJECT_DIR$/php/shopping/shopping_card.php" />
+    <entry file="file://$PROJECT_DIR$/admin/php/item/siparisler.php" />
+    <entry file="file://$PROJECT_DIR$/php/product.php" />
+    <entry file="file://$PROJECT_DIR$/index.php" />
+    <entry file="file://$PROJECT_DIR$/php/modall.php" />
+    <entry file="file://$PROJECT_DIR$/php/product/product.php" />
+    <entry file="file://$PROJECT_DIR$/inc/secIP.php">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/inc/dbClass.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4224">
-          <caret line="264" column="32" lean-forward="true" selection-start-line="264" selection-start-column="32" selection-end-line="264" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/sidebar.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/product/product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="421" column="37" selection-start-line="421" selection-start-column="34" selection-end-line="421" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/cart.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="23" column="62" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/body_script.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1168">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="78" column="106" selection-start-line="78" selection-start-column="102" selection-end-line="78" selection-end-column="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="199" lean-forward="true" selection-start-line="199" selection-end-line="199" />
+        <state relative-caret-position="512">
+          <caret line="635" column="33" lean-forward="true" selection-start-line="635" selection-start-column="33" selection-end-line="635" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/inc/userClass.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="191" column="38" lean-forward="true" selection-start-line="191" selection-start-column="38" selection-end-line="191" selection-end-column="38" />
-        </state>
+        <state relative-caret-position="-3740" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
+    <entry file="file://$PROJECT_DIR$/admin/php/item/item_list.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-364">
-          <caret line="270" column="24" selection-start-line="270" selection-start-column="24" selection-end-line="270" selection-end-column="24" />
-        </state>
+        <state relative-caret-position="-2064" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/php/modall.php">
+    <entry file="file://$PROJECT_DIR$/admin/php/item/item_editor.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="194" column="43" lean-forward="true" selection-start-line="194" selection-start-column="43" selection-end-line="194" selection-end-column="43" />
-        </state>
+        <state relative-caret-position="-2396" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/php/shopping/shopping_card.php">
+    <entry file="file://$PROJECT_DIR$/admin/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-746">
-          <caret line="106" column="42" selection-end-line="211" />
+        <state relative-caret-position="976">
+          <caret line="344" column="40" selection-start-line="344" selection-start-column="40" selection-end-line="344" selection-end-column="40" />
         </state>
       </provider>
     </entry>

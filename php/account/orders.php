@@ -19,8 +19,8 @@
                             <h3 class="title"> Siparişlerim </h3>
                         </div>
                         <section class="example">
-                            <div class="table-flip-scroll">
-                                <table class="table table-striped table-bordered table-hover flip-content">
+                            <div class="table-flip-scroll" style="overflow: scroll;">
+                                <table class="table table-striped table-bordered table-hover flip-content" >
                                     <thead class="flip-header">
                                     <tr>
                                         <th>Bilgiler</th>
