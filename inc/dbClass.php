@@ -38,7 +38,7 @@
 				//echo 'its ok '.$this->host . ' ' . $this->huser . ' ' . $this->hpass . ' ' . $this->dsn;
 			}catch(PDOException $e)
 			{
-				//echo 'Connection Failed ' . $e->getMessage();
+				echo 'Connection Failed ' . $e->getMessage();
 			}
 		}
 		
@@ -48,13 +48,9 @@
 			$this->connection = false;
 		}
 
-        function security($text, $texttype = "normal")
+        function security($text)
         {
-            if($texttype == "normal")
-                $text = substr($text, 0, 32);
-            else
-                $text = substr($text, 0, 1024);
-
+            $text = substr($text, 0, 32);
             $text = addslashes(htmlspecialchars(strip_tags(htmlentities(trim($text)))));
             return $text;
         }
@@ -202,8 +198,8 @@
                 return $result;
             }else
             {
-                //$error = $this->pdo->errorInfo();
-                //echo 'Cant get the user infos' . $error[2];
+                $error = $this->pdo->errorInfo();
+                echo 'Cant get the user infos' . $error[2];
             }
         }
 		
@@ -219,7 +215,7 @@
 			}catch(PDOException $e)
 			{
 				
-				//echo 'ERROR! '.$e->getMessage();
+				echo 'ERROR! '.$e->getMessage();
 			}
 
 		}
@@ -235,27 +231,11 @@
             }
             else
             {
-                //$error = $this->pdo->errorInfo();
-                //echo 'Cant Get Hash '.$error[2];
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Hash '.$error[2];
             }
 		}
-
-
-		function getUserCount()
-        {
-            $prepare = $this->pdo->prepare("SELECT * FROM m_users");
-            $prepare->execute();
-            if($prepare->rowCount())
-            {
-                $result = $prepare->fetchAll();
-                return $result;
-            }
-            else
-            {
-                //$error = $this->pdo->errorInfo();
-                return false;
-            }
-        }
+		
 
 		function getUrun($id)
         {
@@ -274,43 +254,25 @@
             }
             else
             {
-                //$error = $this->pdo->errorInfo();
-                //echo 'Cant Get Urun '.$error[2];
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Urun '.$error[2];
             }
 
         }
         function getUrunKategori($item_cat_id)
         {
-            if($item_cat_id == "all")
+            $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
             {
-                $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat");
-                $prepare->execute();
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }
-                else
-                {
-                    //$error = $this->pdo->errorInfo();
-                    //echo 'Cant Get Item Category At All'.$error[2];
-                }
-            }else
-                {
-                    $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
-                    $prepare->execute();
-                    if($prepare->rowCount())
-                    {
-                        $result = $prepare->fetchAll();
-                        return $result;
-                    }
-                    else
-                    {
-                        //$error = $this->pdo->errorInfo();
-                        //echo 'Cant Get Item Category'.$error[2];
-                    }
-                }
-
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                $error = $this->pdo->errorInfo();
+                echo 'Cant Get Hash '.$error[2];
+            }
         }
         function getUrunImg($id)
         {
@@ -331,7 +293,8 @@
                 }
                 else
                 {
-                    return false;
+                    $error = $this->pdo->errorInfo();
+                    echo 'Cant Get Urun IMG '.$error[2];
                 }
 
         }
@@ -400,21 +363,6 @@
 
         //Admin Gets His Sold İtem Count İnfo $id = Sold item ID
 
-        function adminGetFirstLog()
-        {
-            $prepare = $this->pdo->prepare("SELECT tarih FROM m_log LIMIT 1");
-            $prepare->execute();
-            if($prepare->rowCount())
-            {
-                $result = $prepare->fetchAll();
-                return $result[0][0];
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         function adminGetItemSoldInfoCount($id)
         {
             $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_order WHERE urun_id = '{$id}'");
@@ -430,237 +378,21 @@
             }
         }
 
-        function adminGetOrderList($limit, $showreq, $dateforcount = false, $order_id = "all")
+        function adminGetOrderList($limit, $showreq)
         {
-            if($dateforcount)
-            {
-                $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2 ORDER BY id DESC LIMIT 1");
-                $prepare->execute();
-
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }else
-                {
-                    return false;
-                }
-            }else
-                {
-                    if($order_id == "all")
-                    {
-                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4");
-                        $prepare->execute();
-
-                        if($prepare->rowCount())
-                        {
-                            $result = $prepare->fetchAll();
-                            return $result;
-                        }else
-                        {
-                            return false;
-                        }
-                    }else
-                        {
-                            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}'");
-                            $prepare->execute();
-
-                            if($prepare->rowCount())
-                            {
-                                $result = $prepare->fetchAll();
-                                return $result;
-                            }else
-                            {
-                                return false;
-                            }
-                        }
-
-                }
-
-        }
-        function adminFindUserFromOrder($order_id)
-        {
-            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE id = '{$order_id}'");
+            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2");
             $prepare->execute();
 
             if($prepare->rowCount())
             {
-                $user_id = "";
-                foreach ($prepare as $item)
-                {
-                    $user_id = $item['k_id'];
-                }
-                $prepare = $this->pdo->prepare("SELECT * FROM m_uinfo WHERE k_id = '{$user_id}'");
-                $prepare->execute();
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }else
-                    {
-                        return false;
-                    }
-
+                $result = $prepare->fetchAll();
+                return $result;
             }else
-            {
-                return false;
-            }
-        }
-
-        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
-        {
-            try
-            {
-                $prepare = $this->pdo->prepare("INSERT INTO m_market(urun_ad, urun_aciklama, urun_details, urun_fiyat, urun_adet, urun_tarih, urun_grup) VALUES(:u_ad, :u_acik, :u_detay, :u_fiyat, :u_adet, :u_tarih, :u_grup)");
-                $adate = date('Y-m-d H-i-s');
-                $prepare->execute(array(
-                    "u_ad" => $urun_ad,
-                    "u_acik" => $urun_desc,
-                    "u_detay" => $urun_desc,
-                    "u_fiyat" => $urun_price,
-                    "u_adet" => $urun_count,
-                    "u_tarih" => $adate,
-                    "u_grup" => $urun_cat
-                ));
-               return $new_id = $this->pdo->lastInsertId();
-
-            }catch (PDOException $e)
-            {
-                return false;
-            }
-        }
-        function adminAddNewItemImg($urun_id, $urun_ad, $urun_img)
-        {
-            try
-            {
-                $prepare = $this->pdo->prepare("INSERT INTO m_marketimg(urun_id, urun_img) VALUES(:u_id, :u_img)");
-                $prepare->execute(array(
-                    "u_id" => $urun_id,
-                    "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img
-                ));
-                return true;
-
-            }catch (PDOException $e)
-            {
-                return false;
-            }
-        }
-        function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
-        {
-            try{
-                $prepare = $this->pdo->prepare("UPDATE m_market SET urun_ad=:u_ad, urun_aciklama=:u_acik, urun_details=:u_detay, urun_fiyat=:u_fiyat, urun_adet=:u_adet, urun_tarih=:u_tarih, urun_grup=:u_grup WHERE urun_id =:u_id");
-                $adate = date('Y-m-d H-i-s');
-                $prepare->execute(array(
-                    "u_ad" => $urun_ad,
-                    "u_acik" => $urun_desc,
-                    "u_detay" => $urun_desc,
-                    "u_fiyat" => $urun_price,
-                    "u_adet" => $urun_count,
-                    "u_tarih" => $adate,
-                    "u_grup" => $urun_cat,
-                    "u_id" => $urun_id
-                ));
-                return true;
-
-            }catch (PDOException $e)
-                {
-                return false;
-                }
-        }
-        function adminEditItemImg($urun_id, $urun_img_id, $urun_ad, $urun_img)
-        {
-            try
-            {
-                $prepare = $this->pdo->prepare("UPDATE m_marketimg SET urun_img=:u_img WHERE urun_id=:u_id AND id=:u_img_id");
-                $prepare->execute(array(
-                    "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img,
-                    "u_id" => $urun_id,
-                    "u_img_id" => $urun_img_id
-                ));
-                return true;
-
-            }catch (PDOException $e)
-            {
-                return false;
-            }
-        }
-
-        function adminEditShipInfo($ship_id, $ship_number, $s_result)
-        {
-            try
-            {
-                $prepare = $this->pdo->prepare("UPDATE m_order SET kargo_takip_no=:s_number, last_op_date=:s_lastch, satis_sonuc=:s_result WHERE id=:s_id");
-                $adate = date('Y-m-d H-i-s');
-                $prepare->execute(array(
-                    "s_number" => $ship_number,
-                    "s_lastch" => $adate,
-                    "s_result" => $s_result,
-                    "s_id" => $ship_id
-                ));
-                return true;
-
-            }catch (PDOException $e)
-            {
-                return false;
-            }
-        }
-
-        function adminDeleteItem($item_id)
-        {
-            try
-            {
-                $prepare = $this->pdo->prepare("DELETE FROM m_market WHERE urun_id=:u_id");
-                $adate = date('Y-m-d H-i-s');
-                $prepare->execute(array(
-                    "u_id" => $item_id
-                ));
-                try
-                {
-                    $item_img = $this->getUrunImg($item_id);
-                    foreach($item_img as $item)
-                    {
-                        $item_img_desc = explode("/", $item[2]);
-                        break;
-                    }
-                    $dirPath = "../".$item_img_desc[0]."/".$item_img_desc[1];
-
-                    $prepare = $this->pdo->prepare("DELETE FROM m_marketimg WHERE urun_id=:u_id");
-                    $adate = date('Y-m-d H-i-s');
-                    $prepare->execute(array(
-                        "u_id" => $item_id
-                    ));
-
-
-                }catch (PDOException $e)
                 {
                     return false;
                 }
-
-
-            }catch (PDOException $e)
-            {
-                return false;
-            }
         }
-
-        public static function deleteDir($dirPath) {
-            if (! is_dir($dirPath)) {
-                throw new InvalidArgumentException("$dirPath must be a directory");
-            }
-            if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
-                $dirPath .= '/';
-            }
-            $files = glob($dirPath . '*', GLOB_MARK);
-            foreach ($files as $file) {
-                if (is_dir($file)) {
-                    self::deleteDir($file);
-                } else {
-                    unlink($file);
-                }
-            }
-            rmdir($dirPath);
-        }
-
+		
 	}
 
 	

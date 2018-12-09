@@ -1,6 +1,5 @@
 <?php
 $point_top = 0;
-
 ?>
 
 <!-- breadcrumb -->
@@ -89,11 +88,29 @@ $point_top = 0;
                     <div class="flex-w flex-t bor12 p-b-13">
 
 
-                        <div class="size-209">
-								<span class="mtext-110 cl2" id="s_sepet_top">
-									<?=$point_top?> ₺
-								</span>
-                        </div>
+                      <table class="size-209">
+                        <tr>
+                        <td>
+                          Ara Toplam
+                        </td>
+                        <td>
+
+                <span class="mtext-110 cl2" id="s_sepet_top">
+                  <?=$point_top - (round(($point_top*(0.18)),2))?> ₺
+                </span>
+
+                        </td>
+                        </tr>
+
+                        <tr>
+                          <td>KDV</td>
+                          <td  id="s_sepetfull_vergi">    <?=round(($point_top*(0.18)),2) ?> ₺   </td>
+                        </tr>
+                        <tr>
+                          <td>KDV DAHİL</td>
+                          <td id="s_sepetfullüst_top">   	<?=$point_top?> ₺ </td>
+                        </tr>
+                      </table>
                     </div>
 
                     <div class="flex-w flex-t bor12 p-t-15 p-b-30">
@@ -110,9 +127,9 @@ $point_top = 0;
 
                         <div class="size-209 p-t-1">
 								<span class="mtext-112 cl2" id="s_sepetfull_top">
-									<?=$point_top?> ₺
+								  	<?=$point_top?> ₺
 								</span>
-                            <span class="mtext-100 cl2" id="s_sepetfull_vergi">  <br>(Vergi Dahil <?=round(($point_top*(0.18)),2) ?> ₺ )</span>
+
                         </div>
                     </div>
 
@@ -132,13 +149,9 @@ $point_top = 0;
     <?php $i = 0; foreach ($user_shopping_item as $item){  ?>
     $('.btn-num-product-down<?=$item[0]?>').on('click', function(){
         var numProduct = Number($(this).next().val());
-
         var id = Number($("#urun_id<?=$item[0]?>").val());
-
         numProduct = numProduct -1;
-
         if(numProduct >= 0) $(this).next().val(numProduct);
-
         if(numProduct == 0)
         {
             $('#s_form').find('#table_row<?=$item[0]?>').empty();
@@ -146,7 +159,6 @@ $point_top = 0;
         $.post("index.php", {"shopping_card_update": "submit", "num_item": numProduct, "urun_id": id}, function (returnData, status) {
             //alert('Status ' + status + ' The server said ' + returnData);
             //$('#form')[0].reset();
-
             var data_notifier = $('<div>');
             data_notifier.load("index.php?m=sepetim #s_form_container", function () {
                 console.log(data_notifier);
@@ -160,6 +172,7 @@ $point_top = 0;
                     $('#s_form').find('#s_top<?=$item[0]?>').html($(this).children(0).find('#s_top<?=$item[0]?>').html());
                     $('#s_form').find('#s_sepet_top').html($(this).children(0).find('#s_sepet_top').html());
                     $('#s_form').find('#s_sepetfull_top').html($(this).children(0).find('#s_sepetfull_top').html());
+                    $('#s_form').find('#s_sepetfullüst_top').html($(this).children(0).find('#s_sepetfull_top').html());
                     $('#s_form').find('#s_sepetfull_vergi').html($(this).children(0).find('#s_sepetfull_vergi').html());
                     var data_notifier = $('<div>');
                     data_notifier.load("index.php #sepet_count", function () {
@@ -167,20 +180,13 @@ $point_top = 0;
                         $('#sepet_count_mobile').attr('data-notify', $(this).children(0).attr('data-notify'));
                     });
                 }
-
             });
-
         });
-
-
-
     });
-
     $('.btn-num-product-up<?=$item[0]?>').on('click', function(){
         var numProduct = Number($(this).prev().val());
         var id = Number($("#urun_id<?=$item[0]?>").val());
         numProduct +=1;
-
         $(this).prev().val(numProduct);
         $.post("index.php", {"shopping_card_update": "submit", "num_item": numProduct, "urun_id": id}, function (returnData, status) {
             //alert('Status ' + status + ' The server said ' + returnData);
@@ -198,15 +204,11 @@ $point_top = 0;
                         $('#s_form').find('#s_top<?=$item[0]?>').html($(this).children(0).find('#s_top<?=$item[0]?>').html());
                         $('#s_form').find('#s_sepet_top').html($(this).children(0).find('#s_sepet_top').html());
                         $('#s_form').find('#s_sepetfull_top').html($(this).children(0).find('#s_sepetfull_top').html());
+                        $('#s_form').find('#s_sepetfullüst_top').html($(this).children(0).find('#s_sepetfull_top').html());
                         $('#s_form').find('#s_sepetfull_vergi').html($(this).children(0).find('#s_sepetfull_vergi').html());
                     }
-
             });
         });
-
     });
     <?php $i++; } $i=0; ?>
-
 </script>
-
-
