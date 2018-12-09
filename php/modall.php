@@ -26,9 +26,16 @@ $i = 0;
 foreach ($modal_item as $item) {
 
     array_push($popup_img_link, array());
-    foreach ($db->getUrunImg($item['urun_id']) as $item2) {
-        array_push($popup_img_link[$i], $item2['urun_img']);
-    }
+    if($db->getUrunImg($item['urun_id']))
+    {
+        foreach ($db->getUrunImg($item['urun_id']) as $item2) {
+            array_push($popup_img_link[$i], $item2['urun_img']);
+        }
+    }else
+        {
+
+        }
+
     $product_title[$i] = $item['urun_ad'];
     $product_price[$i] = $item['urun_fiyat'] . " ₺";
     $product_description[$i] = $item['urun_aciklama'];
@@ -195,6 +202,7 @@ $i = 0;
             var data_notifier = $('<div>');
             data_notifier.load("index.php #sepet_count", function () {
                 $('#sepet_count').attr('data-notify', $(this).children(0).attr('data-notify'));
+                $('#sepet_count_mobile').attr('data-notify', $(this).children(0).attr('data-notify'));
             });
 
         })

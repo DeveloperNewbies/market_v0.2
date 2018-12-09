@@ -61,6 +61,7 @@ include('dbClass.php');
 			if($this->isLogged())
 			{
                 $this->getUserInfos($nuname, $nupass);
+
                 $this->permission = $this->db->getUserPermission($this->id);
 
             }
@@ -83,9 +84,9 @@ include('dbClass.php');
 			return $result;
 		}
 		
-		function security($text)
+		function security($text, $texttype = "normal")
 		{
-			return $this->db->security($text);
+			return $this->db->security($text, $texttype);
 		}
 		
 		
@@ -168,7 +169,7 @@ include('dbClass.php');
 			return $this->id;
 		}
 		
-		
+
 		function showUserInfo()
 		{
 			echo ' Kullanıcı: ' . $this->username;
@@ -176,6 +177,11 @@ include('dbClass.php');
 			echo ' Tarih: ' . $this->udate;
 		}
 
+
+		function getUserCount()
+        {
+            return $this->db->getUserCount();
+        }
 
         function getPermission()
         {
@@ -206,6 +212,10 @@ include('dbClass.php');
 		 * $permission > 1
 		 * Admin Privileges Granted
 		 * */
+		function adminGetFirstLog()
+        {
+            return $this->db->adminGetFirstLog();
+        }
         function adminGetItem($id)
         {
             return $this->db->getUrun($id);
@@ -214,9 +224,41 @@ include('dbClass.php');
         {
             return $this->db->adminGetItemSoldInfoCount($id);
         }
-        function adminGetOrderCount($limit, $showrequest)
+        function adminGetOrderCount($limit, $showrequest, $dateforcount = false, $order_id = "all")
         {
-            return $this->db->adminGetOrderList($limit, $showrequest);
+            return $this->db->adminGetOrderList($limit, $showrequest, $dateforcount, $order_id);
         }
+        function adminFindUser($id)
+        {
+            return $this->db->adminFindUserFromOrder($id);
+        }
+
+//Admin İtem Functions..
+        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
+        {
+            return $this->db->adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat);
+        }
+        function adminAddNewItemImg($urun_id, $urun_ad, $urun_img)
+        {
+            return $this->db->adminAddNewItemImg($urun_id, $urun_ad, $urun_img);
+        }
+        function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
+        {
+            return $this->db->adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat);
+        }
+        function adminEditItemImg($urun_id, $urun_img_id,$urun_ad, $urun_img)
+        {
+            return $this->db->adminEditItemImg($urun_id, $urun_img_id, $urun_ad, $urun_img);
+        }
+        function adminEditShipInfo($ship_id, $ship_number, $s_result)
+        {
+            return $this->db->adminEditShipInfo($ship_id, $ship_number, $s_result);
+        }
+
+        function adminDeleteItem($item_id)
+        {
+            return $this->db->adminDeleteItem($item_id);
+        }
+
 	}
 ?>

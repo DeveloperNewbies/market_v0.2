@@ -23,83 +23,90 @@ $user = new user();
        $urun = $db->getUrun($id);
 
        $des_detail = "";
+        if($urun)
+        {
+            foreach ($urun as $result)
+            {
+                $product_title =$result['urun_ad'];
 
-       foreach ($urun as $result)
-       {
-           $product_title =$result['urun_ad'];
+                $product_price =$result['urun_fiyat'];
 
-           $product_price =$result['urun_fiyat'];
+                $product_description =$result['urun_aciklama'];
 
-           $product_description =$result['urun_aciklama'];
+                $des_detail = $result['urun_details'];
+            }
 
-           $des_detail = $result['urun_details'];
-       }
+            //Urun resimleri çekiliyor
+            $urun = $db->getUrunImg($id);
 
-        //Urun resimleri çekiliyor
-       $urun = $db->getUrunImg($id);
-
-       $product_image_link = array();
-       foreach ($urun as $result)
-       {
-            array_push($product_image_link, $result['urun_img']);
-       }
-       //yorum sayısı
-       $related = 0;
+            $product_image_link = array();
+            foreach ($urun as $result)
+            {
+                array_push($product_image_link, $result['urun_img']);
+            }
+            //yorum sayısı
+            $related = 0;
 
 
-       //first option title
-       //second option argument array
-       $option = array();
-       $urun = $db->getCategory($id);
-       $cat = "";
-       if($urun != false)
-       {
-           for($i = 0; $i < count($urun); $i++)
-           {
-                if($cat != $urun[$i][2])
+            //first option title
+            //second option argument array
+            $option = array();
+            $urun = $db->getCategory($id);
+            $cat = "";
+            if($urun != false)
+            {
+                for($i = 0; $i < count($urun); $i++)
                 {
-                    array_push($option, $urun[$i][2]);
-                    $cat = $urun[$i][2];
+                    if($cat != $urun[$i][2])
+                    {
+                        array_push($option, $urun[$i][2]);
+                        $cat = $urun[$i][2];
+                    }
                 }
-           }
-           for ($i = 0; $i < count($option); $i++)
-           {
-               $option_{$option[$i]} = array();
-           }
-           for($i = 0; $i < count($option); $i++)
-           {
-               for($j = 0; $j < count($urun); $j++)
-               {
-                   if($option[$i] == $urun[$j][2])
-                   {
-                       array_push($option_{$option[$i]}, $urun[$j][3]);
-                   }
-               }
+                for ($i = 0; $i < count($option); $i++)
+                {
+                    $option_{$option[$i]} = array();
+                }
+                for($i = 0; $i < count($option); $i++)
+                {
+                    for($j = 0; $j < count($urun); $j++)
+                    {
+                        if($option[$i] == $urun[$j][2])
+                        {
+                            array_push($option_{$option[$i]}, $urun[$j][3]);
+                        }
+                    }
 
-           }
-       }
-
+                }
+            }
 
 
 
-       $urun = $db->getUrunInfo($id);
-       //urun infos
-       $urun_info = array();
-       $urun_infocontent = array();
 
-       if($urun != false)
-           foreach ($urun as $item)
-           {
-               array_push($urun_info, $item['urun_info']);
-               array_push($urun_infocontent, $item['urun_infocont']);
+            $urun = $db->getUrunInfo($id);
+            //urun infos
+            $urun_info = array();
+            $urun_infocontent = array();
 
-           }
-       else
-           {
-               array_push($urun_info, "");
-               array_push($urun_infocontent, "Ürün özelliği belirtilmedi");
-           }
+            if($urun != false)
+                foreach ($urun as $item)
+                {
+                    array_push($urun_info, $item['urun_info']);
+                    array_push($urun_infocontent, $item['urun_infocont']);
 
+                }
+            else
+            {
+                array_push($urun_info, "");
+                array_push($urun_infocontent, "Ürün özelliği belirtilmedi");
+            }
+
+
+        }else
+            {
+                echo "Ürün Bulunamadı";
+                return;
+            }
 
        ?>
        <!-- Product Detail -->
@@ -199,9 +206,9 @@ $user = new user();
                                            </div>
                                        </div>
                                        <input type="hidden" id="urun_id" name="urun_id" value="<?=$id?>">
-                                       <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " style="margin-bottom:20px;" type="submit" name="urun_ekle" value="Sepete Ekle">
+                                       <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="Sepete Ekle">
 
-                                      <input class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" value="Alışverişe Devam Et" >
+
                                    </div>
 
                                </div>
@@ -496,3 +503,4 @@ $user = new user();
 
 
 <?php } ?>
+

@@ -5,8 +5,106 @@
  * Date: 6.12.2018
  * Time: 19:05
  */
+$user_account_update_pass_alert = "re";
 
     $re_pas = (isset($_GET["reload"])) ? $_GET["reload"] : "home";
+
+
+    //user about update
+     if(isset($_POST["control"]) )
+         switch ($_POST["control"]) {
+             case "account":
+                 if ( isset( $_POST["password"] ) ) {
+                     if ( hash ( "sha256" , $user->security ( $_POST["password"] ) ) == $_SESSION["security_pass"] ) {
+                         if ( isset( $_POST["name"] ) )
+                             $name = $user->security ( $_POST["name"] );
+                         if ( isset( $_POST["surname"] ) )
+                             $surname = $user->security ( $_POST["surname"] );
+                         if ( isset( $_POST["email"] ) )
+                             $user_email = $user->security ( $_POST["email"] );
+                         if ( isset( $_POST["address"] ) )
+                             $user_adres = $user->security ( $_POST["address"] );
+                         ///////////////////////////
+                         //database user data update
+                         //name $name
+                         //surname $surname
+                         //email  $user_email
+                         //adres $user_adres
+                         //işlem başarılı ise $user_account_update_pass_alert = "false";
+                         //yap
+
+                         //demo
+                         $user_account_update_pass_alert = "false";
+
+
+
+
+
+
+                     } else  $user_account_update_pass_alert = "true";
+                 } else $user_account_update_pass_alert = "true";
+              break;
+             case "re-pass":
+                 if ( isset( $_POST["password"] ) ) {
+                     if ( hash ( "sha256" , $user->security ( $_POST["password"] ) ) == $_SESSION["security_pass"] ) {
+                         if ( isset( $_POST["email"] ) ){
+                             if(hash ("sha256",$user->security ($_POST["email"])) == $_SESSION["security_username"]){
+                                 if ( isset( $_POST["new-password"] ) )
+                                     $new_pass = $user->security ( $_POST["new-password"] );
+                                 if ( isset( $_POST["new-password-r"] ) )
+                                     $new_pass_r = $user->security ( $_POST["new-password-r"] );
+                                 if($new_pass == $new_pass_r){
+                                     ///////////////////////////
+                                     //database user data update password
+                                     //new password $new_pass
+                                     //işlem başarılı ise $user_account_update_pass_alert = "false";
+                                     //yap
+
+
+                                     //demo
+                                     $user_account_update_pass_alert = "false";
+
+
+
+
+
+
+
+                                 }else $user_account_update_pass_alert = "true";
+                             }else $user_account_update_pass_alert = "true";
+                         }else $user_account_update_pass_alert = "true";
+                     } else  $user_account_update_pass_alert = "true";
+                 } else $user_account_update_pass_alert = "true";
+                 break;
+             case "re-adres":
+                 $adres = "";
+                 $second_adres ="";
+                 if(isset($_POST["adres"]) && $_POST["adres"] !=""){
+                     $adres = $user->security ($_POST["adres"]);
+                     if(isset($_POST["second-address"]))
+                         $second_adres = $user->security ($_POST["second-address"]);
+
+                     //user database update new adres
+                     //işlem başarılı ise $user_account_update_pass_alert = "false";
+                     //yap
+                     //first adres $adres
+                     //second adres $second adres
+
+                     //demo
+                     $user_account_update_pass_alert = "false";
+
+
+                 }else $user_account_update_pass_alert = "true";
+                 break;
+         default:
+             echo "<h1>Hata</h1>";
+             break;
+     }
+
+
+
+
+
 
 switch ($re_pas){
     case "home":
@@ -15,8 +113,8 @@ switch ($re_pas){
             <div class="list-group-item list-group-item-action active">
                 Ad soyad: <?=$user_about[0]?>
             </div>
-            <div  class="list-group-item list-group-item-action"> E-mail: <?=$user_about[1]?></div>
-            <div  class="list-group-item list-group-item-action">Adres: <?=$user_about[2]?> </div>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> E-mail: <?=$user_about[1]?></div>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;">Adres: <?=$user_about[2]?> </div>
             <div  class="list-group-item list-group-item-action">
                 <button type="submit" class="btn btn-primary">
                     <a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=update"?>">Hesabımı Güncelle</a>
@@ -30,25 +128,39 @@ switch ($re_pas){
     case "update":
         ?>
         <div style="margin:3%;">
-            <form action="index.php" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=update" method="post">
+                <?php if($user_account_update_pass_alert == "true"){ ?>
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4"><h3 class="alert">Parolanız hatalı</h3> </label>
+                    </div>
+                <?php }else if ($user_account_update_pass_alert == "false"){?>
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4"><h3 class="alert">Hesap bilgileri güncellendi</h3> </label>
+                    </div>
+                <?php  } ?>
+                <div class="form-group ">
+                    <label for="inputEmail4">Parolanızı giriniz:</label>
+                    <input type="text" class="form-control" id="name" name="password" placeholder="Parola">
+                </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Ad</label>
-                        <input type="text" class="form-control" id="name" placeholder="Ad">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Ad">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPassword4">Soyad</label>
-                        <input type="text" class="form-control" id="surname" placeholder="Soyad">
+                        <input type="text" class="form-control" id="surname" name="surname" placeholder="Soyad">
                     </div>
                 </div>
                 <div class="form-group ">
                     <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                 </div>
                 <div class="form-group">
                     <label for="inputAddress">Addres</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Adres bilginizi giriniz">
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Adres bilginizi giriniz">
                 </div>
+                <input type="hidden" name="control" value="account" >
                 <button type="submit" class="btn btn-primary">Hesabımı Güncelle</button>
                 <button class="btn btn-primary"><a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>">Şifremi Değiştir</a> </button>
             </form>
@@ -59,23 +171,31 @@ switch ($re_pas){
     case "re-password":
         ?>
         <div style="margin:3%;">
-            <form action="index.php" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=re-password" method="post">
+            <div class="form-group">
+                <?php if($user_account_update_pass_alert == "true"){ ?>
+                        <label for="inputEmail4"><h3 class="alert">Parolanız veya E-postanız hatalı</h3> </label>
+                <?php }else if($user_account_update_pass_alert == "false"){?>
+                    <label for="inputEmail4"><h3 class="alert">Parolanız Değiştirildi</h3> </label>
+                <?php }?>
+            </div>
                 <div class="form-group ">
                     <label for="inputEmail4">Eski parola</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="Eski parola">
+                    <input type="text" class="form-control" id="inputAddress" name="password" placeholder="Eski parola">
                 </div>
                 <div class="form-group">
                     <label for="inputAddress">Email</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Email">
+                    <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email">
                 </div>
                 <div class="form-group">
                     <label for="inputAddress">Yeni parola</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Yeni Parola">
+                    <input type="text" class="form-control" id="inputAddress" name="new-password" placeholder="Yeni Parola">
                 </div>
                 <div class="form-group">
                     <label for="inputAddress">Yeni parola tekrar</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Yeni parola tekrar">
+                    <input type="text" class="form-control" id="inputAddress" name="new-password-r" placeholder="Yeni parola tekrar">
                 </div>
+                <input type="hidden" name="control" value="re-pass">
                 <button type="submit" class="btn btn-primary" >Şifremi Değiştir</button>
             </form>
         </div>
@@ -85,31 +205,42 @@ switch ($re_pas){
     case "adres":
         ?>
         <div class="container">
-            <div class="list-group-item list-group-item-action active">
+            <div class="list-group-item list-group-item-action active" style="overflow: scroll;">
                 Adres :<br><?=$user_about[2]?>
             </div>
-            <div  class="list-group-item list-group-item-action"> Diğer adresim:<br> <?=$user_about[2]?></div>
-            <button class="btn btn-primary"><a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-adres"?>">Adresi Güncelle</a> </button>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> Diğer adresim:<br> <?=$user_about[3]?></div>
+            <button class="btn btn-primary" style="margin: 10px;"><a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-adres"?>">Adresi Güncelle</a> </button>
         </div>
         <?php
         break;
     case "re-adres":
         ?>
         <div style="margin:3%;" class="container">
-            <form action="index.php" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=re-adres" method="post">
+                <?php if($user_account_update_pass_alert == "true"){ ?>
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4"><h3 class="alert">Adres değiştirilemedi</h3> </label>
+                    </div>
+                <?php }else if($user_account_update_pass_alert == "false"){?>
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4"><h3 class="alert">Adres değiştirildi</h3> </label>
+                    </div>
+
+                <?php } ?>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Adres: </label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="adresHelp" placeholder="Adres">
+                    <input type="text" class="form-control" id="InputAdress" name="adres" aria-describedby="adresHelp" placeholder="Adres">
                     <small id="adresHelp" class="form-text text-muted">Asıl adres kısmı boş bırakılamaz.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Diğer adres: </label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Diğer adres">
+                    <input type="text" class="form-control" id="InputAdress" name="second-address" placeholder="Diğer adres">
                 </div>
+                <input type="hidden" name="control" value="re-adres" >
                 <button type="submit" class="btn btn-primary">Güncelle</button>
             </form>
         </div>
-<?php
+      <?php
         break;
     default:
         echo "Hata";

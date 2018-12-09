@@ -107,7 +107,7 @@ if(isset($_GET["search"])){
             </div>
 
             <div class="flex-c-m h-full p-lr-10 bor5">
-                <div id="project-sepet" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="<?php echo (count($user_shopping_item) > 0) ? count($user_shopping_item) : "0"?>">
+                <div id="sepet_count_mobile" class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart" data-notify="<?php echo (count($user_shopping_item) > 0) ? count($user_shopping_item) : "0"?>">
                     <i class="zmdi zmdi-shopping-cart"></i>
                 </div>
             </div>
@@ -141,7 +141,18 @@ if(isset($_GET["search"])){
                 <a href="<?=$header_sepetim?>" class="label1 rs1" data-label1="hot"><?=$header_url[2]?></a>
             </li>
 
-
+            <?php if($islogged){ ?>
+            <li>
+                <a href="<?=$side_bar_hesabım?>">Hesabım</a>
+            </li>
+            <li>
+                <a href="<?=$side_bar_cikis?>">Çıkış Yap</a>
+            </li>
+            <?php }else{ ?>
+            <li>
+                <a href="<?=$side_bar_giris?>">Giriş Yap</a>
+            </li>
+            <?php } ?>
 
             <li>
                 <a href="<?=$header_about?>"><?=$header_url[3]?></a>
