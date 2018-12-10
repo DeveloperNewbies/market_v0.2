@@ -54,15 +54,23 @@ $point_top = 0;
 
                                         <div class="btn-num-product-up<?=$result[0]?> btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
+
                                         </div>
+
                                         <input type="hidden" id="urun_id<?=$result[0]?>" name="urun_id" value="<?=$result[0]?>">
+
                                     </div>
+
                                 </td>
                                 <td class="column-5" id="s_top<?=$result[0]?>"> <?php
                                     echo floatval($result[3])*intval($result[4]);
                                     $point_top += floatval($result[3])*intval($result[4]);
-                                    ?> ₺ </td>
+                                    ?> ₺
+                                      <button onclick="refreshPage()" type="button" class="refreshbutton<?=$result[0]?>"> <i class="fa fa-trash"></i> </button>
+
+
                             </tr>
+
                             <?php } }else   echo "sepetiniz boş"; ?>
 
                         </table>
@@ -134,7 +142,7 @@ $point_top = 0;
                     </div>
 
                     <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                        <a href="<?=$home_url."/checkout.php"?>"> Alışverişi Tamamla</a>
+                        Alışverişi Tamamla
                     </button>
 
                 </div>
@@ -154,7 +162,11 @@ $point_top = 0;
         if(numProduct >= 0) $(this).next().val(numProduct);
         if(numProduct == 0)
         {
-            $('#s_form').find('#table_row<?=$item[0]?>').empty();
+
+          function refreshPage(){
+            location.reload();
+          }
+          refreshPage()
         }
         $.post("index.php", {"shopping_card_update": "submit", "num_item": numProduct, "urun_id": id}, function (returnData, status) {
             //alert('Status ' + status + ' The server said ' + returnData);
@@ -165,6 +177,8 @@ $point_top = 0;
                 if($(this).children(0).find('#s_count<?=$item[0]?>').val() == 0)
                 {
                     $('#s_form').find('#table_row<?=$item[0]?>').empty();
+
+
                 }else
                 {
                     $('#s_form').find('#s_price<?=$item[0]?>').html($(this).children(0).find('#s_price<?=$item[0]?>').html());
@@ -210,5 +224,19 @@ $point_top = 0;
             });
         });
     });
+
+
+    $('.refreshbutton<?=$item[0]?>').on('click', function(){
+        var id = Number($("#urun_id<?=$item[0]?>").val());
+      $.post("index.php", {"shopping_card_update": "submit", "num_item": 0, "urun_id": id}, function (returnData, status) {
+
+        function refreshPage(){
+          location.reload();
+        }
+        refreshPage()
+      });
+    })
+
     <?php $i++; } $i=0; ?>
+
 </script>
