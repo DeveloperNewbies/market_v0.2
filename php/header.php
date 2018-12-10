@@ -3,8 +3,7 @@
  * Date: 28.11.2018
  * Time: 11:58
  */
-
-
+ob_start();
 function header_focus($m){
     if(isset($_GET["m"])){
         $url_m = $_GET["m"];
@@ -18,7 +17,6 @@ function header_focus($m){
 if(isset($_GET["search"])){
     $url_m = "magaza";
 }
-
 ?>
 <!-- Header -->
 <header class="header-v2">
@@ -43,13 +41,12 @@ if(isset($_GET["search"])){
                         </li>
 
 
-                        <li <?php if(header_focus ("magaza") === true){
-                            ?> class="active-menu" <?php } ?>>
+                        <li <?php if(header_focus ("magaza") === true){ ?> class="active-menu" <?php } ?>>
                             <a href="<?=$header_magaza?>"><?=$header_url[1]?></a>
                         </li>
 
-                        <li <?php if(header_focus ("sepetim")=== true){
-                            ?> class="active-menu " <?php }?> >
+                        <li <?php if(header_focus ("sepetim") === true){
+                            ?> class="active-menu " <?php } ?> >
                             <a href="<?=$header_sepetim?>"><?=$header_url[2]?></a>
                         </li>
 

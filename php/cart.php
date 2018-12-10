@@ -6,6 +6,7 @@
  * Time: 12:02
  */
  $sepet_item_toplam = 0;
+ $sepet_item_kdv = 0;
 ?>
 
 <!-- Cart -->
@@ -44,8 +45,8 @@
                         </a>
 
                         <span class="header-cart-item-info">
-                          <?=$result[3]?>₺ x <?=$result[4]?>
-                                      <?php  $sepet_item_toplam +=($result[3]*$result[4])?>
+                          <?=$result[3]?>₺ x <?=$result[5]?>
+                                      <?php  $sepet_item_toplam +=($result[3]*$result[5]);?>
 							</span>
                     </div>
                     <div class="p-0"></div>
@@ -55,7 +56,9 @@
                     </form>
                 </li>
 
-                      <?php } ?>
+                      <?php
+                        $sepet_item_kdv += round((($result[3]*$result[5])/(1+($result[4]/100)))*($result[4]/100), 2);
+                } ?>
                       <div class="flex-w flex-t p-t-27 p-b-33">
                           <div class="size-208">
                   <span class="mtext-101 cl2">
@@ -67,7 +70,7 @@
                   <span class="mtext-112 cl2" id="s_sepetfull_top">
                      <?= $sepet_item_toplam ?> ₺
                   </span>
-                               <span class="mtext-100 cl2" id="s_sepetfull_vergi"> <br> (KDV <?= $sepet_item_toplam-round($sepet_item_toplam/1.18,2) ?>  ₺ )</span>
+                               <span class="mtext-100 cl2" id="s_sepetfull_vergi"> <br> (KDV <?= $sepet_item_kdv ?>  ₺ )</span>
                           </div>
                       </div>
                 <form action="index.php" method="post">

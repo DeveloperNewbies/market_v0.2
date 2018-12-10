@@ -5,12 +5,20 @@
  */
 
 
-    $user_about = array(
-    "Enes Budak",
-    "mehmet_tuna_anadolu@hotmail.com ",
-    "Adres ",
-    "adres 2"
-);
+    if($islogged)
+    {
+        $user_about = array(
+            //0 eposta,
+            //1 ad,
+            //2 soyad,
+            //3 tel,
+            //4 adres1,
+            //5 adres2
+        );
+        foreach ($user->getUserInfosOut() as $item)
+        {
+            array_push($user_about, $item);
+        }
 
 //Teslimat durumu
 //Ürün görseli
@@ -19,11 +27,34 @@
 //Ürün açıklaması
 //Toplam fiyat
 //Tarih
-$sipraisler = array(
-    0=>array("1","Teslim edilmedi","/images/harnup/harnupozu250ml.png","12345","Harnup özü","234","23 Ocak 2018","213523","teslim ed adres"),
-    1=>array("1","Teslim edilmedi","/images/harnup/harnupozu250ml.png","12345","Harnup özü","234","23 Ocak 2018","216723"),
-    2=>array("3","Teslim edilmedi","/images/harnup/harnupozu250ml.png","12345","Harnup özü","234","23 Ocak 2018","217923"),
+
+$siparisler = array(
+    //0=>array("1","Teslim edilmedi","/images/harnup/harnupozu250ml.png","12345","Harnup özü","234","23 Ocak 2018","213523","teslim ed adres"),
+    //1=>array("1","Teslim edilmedi","/images/harnup/harnupozu250ml.png","12345","Harnup özü","234","23 Ocak 2018","216723"),
+    //2=>array("3","Teslim edilmedi","/images/harnup/harnupozu250ml.png","12345","Harnup özü","234","23 Ocak 2018","217923"),
 );
+        if($user->getSiparis($user->getID()))
+        {
+            foreach ($user->getSiparis($user->getID()) as $siparis)
+            {
+                $siparis_tmp = array();
+                array_push($siparis_tmp, $siparis['urun_id']);
+                array_push($siparis_tmp, ($siparis['satis_sonuc'] > 0) ? (($siparis['satis_sonuc'] > 1) ? (($siparis['satis_sonuc'] > 2) ? "Sipariş Tamamlandı!":"Sipariş İadesi Bekleniyor") : "Sipariş Kargoda") : "Kargo Bilgisi Bekleniyor");
+                array_push($siparis_tmp, "../".$user->getUrunIMG($siparis['urun_id'])[0][2]);
+                array_push($siparis_tmp, $siparis['id']);
+                array_push($siparis_tmp, $user->getUrun($siparis['urun_id'])[0][1]);
+                array_push($siparis_tmp, $siparis['urun_fiyat']);
+                array_push($siparis_tmp, $siparis['urun_adet']);
+                array_push($siparis_tmp, $siparis['s_adres']);
+                array_push($siparis_tmp, $siparis['tarih']);
+                array_push($siparis_tmp, $siparis['last_op_date']);
+                array_push($siparis_tmp, ($siparis['kargo_takip_no'] == 0)? "-":$siparis['kargo_takip_no']);
+                array_push($siparisler, $siparis_tmp);
+            }
+        }else
+            {
+
+            }
 
 $account_url = isset($_GET["account"]) ? $_GET["account"] : "hesabim";
 
@@ -84,3 +115,6 @@ $account_url = isset($_GET["account"]) ? $_GET["account"] : "hesabim";
 
 </div>
 
+<?php }else{
+        header("Refresh: 0; url=http://".$realip."/");
+    } ?>

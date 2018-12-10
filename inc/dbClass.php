@@ -196,8 +196,10 @@
                         $result = $item['k_soyad'];
                     else if($spec == "tel")
                         $result = $item['k_tel'];
-                    else if($spec = "adres")
+                    else if($spec == "adres")
                         $result = $item['k_adresi'];
+                    else if($spec == "adres2")
+                        $result = $item['k_adresi2'];
                     else
                         $result = false;
                 }
@@ -258,6 +260,27 @@
                 return false;
             }
         }
+
+        function updateUserAdress($u_id ,$adres, $adres2)
+        {
+            $prepare = $this->pdo->prepare("UPDATE m_uinfo SET k_adresi=:adres, k_adresi2=:adres2 WHERE k_id=:u_id");
+            $prepare->execute(array(
+                "adres" => $adres,
+                "adres2" => $adres2,
+                "u_id" => $u_id
+            ));
+            if($prepare->rowCount())
+            {
+                return true;
+            }
+            else
+            {
+                //$error = $this->pdo->errorInfo();
+                return false;
+            }
+        }
+
+
 
 		function getUrun($id)
         {
@@ -394,6 +417,21 @@
             }
         }
 
+        function userGetOrder($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE k_id ='{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /*
          * db For Admin Panel
          *
@@ -451,7 +489,7 @@
                 {
                     if($order_id == "all")
                     {
-                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4");
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 ORDER BY id DESC");
                         $prepare->execute();
 
                         if($prepare->rowCount())
@@ -509,17 +547,18 @@
             }
         }
 
-        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
+        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
             try
             {
-                $prepare = $this->pdo->prepare("INSERT INTO m_market(urun_ad, urun_aciklama, urun_details, urun_fiyat, urun_adet, urun_tarih, urun_grup) VALUES(:u_ad, :u_acik, :u_detay, :u_fiyat, :u_adet, :u_tarih, :u_grup)");
+                $prepare = $this->pdo->prepare("INSERT INTO m_market(urun_ad, urun_aciklama, urun_details, urun_fiyat, urun_kdv, urun_adet, urun_tarih, urun_grup) VALUES(:u_ad, :u_acik, :u_detay, :u_fiyat, :u_kdv, :u_adet, :u_tarih, :u_grup)");
                 $adate = date('Y-m-d H-i-s');
                 $prepare->execute(array(
                     "u_ad" => $urun_ad,
                     "u_acik" => $urun_desc,
                     "u_detay" => $urun_desc,
                     "u_fiyat" => $urun_price,
+                    "u_kdv" => $urun_kdv,
                     "u_adet" => $urun_count,
                     "u_tarih" => $adate,
                     "u_grup" => $urun_cat
@@ -547,16 +586,17 @@
                 return false;
             }
         }
-        function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
+        function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
             try{
-                $prepare = $this->pdo->prepare("UPDATE m_market SET urun_ad=:u_ad, urun_aciklama=:u_acik, urun_details=:u_detay, urun_fiyat=:u_fiyat, urun_adet=:u_adet, urun_tarih=:u_tarih, urun_grup=:u_grup WHERE urun_id =:u_id");
+                $prepare = $this->pdo->prepare("UPDATE m_market SET urun_ad=:u_ad, urun_aciklama=:u_acik, urun_details=:u_detay, urun_fiyat=:u_fiyat, kdv=:u_kdv, urun_adet=:u_adet, urun_tarih=:u_tarih, urun_grup=:u_grup WHERE urun_id =:u_id");
                 $adate = date('Y-m-d H-i-s');
                 $prepare->execute(array(
                     "u_ad" => $urun_ad,
                     "u_acik" => $urun_desc,
                     "u_detay" => $urun_desc,
                     "u_fiyat" => $urun_price,
+                    "u_kdv" => $urun_kdv,
                     "u_adet" => $urun_count,
                     "u_tarih" => $adate,
                     "u_grup" => $urun_cat,

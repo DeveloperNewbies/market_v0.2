@@ -29,12 +29,15 @@
                                         <th>Sipariş No</th>
                                         <th>Ürün adı</th>
                                         <th>Toplam fiyat</th>
+                                        <th>Sipariş Adeti</th>
+                                        <th>Sipariş Adresi</th>
                                         <th>Tarih</th>
-                                        <th>Kargo Takibi</th>
+                                        <th>Son İşlem Tarihi</th>
+                                        <th>Kargo Takibi Numarası</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php foreach ($sipraisler as $result){ ?>
+                                    <?php foreach ($siparisler as $result){ ?>
                                     <tr class="odd gradeX">
                                         <td><button type="button" class="btn btn-primary btn-sm"><a href="<?=$home_link."/index.php?m=hesabim&account=siparis&sp=".$result[0]?>"> Ürün ayrıntıları</a></button></td>
                                         <td><?=$result[1]?></td>
@@ -44,10 +47,13 @@
                                             </div>
                                         </td>
                                         <td><?=$result[3]?></td>
-                                        <td class="center"><a href="<?=$home_link."/index.php?m=hesabim&urun=".$result[0]?>"><?=$result[4]?></a></td>
+                                        <td class="center"><a href="<?=$home_link."/index.php?m=magaza&id=".$result[0]?>"><?=$result[4]?></a></td>
                                         <td class="center"><?=$result[5]?> ₺</td>
                                         <td class="center"><?=$result[6]?></td>
-                                        <td><a href="<?=$home_link."/index.php?m=hesabim&urun=".$result[0]?>"> Kargo bilgileri <br> <?=$result[7]?></a></td>
+                                        <td class="center"><?=$result[7]?></td>
+                                        <td class="center"><?=$result[8]?></td>
+                                        <td class="center"><?=$result[9]?></td>
+                                        <td><?=$result[10]?></a></td>
                                     </tr>
                                     <?php }?>
                                     </tbody>

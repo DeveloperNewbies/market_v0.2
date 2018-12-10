@@ -79,6 +79,11 @@ $kategoriler = array("1","2","3");
                     <input type="text" class="form-control boxed" name="ship_id" placeholder="Sipariş ID" value="<?=$editor_ship_id?>" readonly> </div>
             </div>
             <div class="form-group row">
+                <label class="col-sm-2 form-control-label text-xs-right"> Sipariş Verenin Adı Soyadı: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control boxed" name="ship_nasur" placeholder="Ad Soyad" value="<?=$editor_ship_nasur?>" readonly> </div>
+            </div>
+            <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Ürün Adı: </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control boxed"  name="ship_itemid" placeholder="ürün açıklaması" value="<?=$editor_itemname?>" readonly>
@@ -94,6 +99,11 @@ $kategoriler = array("1","2","3");
                 <label class="col-sm-2 form-control-label text-xs-right"> Sipariş Adeti: </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control boxed" name="ship_itemcount" placeholder="Sipariş Adet" value="<?=$editor_shipcount?>" readonly> </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 form-control-label text-xs-right"> Sipariş Adresi: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control boxed" name="ship_adress" placeholder="Sipariş Adresi" value="<?=$editor_s_adres?>" readonly> </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Kargo Numarası: </label>
@@ -147,6 +157,11 @@ $kategoriler = array("1","2","3");
                     <input type="text" class="form-control boxed" name="item_price" placeholder="Fiyat" value="<?=$editor_itemprice?>" required> </div>
             </div>
             <div class="form-group row">
+                <label class="col-sm-2 form-control-label text-xs-right"> KDV: </label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control boxed" name="item_kdv" placeholder="KDV Oranı" value="<?=$editor_itemkdv?>" required> </div>
+            </div>
+            <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Ürün Adet: </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control boxed" name="item_count" placeholder="Ürün Adeti" value="<?=$editor_itemcount?>" required> </div>
@@ -181,14 +196,4 @@ $kategoriler = array("1","2","3");
         </div>
     </form>
     <?php } ?>
-    <div class="container">
-        <div class="row" style="width: 18rem;">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Kullanıcı Adı:  </li>
-                <li class="list-group-item">Adres: </li>
-                <li class="list-group-item">E-posta : </li>
-
-            </ul>
-        </div>
-    </div>
 </article>

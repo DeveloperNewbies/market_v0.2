@@ -6,6 +6,9 @@ include('dbClass.php');
 		public $username;
 		public $name;
 		public $surname;
+        private $adress;
+        private $adress2;
+        private $tel;
 		private $password;
 		public $udate;
 
@@ -100,6 +103,9 @@ include('dbClass.php');
 				$this->username = $row['k_adi'];
 				$this->name = $this->db->getUserSpecInfo("ad", $row['id']);
 				$this->surname = $this->db->getUserSpecInfo("soyad", $row['id']);
+				$this->tel = $this->db->getUserSpecInfo("tel", $row['id']);
+				$this->adress = $this->db->getUserSpecInfo("adres", $row['id']);
+				$this->adress2 = $this->db->getUserSpecInfo("adres2", $row['id']);
 				$this->password = $row['k_sifre'];
 				$this->udate = $row['tarih'];
 				$this->statue = $row['online'];
@@ -107,7 +113,17 @@ include('dbClass.php');
 			}
 			
 		}
-		
+		function getUserInfosOut()
+        {
+            return array(
+                "e-posta" => $this->username,
+                "ad" => $this->name,
+                "soyad" => $this->surname,
+                "tel" => $this->tel,
+                "adres" => $this->adress,
+                "adres2" => $this->adress2
+            );
+        }
 		function logIn($uname1, $upass1)
 		{
 			$this->isLog = $this->db->logIn($uname1, $upass1);
@@ -188,6 +204,21 @@ include('dbClass.php');
             return $this->permission;
         }
 
+        function updateAdress($u_id, $adress, $adress2)
+        {
+            if($this->db->updateUserAdress($u_id, $adress, $adress2))
+            {
+                $this->adress = $adress;
+                $this->adress2 = $adress2;
+                return true;
+            }else
+                {
+                    return false;
+                }
+
+        }
+
+
         function getUrun($id)
         {
             return $this->db->getUrun($id);
@@ -207,6 +238,12 @@ include('dbClass.php');
         {
 		    return $this->db->findUrun($name);
         }
+
+        function getSiparis($u_id)
+        {
+            return $this->db->userGetOrder($u_id);
+        }
+
 		/*
 		 * There is Admin Power Activated
 		 * $permission > 1
@@ -234,17 +271,17 @@ include('dbClass.php');
         }
 
 //Admin İtem Functions..
-        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
+        function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
-            return $this->db->adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat);
+            return $this->db->adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat);
         }
         function adminAddNewItemImg($urun_id, $urun_ad, $urun_img)
         {
             return $this->db->adminAddNewItemImg($urun_id, $urun_ad, $urun_img);
         }
-        function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat)
+        function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
-            return $this->db->adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_count, $urun_cat);
+            return $this->db->adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat);
         }
         function adminEditItemImg($urun_id, $urun_img_id,$urun_ad, $urun_img)
         {

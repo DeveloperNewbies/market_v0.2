@@ -1,5 +1,9 @@
 <?php
 $point_top = 0;
+$s_sepet_top = 0;
+$s_sepetfull_top = 0;
+$s_sepetfull_üsttop = 0;
+$s_sepetfull_vergi = 0;
 ?>
 
 <!-- breadcrumb -->
@@ -50,27 +54,22 @@ $point_top = 0;
                                             <i class="fs-16 zmdi zmdi-minus"></i>
                                         </div>
 
-                                        <input class="mtext-104 cl3 txt-center num-product" type="number" id="s_count<?=$result[0]?>" name="num_item" value="<?=$result[4]?>">
+                                        <input class="mtext-104 cl3 txt-center num-product" type="number" id="s_count<?=$result[0]?>" name="num_item" value="<?=$result[5]?>">
 
                                         <div class="btn-num-product-up<?=$result[0]?> btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
-
                                         </div>
-
                                         <input type="hidden" id="urun_id<?=$result[0]?>" name="urun_id" value="<?=$result[0]?>">
-
                                     </div>
-
                                 </td>
                                 <td class="column-5" id="s_top<?=$result[0]?>"> <?php
-                                    echo floatval($result[3])*intval($result[4]);
-                                    $point_top += floatval($result[3])*intval($result[4]);
-                                    ?> ₺
-                                      <button onclick="refreshPage()" type="button" class="refreshbutton<?=$result[0]?>"> <i class="fa fa-trash"></i> </button>
-
-
+                                    echo floatval($result[3])*intval($result[5]);
+                                    $point_top += floatval($result[3])*intval($result[5]);
+                                    $s_sepetfull_top += (floatval($result[3])/(floatval(1+(intval($result[4])/100))))*($result[5]);
+                                    $s_sepet_top += floatval($result[3])*($result[5]);
+                                    $s_sepetfull_vergi += round(floatval($result[3])/(1+(intval($result[4])/100)), 2)*($result[4]/100) * $result[5];
+                                    ?> ₺  <button onclick="refreshPage()" type="button" class="refreshbutton<?=$result[0]?>"> <i class="fa fa-trash"></i> </button></td>
                             </tr>
-
                             <?php } }else   echo "sepetiniz boş"; ?>
 
                         </table>
@@ -104,7 +103,7 @@ $point_top = 0;
                         <td>
 
                 <span class="mtext-110 cl2" id="s_sepet_top">
-                  <?php echo round(floatval($point_top) / 1.18,2) ; ?> ₺
+                  <?php echo round(floatval($s_sepetfull_top),2); ?> ₺
                 </span>
 
                         </td>
@@ -112,11 +111,11 @@ $point_top = 0;
 
                         <tr>
                           <td>KDV</td>
-                          <td  id="s_sepetfull_vergi">    <?=round((round(floatval($point_top) / 1.18,2)*(0.18)),2) ?> ₺   </td>
+                          <td  id="s_sepetfull_vergi">    <?=round($s_sepetfull_vergi,2) ?> ₺   </td>
                         </tr>
                         <tr>
                           <td>KDV DAHİL</td>
-                          <td id="s_sepetfullüst_top">   	<?=$point_top?> ₺ </td>
+                          <td id="s_sepetfullüst_top">   	<?=$s_sepet_top?> ₺ </td>
                         </tr>
                       </table>
                     </div>
@@ -135,14 +134,14 @@ $point_top = 0;
 
                         <div class="size-209 p-t-1">
 								<span class="mtext-112 cl2" id="s_sepetfull_top">
-								  	<?=$point_top?> ₺
+								  	<?=$s_sepet_top?> ₺
 								</span>
 
                         </div>
                     </div>
 
                     <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                        Alışverişi Tamamla
+                        <a href="<?=$home_url."/checkout.php"?>"> Alışverişi Tamamla</a>
                     </button>
 
                 </div>
@@ -162,11 +161,11 @@ $point_top = 0;
         if(numProduct >= 0) $(this).next().val(numProduct);
         if(numProduct == 0)
         {
-
-          function refreshPage(){
-            location.reload();
-          }
-          refreshPage()
+            //$('#s_form').find('#table_row<?=$item[0]?>').empty();
+            function refreshPage(){
+                location.reload();
+            }
+            refreshPage()
         }
         $.post("index.php", {"shopping_card_update": "submit", "num_item": numProduct, "urun_id": id}, function (returnData, status) {
             //alert('Status ' + status + ' The server said ' + returnData);
@@ -177,8 +176,6 @@ $point_top = 0;
                 if($(this).children(0).find('#s_count<?=$item[0]?>').val() == 0)
                 {
                     $('#s_form').find('#table_row<?=$item[0]?>').empty();
-
-
                 }else
                 {
                     $('#s_form').find('#s_price<?=$item[0]?>').html($(this).children(0).find('#s_price<?=$item[0]?>').html());
@@ -225,18 +222,15 @@ $point_top = 0;
         });
     });
 
-
     $('.refreshbutton<?=$item[0]?>').on('click', function(){
         var id = Number($("#urun_id<?=$item[0]?>").val());
-      $.post("index.php", {"shopping_card_update": "submit", "num_item": 0, "urun_id": id}, function (returnData, status) {
+        $.post("index.php", {"shopping_card_update": "submit", "num_item": 0, "urun_id": id}, function (returnData, status) {
 
-        function refreshPage(){
-          location.reload();
-        }
-        refreshPage()
-      });
+            function refreshPage(){
+                location.reload();
+            }
+            refreshPage()
+        });
     })
-
     <?php $i++; } $i=0; ?>
-
 </script>

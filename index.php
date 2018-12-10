@@ -113,7 +113,8 @@ if(isset($_SESSION['sepetim']))
         //1 image url
         //2 item title
         //3 ürün fiyat
-        //4 kaç adet aldığı (default 1)
+        //4 urun-kdv
+        //5 kaç adet aldığı (default 1)
 
         //0=>array("2","images/narozu350gr.png","ürün title","17","2"),
         //1=>array("3","images/narozu350gr.png","ürün title","17.3","5"),
@@ -180,6 +181,7 @@ if(isset($_POST['urun_ekle']))
                     array_push($urun_array, $user->getUrunIMG($item['urun_id'])[0][2]);
                     array_push($urun_array, $item['urun_ad']);
                     array_push($urun_array, $item['urun_fiyat']);
+                    array_push($urun_array, $item['kdv']);
                     array_push($urun_array, $urun_adet);
                 }
                 array_push($user_shopping_item, $urun_array);
@@ -201,7 +203,7 @@ if(isset($_POST["shopping_card_update"])){
                     if($_POST['num_item'] == 0)
                         array_splice($user_shopping_item, $g_s, 1);
                      else
-                        $user_shopping_item[$g_s][4] = $user->security($_POST['num_item']);
+                        $user_shopping_item[$g_s][5] = $user->security($_POST['num_item']);
                 }
     }
     /*bu kısımda $user_shopping_item in son hali var al onu ve database yi güncelle

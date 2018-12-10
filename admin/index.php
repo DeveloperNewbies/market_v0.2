@@ -131,24 +131,25 @@ if($user_granted)
             $monthly_income = $total_income;
         }
 
-}
+
 
 
 if(isset($_POST['add_new_item']))
 {
     //TODO check Security of Image And Add Category for The İtem. chmod Cant be 0777 img folder and name cant be Exactly Uploaded Name. Hash Them
     $url_m = "item-list";
-    if(isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']))
+    if(isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']) && isset($_POSt['item_kdv']))
     {
-        if($_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "")
+        if($_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "" || $_POSt['item_kdv'] == "")
         {
-            echo "Ürün İsmi, Fiyatı, Adeti veya Kategorisi boş bırakılamaz";
+            echo "Ürün İsmi, Fiyatı, KDV Oranı, Adeti veya Kategorisi boş bırakılamaz";
         }else
             {
 
                 $item_name = $user->security($_POST['item_name']);
                 $item_desc = $user->security($_POST['item_desc'], "desc");
                 $item_price = $user->security($_POST['item_price']);
+                $item_kdv = $user->security($_POST['item_kdv']);
                 $item_count = $user->security($_POST['item_count']);
                 $item_category = $user->security($_POST['category']);
                 $item_category += 1;
@@ -189,7 +190,7 @@ if(isset($_POST['add_new_item']))
                 }
                 if($img_counter < 3)
                 {
-                    $last_id = $user->adminAddNewItem($item_name, $item_desc, $item_price, $item_count, $item_category);
+                    $last_id = $user->adminAddNewItem($item_name, $item_desc, $item_price, $item_kdv, $item_count, $item_category);
                     if($last_id)
                     {
                         if (!file_exists("../images/".$img_dest.$last_id)) {
@@ -223,11 +224,11 @@ if(isset($_POST['ch_item']))
 {
     $url_m = "item-list";
 
-    if(isset($_POST['item_id']) && isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']))
+    if(isset($_POST['item_id']) && isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']) && isset($_POST['item_kdv']))
     {
-        if($_POST['item_id'] == "" || $_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "")
+        if($_POST['item_id'] == "" || $_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "" || $_POST['item_kdv'] == "")
         {
-            echo "Ürün İsmi, Fiyatı, Adeti veya Kategorisi boş bırakılamaz";
+            echo "Ürün İsmi, Fiyatı, KDV Oranı, Adeti veya Kategorisi boş bırakılamaz";
         }else
         {
 
@@ -235,6 +236,7 @@ if(isset($_POST['ch_item']))
             $item_name = $user->security($_POST['item_name']);
             $item_desc = $user->security($_POST['item_desc'], "desc");
             $item_price = $user->security($_POST['item_price']);
+            $item_kdv = $user->security($_POST['item_kdv']);
             $item_count = $user->security($_POST['item_count']);
             $item_category = $user->security($_POST['category']);
             $item_category += 1;
@@ -283,7 +285,7 @@ if(isset($_POST['ch_item']))
             }
             if($img_counter < 3)
             {
-                $is_ok = $user->adminEditItem($item_id, $item_name, $item_desc, $item_price, $item_count, $item_category);
+                $is_ok = $user->adminEditItem($item_id, $item_name, $item_desc, $item_price, $item_kdv, $item_count, $item_category);
                 if($is_ok)
                 {
                     foreach ($item_img as $item)
@@ -392,9 +394,10 @@ if($url_m == "home"){
         //4 index Fiyat
         //5 index Kategori
         //6 index Alıcı
-        //7 index Kargo Numarası
-        //8 index Sipariş Durum
-        //9 index Sipariş Tarih
+        //7 index s_siparis
+        //8 index Kargo Numarası
+        //9 index Sipariş Durum
+        //10 index Sipariş Tarih
     );
 
     $result = $user->adminGetOrderCount(0 , 15);
@@ -417,10 +420,11 @@ if($url_m == "home"){
             {
                 array_push($shipping_list_array[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
             }
-            foreach ($user->adminFindUser($item['urun_id']) as $item1)
+            foreach ($user->adminFindUser($item['id']) as $item1)
             {
                 array_push($shipping_list_array[$i], $item1['k_ad']);
             }
+            array_push($shipping_list_array[$i], $item['s_adres']);
             array_push($shipping_list_array[$i], $item['kargo_takip_no']);
             array_push($shipping_list_array[$i], $item['satis_sonuc']);
             array_push($shipping_list_array[$i], $item['tarih']);
@@ -475,6 +479,7 @@ if($url_m == "home"){
     $editor_itemname = "";
     $editor_itemdesc = "";
     $editor_itemprice = "";
+    $editor_itemkdv = "";
     $editor_itemcount = "";
     $editor_itemcat = array();
     $editor_defaultopt = "";
@@ -506,6 +511,7 @@ if($url_m == "home"){
                     $editor_itemname = $item['urun_ad'];
                     $editor_itemdesc = $item['urun_aciklama'];
                     $editor_itemprice = $item['urun_fiyat'];
+                    $editor_itemkdv = $item['kdv'];
                     $editor_itemcount = $item['urun_adet'];
                     foreach ($user->getUrun($editor_itemid) as $item1)
                     {
@@ -553,11 +559,16 @@ if($url_m == "home"){
                     foreach ($user->getUrun($editor_itemid) as $item1) {
                         $editor_itemname = $item1['urun_ad'];
                     }
-
+                    $editor_ship_nasur = "";
+                    foreach ($user->adminFindUser($item['id']) as $item2)
+                    {
+                        $editor_ship_nasur = $item2['k_ad']." ".$item2['k_soyad'];
+                    }
                     $editor_itemprice = $item['urun_fiyat'];
                     $editor_shipcount = $item['urun_adet'];
                     $editor_itemcat = array();
                     $editor_itemimg = array();
+                    $editor_s_adres = $item['s_adres'];
                     $editor_shipnumber = $item['kargo_takip_no'];
                     foreach ($user->getUrunIMG($editor_itemid) as $item1)
                     {
@@ -655,7 +666,7 @@ if($url_m == "home"){
 <script src="js/app.js"></script>
 </body>
 </html>
-
+<?php } ?>
 
 
 

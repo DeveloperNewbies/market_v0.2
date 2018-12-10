@@ -9,7 +9,6 @@ $user_account_update_pass_alert = "re";
 
     $re_pas = (isset($_GET["reload"])) ? $_GET["reload"] : "home";
 
-
     //user about update
      if(isset($_POST["control"]) )
          switch ($_POST["control"]) {
@@ -79,10 +78,46 @@ $user_account_update_pass_alert = "re";
              case "re-adres":
                  $adres = "";
                  $second_adres ="";
-                 if(isset($_POST["adres"]) && $_POST["adres"] !=""){
-                     $adres = $user->security ($_POST["adres"]);
-                     if(isset($_POST["second-address"]))
-                         $second_adres = $user->security ($_POST["second-address"]);
+                 if(isset($_POST['address']) && !empty($_POST['address'])){
+
+                     if(isset($_POST['second-address']))
+                     {
+
+                         $adres = $user->security($_POST['address'], "adres");
+                         $second_adres = $_POST['second-address'];
+                         if(empty($second_adres))
+                             $second_adres = "-";
+
+                         $second_adres = $user->security ($_POST['second-address'], "adres");
+
+
+                         $is_ok = $user->updateAdress($user->getID(), $adres, $second_adres);
+                         if($is_ok)
+                         {
+                             $user_account_update_pass_alert = "false";
+                             unset($_SESSION['user']);
+                             $_SESSION['user'] = base64_encode(serialize($user));
+                             $user->setSecurity();
+                             $user_about = array(
+                                 //0 eposta,
+                                 //1 ad,
+                                 //2 soyad,
+                                 //3 tel,
+                                 //4 adres1,
+                                 //5 adres2
+                             );
+                             foreach ($user->getUserInfosOut() as $item)
+                             {
+                                 array_push($user_about, $item);
+                             }
+                         }else
+                             $user_account_update_pass_alert = "true";
+
+
+
+
+                     }
+
 
                      //user database update new adres
                      //işlem başarılı ise $user_account_update_pass_alert = "false";
@@ -91,8 +126,6 @@ $user_account_update_pass_alert = "re";
                      //second adres $second adres
 
                      //demo
-                     $user_account_update_pass_alert = "false";
-
 
                  }else $user_account_update_pass_alert = "true";
                  break;
@@ -111,10 +144,10 @@ switch ($re_pas){
         ?>
         <div class="container">
             <div class="list-group-item list-group-item-action active">
-                Ad soyad: <?=$user_about[0]?>
+                Ad soyad: <?php echo $user_about[1]." ".$user_about[2]; ?>
             </div>
-            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> E-mail: <?=$user_about[1]?></div>
-            <div  class="list-group-item list-group-item-action" style="overflow: scroll;">Adres: <?=$user_about[2]?> </div>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> E-mail: <?=$user_about[0]?></div>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;">Adres: <?=$user_about[4]?> </div>
             <div  class="list-group-item list-group-item-action">
                 <button type="submit" class="btn btn-primary">
                     <a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=update"?>">Hesabımı Güncelle</a>
@@ -140,18 +173,9 @@ switch ($re_pas){
                 <?php  } ?>
                 <div class="form-group ">
                     <label for="inputEmail4">Parolanızı giriniz:</label>
-                    <input type="text" class="form-control" id="name" name="password" placeholder="Parola">
+                    <input type="text" class="form-control" id="name" name="password" placeholder="Parola" required>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail4">Ad</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Ad">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputPassword4">Soyad</label>
-                        <input type="text" class="form-control" id="surname" name="surname" placeholder="Soyad">
-                    </div>
-                </div>
+
                 <div class="form-group ">
                     <label for="inputEmail4">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email">
@@ -206,9 +230,9 @@ switch ($re_pas){
         ?>
         <div class="container">
             <div class="list-group-item list-group-item-action active" style="overflow: scroll;">
-                Adres :<br><?=$user_about[2]?>
+                Adres :<br><?=$user_about[4]?>
             </div>
-            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> Diğer adresim:<br> <?=$user_about[3]?></div>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> Diğer adresim:<br> <?=(strlen($user_about[5]) > 0) ? $user_about[5] : "-" ?></div>
             <button class="btn btn-primary" style="margin: 10px;"><a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-adres"?>">Adresi Güncelle</a> </button>
         </div>
         <?php
@@ -229,15 +253,15 @@ switch ($re_pas){
                 <?php } ?>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Adres: </label>
-                    <input type="text" class="form-control" id="InputAdress" name="adres" aria-describedby="adresHelp" placeholder="Adres">
+                    <input type="text" class="form-control" id="InputAdress" name="address" aria-describedby="adresHelp" placeholder="Adres" value="<?php echo $user_about[4]; ?>" required>
                     <small id="adresHelp" class="form-text text-muted">Asıl adres kısmı boş bırakılamaz.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Diğer adres: </label>
-                    <input type="text" class="form-control" id="InputAdress" name="second-address" placeholder="Diğer adres">
+                    <input type="text" class="form-control" id="InputAdress" name="second-address" placeholder="Diğer adres" value="<?php echo (strlen($user_about[5]) > 0) ? $user_about[5]:"-"; ?>">
                 </div>
                 <input type="hidden" name="control" value="re-adres" >
-                <button type="submit" class="btn btn-primary">Güncelle</button>
+                <input type="submit" class="btn btn-primary" value="Güncelle">
             </form>
         </div>
       <?php

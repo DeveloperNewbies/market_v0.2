@@ -141,15 +141,15 @@
                         </div>
                     </div>
                     <div class="item-col item-col-shipping">
-                        <div class="no-overflow"> <?=$result[7]?></div>
+                        <div class="no-overflow"> <?=$result[8]?></div>
                     </div>
                     <div class="item-col item-col-date2">
 
-                        <div class="no-overflow"> <?php echo ($result[8] < 3)? "Tamamlanmadı":"Tamamlandı";?></div>
+                        <div class="no-overflow"> <?php echo ($result[9] < 3)? "Tamamlanmadı":"Tamamlandı";?></div>
                     </div>
                     <div class="item-col item-col-date">
                         <div class="item-heading"></div>
-                        <div class="no-overflow"> <?=$result[9]?></div>
+                        <div class="no-overflow"> <?=$result[10]?></div>
                     </div>
                     <div class="item-col fixed item-col-actions-dropdown">
                         <div class="item-actions-dropdown">
