@@ -181,4 +181,14 @@ $kategoriler = array("1","2","3");
         </div>
     </form>
     <?php } ?>
+    <div class="container">
+        <div class="row" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Kullanıcı Adı:  </li>
+                <li class="list-group-item">Adres: </li>
+                <li class="list-group-item">E-posta : </li>
+
+            </ul>
+        </div>
+    </div>
 </article>
