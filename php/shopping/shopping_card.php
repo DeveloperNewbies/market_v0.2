@@ -24,7 +24,7 @@ $s_sepetfull_vergi = 0;
 
 
 <!-- Shoping Cart -->
-<form class="bg0 p-t-75 p-b-85" action="<?=$home_url."/index.php"?>" method="post" id="s_form">
+<form class="bg0 p-t-75 p-b-85" action="<?=$home_url."/checkout.php"?>" method="post" id="s_form">
     <div class="container" id="s_form_container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -140,9 +140,8 @@ $s_sepetfull_vergi = 0;
                         </div>
                     </div>
 
-                    <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                        <a href="<?=$home_url."/checkout.php"?>"> Alışverişi Tamamla</a>
-                    </button>
+                    <input type="submit" name="checkout" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" value="Alışverişi Tamamla">
+
 
                 </div>
             </div>

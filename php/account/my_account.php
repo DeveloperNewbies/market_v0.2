@@ -201,7 +201,7 @@ switch ($re_pas){
                         <label for="inputEmail4"><h3 class="alert">Parolanız veya E-postanız hatalı</h3> </label>
                 <?php }else if($user_account_update_pass_alert == "false"){?>
                     <label for="inputEmail4"><h3 class="alert">Parolanız Değiştirildi</h3> </label>
-                <?php }?>
+                <?php } ?>
             </div>
                 <div class="form-group ">
                     <label for="inputEmail4">Eski parola</label>
