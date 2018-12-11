@@ -65,9 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         else $card_secure_durum = false;
     }
     if($_POST["phone-number"]!=""){
-        if(filter_var($_POST["phone-number"], FILTER_VALIDATE_INT ) )
             $checkout_phone_number = $user->security ($_POST["phone-number"]);
-        else $card_secure_durum = false;
     } else $card_secure_durum = false;
 
 
@@ -115,8 +113,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $cvv = $user->security ($_POST["cvv"]);
         else $card_secure_durum = false;
     }else $card_secure_durum = false;
- if($card_secure_durum == true)
-  $sanal_pos = true;
+
 
 }
 
@@ -148,7 +145,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <label for="email"><i class="fa fa-envelope"></i> Email</label>
                         <input type="text" id="email" name="email" placeholder="Email Adresiniz">
                         <label for="fname"><i class="fa fa-phone"></i> Tel</label>
-                        <input type="text" id="phone-number" name="phone-number" placeholder="Telefon numarası">
+                        <input type="text" id="zp" name="phone-number" class="fa fa-address-card-o" placeholder="Telefon numarası">
                         <?php if(isset($_GET["m"]) && $_GET["m"]=="adres"){ ?>
                             <div class="container">
                                 <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
