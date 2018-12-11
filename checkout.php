@@ -102,16 +102,19 @@ if(isset($_POST['ok_checkout'])){
             $checkout_email = $user->security ($_POST["email"], "adres");
         else $card_secure_durum = false;
     }else $card_secure_durum = false;
-
-    $name = explode(" ", $checkout_name);
-    $checkout_name = "";
-    for ($i = 0; $i<count($name); $i++)
+    if($card_secure_durum)
     {
-        if(($i+1) == count($name))
-            $checkout_surname = $name[$i];
-        else
-            $checkout_name .= $name[$i]." ";
+        $name = explode(" ", $checkout_name);
+        $checkout_name = "";
+        for ($i = 0; $i<count($name); $i++)
+        {
+            if(($i+1) == count($name))
+                $checkout_surname = $name[$i];
+            else
+                $checkout_name .= $name[$i]." ";
+        }
     }
+
     if(isset($_POST['checkout_adres']) && $m == "Yeni Adres Ekle"){
         if(isset($_POST['address']) && $_POST["address"]!="")
             $checkout_adres=$user->security ($_POST["address"], "adres");
