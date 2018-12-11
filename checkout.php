@@ -141,7 +141,6 @@ if(isset($_POST['ok_checkout'])){
         if(is_numeric($_POST['cardnumber']) )
             $cardnumber = $user->security ($_POST["cardnumber"], "adres");
         else $card_secure_durum = false;
-        echo is_numeric($_POST['cardnumber']);
     } else $card_secure_durum = false;
 
     if(isset($_POST['expmonth']) && $_POST["expmonth"]!=""){
@@ -333,7 +332,10 @@ if(isset($_POST['ok_checkout'])){
                         <label for="fname"><i class="fa fa-user"></i> Tam İsim</label>
                         <input type="text" id="fname" name="firstname" placeholder="İsminiz">
                         <label for="email"><i class="fa fa-envelope"></i> Email</label>
+
                         <input type="text" id="email" name="email" placeholder="Email Adresiniz">
+                        <label for="fname"><i class="fa fa-phone"></i> Tel</label>
+                        <input type="text" id="zp" name="phone-number" class="fa fa-address-card-o" placeholder="Telefon numarası">
                         <?php if($m == "Yeni Adres Ekle"){ ?>
                             <div class="container">
                                 <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
