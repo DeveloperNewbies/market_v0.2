@@ -81,9 +81,15 @@ if($user_granted)
     //admin variable
     $admin_username = $user->name." ".$user->surname;
     //aktif satılan ürün sayısı mağazada bulunan
-    $active_items =count($user->getUrun("all"));
+    if($user->getUrun("all"))
+        $active_items =count($user->getUrun("all"));
+    else
+        $active_items = 0;
     //toplam satılan ürün sayısı
-    $items_sold =count($user->adminGetOrderCount("",""));
+    if($user->adminGetOrderCount("",""))
+        $items_sold =count($user->adminGetOrderCount("",""));
+    else
+        $items_sold = 0;
 
     //toplam kullanıcı sayısı
     $total_users = ($user->getUserCount()) ? count($user->getUserCount()) : 0;
@@ -96,7 +102,8 @@ if($user_granted)
     {
         foreach ($total_tmp as $item)
         {
-            $total_income += $item['urun_fiyat'];
+            foreach ($user->adminGetSoldInfo($item['id']) as $item2)
+                $total_income += $item2['urun_fiyat'];
         }
     }else
         {
@@ -389,12 +396,12 @@ if($url_m == "home"){
     $shipping_list_array = array(
         //0 index ürün görsel linki
         //1 index ürün title
-        //2 index ürün sipariş id si
-        //3 index sipariş adeti
-        //4 index Fiyat
-        //5 index Kategori
-        //6 index Alıcı
-        //7 index s_siparis
+        //2 index ürün id si
+        //3 index ürün sipariş id
+        //4 index sipariş adeti
+        //5 index Fiyat
+        //6 index Kategori
+        //7 index Alıcı
         //8 index Kargo Numarası
         //9 index Sipariş Durum
         //10 index Sipariş Tarih
@@ -408,23 +415,52 @@ if($url_m == "home"){
         foreach ($result as $item)
         {
             array_push($shipping_list_array, array());
-            array_push($shipping_list_array[$i], "../".$user->getUrunIMG($item['urun_id'])[0][2]);
-            foreach ($user->getUrun($item['urun_id']) as $item1)
+            if($user->adminGetSoldInfo($item['id']))
             {
-                array_push($shipping_list_array[$i], $item1['urun_ad']);
+                $item_img = array();
+                $item_name = array();
+                $item_id = array();
+                foreach ($user->adminGetSoldInfo($item['id']) as $item1)
+                {
+
+                    array_push($item_img, "../".$user->getUrunIMG($item1['urun_id'])[0][2]);
+                    array_push($item_name, $item1['urun_ad']);
+                    array_push($item_id, $item1['urun_id']);
+                }
+                array_push($shipping_list_array[$i], $item_img);
+                array_push($shipping_list_array[$i], $item_name);
+                array_push($shipping_list_array[$i], $item_id);
             }
             array_push($shipping_list_array[$i], $item['id']);
-            array_push($shipping_list_array[$i], $item['urun_adet']);
-            array_push($shipping_list_array[$i], $item['urun_fiyat']);
-            foreach ($user->getUrun($item['urun_id']) as $item1)
+            if($user->adminGetSoldInfo($item['id']))
             {
-                array_push($shipping_list_array[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
+                $item_adet = array();
+                $item_price = array();
+                $item_kateg = array();
+                $item_top = 0;
+                foreach ($user->adminGetSoldInfo($item['id']) as $item1)
+                {
+
+                    array_push($item_adet, $item1['urun_adet']);
+                    array_push($item_price, $item1['urun_fiyat']);
+                    $item_top += $item1['urun_fiyat'];
+                    foreach ($user->getUrun($item1['urun_id']) as $item2)
+                    {
+                        array_push($item_kateg, $user->getUrunKategori($item2['urun_grup'])[0][0]);
+                    }
+                }
+                array_push($item_price, $item_top);
+                array_push($shipping_list_array[$i], $item_adet);
+                array_push($shipping_list_array[$i], $item_price);
+                array_push($shipping_list_array[$i], $item_kateg);
             }
+
+
             foreach ($user->adminFindUser($item['id']) as $item1)
             {
                 array_push($shipping_list_array[$i], $item1['k_ad']);
             }
-            array_push($shipping_list_array[$i], $item['s_adres']);
+
             array_push($shipping_list_array[$i], $item['kargo_takip_no']);
             array_push($shipping_list_array[$i], $item['satis_sonuc']);
             array_push($shipping_list_array[$i], $item['tarih']);
@@ -553,27 +589,34 @@ if($url_m == "home"){
                 $c_siparis = $user->security($_GET['c_siparis']);
                 $result = $user->adminGetOrderCount("","", '' ,$c_siparis);
                 $editor_ship_id = $c_siparis;
+                $editor_itemid = array();
+                $editor_itemname = array();
+                $editor_itemprice = array();
+                $editor_shipcount = array();
+                $editor_itempricefull = 0;
                 foreach ($result as $item) {
-                    $editor_itemid = $item['urun_id'];
-                    $editor_itemname = "";
-                    foreach ($user->getUrun($editor_itemid) as $item1) {
-                        $editor_itemname = $item1['urun_ad'];
-                    }
-                    $editor_ship_nasur = "";
-                    foreach ($user->adminFindUser($item['id']) as $item2)
+
+                    foreach ($user->adminGetSoldInfo($item['id']) as $item1)
                     {
-                        $editor_ship_nasur = $item2['k_ad']." ".$item2['k_soyad'];
+                        array_push($editor_itemid, $item1['urun_id']);
+                        array_push($editor_itemname, $item1['urun_ad']);
+                        array_push($editor_itemprice, $item1['urun_fiyat']);
+                        $editor_itempricefull += $item1['urun_fiyat'];
+                        array_push($editor_shipcount, $item1['urun_adet']);
+
                     }
-                    $editor_itemprice = $item['urun_fiyat'];
-                    $editor_shipcount = $item['urun_adet'];
+                    array_push($editor_itemprice, $editor_itempricefull);
+
+                    $editor_ship_nasur = "";
+                    foreach ($user->adminGetBillInfo($item['id']) as $item1)
+                    {
+                        $editor_ship_nasur = $item1['u_name']." ".$item1['u_surname'];
+                        $editor_s_adres = $item1['u_adress'];
+                    }
                     $editor_itemcat = array();
                     $editor_itemimg = array();
-                    $editor_s_adres = $item['s_adres'];
+
                     $editor_shipnumber = $item['kargo_takip_no'];
-                    foreach ($user->getUrunIMG($editor_itemid) as $item1)
-                    {
-                        array_push($editor_itemimg, $item1['urun_img']);
-                    }
                     $editor_process = "Siparişi Güncelle";
                 }
             }

@@ -239,9 +239,9 @@ include('dbClass.php');
 		    return $this->db->findUrun($name);
         }
 
-        function getSiparis($u_id)
+        function getSiparisByUserID($u_id)
         {
-            return $this->db->userGetOrder($u_id);
+            return $this->db->userGetOrderByUserID($u_id);
         }
 
         function addSiparis($u_id, $u_name, $u_surname, $u_adres, $u_ip, $u_sepet)
@@ -262,6 +262,14 @@ include('dbClass.php');
         function adminGetItem($id)
         {
             return $this->db->getUrun($id);
+        }
+        function adminGetSoldInfo($s_id)
+        {
+            return $this->db->adminGetItemSoldInfo($s_id);
+        }
+        function adminGetBillInfo($s_id)
+        {
+            return $this->db->adminGetBillInfo($s_id);
         }
         function adminGetItemSoldCount($id)
         {

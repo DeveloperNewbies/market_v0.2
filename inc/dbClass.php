@@ -470,7 +470,7 @@
             }
         }
 
-        function userGetOrder($id)
+        function userGetOrderByUserID($id)
         {
             $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE k_id ='{$id}'");
             $prepare->execute();
@@ -508,9 +508,39 @@
             }
         }
 
+        function adminGetItemSoldInfo($s_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_orderbill WHERE s_id = '{$s_id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        function adminGetBillInfo($s_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_orderbill_info WHERE s_id = '{$s_id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         function adminGetItemSoldInfoCount($id)
         {
-            $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_order WHERE urun_id = '{$id}'");
+            $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_orderbill WHERE urun_id = '{$id}'");
             $prepare->execute();
             if($prepare->rowCount())
             {
@@ -679,7 +709,7 @@
                 return false;
             }
         }
-
+//TODO Change This
         function adminEditShipInfo($ship_id, $ship_number, $s_result)
         {
             try
@@ -770,7 +800,30 @@
                 $prepare->execute(array(
                     "o_id" => $order_id
                 ));
-                return true;
+                try
+                {
+                    $prepare = $this->pdo->prepare("DELETE FROM m_orderbill WHERE s_id=:o_id");
+                    $adate = date('Y-m-d H-i-s');
+                    $prepare->execute(array(
+                        "o_id" => $order_id
+                    ));
+                    try
+                    {
+                        $prepare = $this->pdo->prepare("DELETE FROM m_orderbill_info WHERE s_id=:o_id");
+                        $adate = date('Y-m-d H-i-s');
+                        $prepare->execute(array(
+                            "o_id" => $order_id
+                        ));
+                        return true;
+                    }catch (PDOException $e)
+                    {
+                        return false;
+                    }
+                }catch (PDOException $e)
+                {
+                    return false;
+                }
+
 
             }catch (PDOException $e)
             {

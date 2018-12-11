@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 11 Ara 2018, 19:40:43
+-- Üretim Zamanı: 11 Ara 2018, 23:51:17
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -110,7 +110,7 @@ CREATE TABLE `m_market` (
 
 INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `kdv`, `urun_adet`, `urun_tarih`, `urun_grup`, `is_active`) VALUES
 (1, 'Harnup Özü', 'Harnup Özü', 'Harnup Özü', 10.99, 18, 20, '2018-12-09 15:29:10', 1, 1),
-(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13, 18, 5, '0000-00-00 00:00:00', 2, 1),
+(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13.99, 18, 5, '2018-12-12 01:33:14', 2, 1),
 (3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 18, 10, '0000-00-00 00:00:00', 1, 1),
 (4, 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 17.5, 18, 12, '2018-12-03 00:00:00', 1, 1);
 
@@ -174,6 +174,14 @@ CREATE TABLE `m_order` (
   `satis_sonuc` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
+--
+-- Tablo döküm verisi `m_order`
+--
+
+INSERT INTO `m_order` (`id`, `k_id`, `tarih`, `last_op_date`, `k_ip`, `kargo_takip_no`, `satis_sonuc`) VALUES
+(8, 5, '2018-12-11 21:54:12', '2018-12-12 01:04:12', '::1', 0, 0),
+(9, 5, '2018-12-12 01:15:34', '2018-12-12 01:15:34', '::1', 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -185,9 +193,19 @@ CREATE TABLE `m_orderbill` (
   `s_id` int(11) NOT NULL,
   `urun_id` int(11) NOT NULL,
   `urun_ad` text COLLATE utf8_turkish_ci NOT NULL,
-  `urun_fiyat` int(11) NOT NULL,
+  `urun_fiyat` float NOT NULL,
   `urun_adet` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+--
+-- Tablo döküm verisi `m_orderbill`
+--
+
+INSERT INTO `m_orderbill` (`id`, `s_id`, `urun_id`, `urun_ad`, `urun_fiyat`, `urun_adet`) VALUES
+(61, 8, 2, 'Tahinli Harnup Özü', 13, 1),
+(62, 8, 3, 'Nar Ekşisi', 6, 3),
+(63, 8, 4, 'Tahinli Harnup Özü 700 GR', 18, 3),
+(64, 9, 2, 'Tahinli Harnup Özü', 13, 1);
 
 -- --------------------------------------------------------
 
@@ -203,6 +221,14 @@ CREATE TABLE `m_orderbill_info` (
   `u_surname` text COLLATE utf8_turkish_ci NOT NULL,
   `u_adress` text COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+--
+-- Tablo döküm verisi `m_orderbill_info`
+--
+
+INSERT INTO `m_orderbill_info` (`id`, `s_id`, `u_id`, `u_name`, `u_surname`, `u_adress`) VALUES
+(4, 8, 5, 'Test ', 'Test', 'Adana'),
+(5, 9, 5, 'Test ', 'Test', 'Adana');
 
 -- --------------------------------------------------------
 
@@ -374,19 +400,19 @@ ALTER TABLE `m_marketinfo`
 -- Tablo için AUTO_INCREMENT değeri `m_order`
 --
 ALTER TABLE `m_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_orderbill`
 --
 ALTER TABLE `m_orderbill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_orderbill_info`
 --
 ALTER TABLE `m_orderbill_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_users`

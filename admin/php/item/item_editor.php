@@ -38,6 +38,11 @@ $kategoriler = array("1","2","3");
                     <input type="text" class="form-control boxed" name="item_price" placeholder="Fiyat" value="<?=$editor_itemprice?>"> </div>
             </div>
             <div class="form-group row">
+                <label class="col-sm-2 form-control-label text-xs-right"> KDV: </label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control boxed" name="item_kdv" placeholder="KDV Oranı" value="<?=$editor_itemkdv?>" required> </div>
+            </div>
+            <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Adet: </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control boxed" name="item_count" placeholder="Adet" value="<?=$editor_itemcount?>"> </div>
@@ -86,19 +91,19 @@ $kategoriler = array("1","2","3");
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Ürün Adı: </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control boxed"  name="ship_itemid" placeholder="ürün açıklaması" value="<?=$editor_itemname?>" readonly>
+                    <input type="text" class="form-control boxed"  name="ship_itemid" placeholder="ürün açıklaması" value="<?php for($i = 0; $i<count($editor_itemname); $i++){echo $editor_itemname[$i].((($i+1)==count($editor_itemname))?"":"-");} ?>" readonly>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Fiyat: </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control boxed" name="ship_itemprice" placeholder="Fiyat" value="<?=$editor_itemprice." ₺"?>" readonly> </div>
+                    <input type="text" class="form-control boxed" name="ship_itemprice" placeholder="Fiyat" value="<?php for($i = 0; $i<count($editor_itemprice); $i++){echo $editor_itemprice[$i].((($i+1)==count($editor_itemprice))?" ₺":(($i+1 == count($editor_itemprice)-1)? "₺ = " : " ₺ +"));} ?>" readonly> </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Sipariş Adeti: </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control boxed" name="ship_itemcount" placeholder="Sipariş Adet" value="<?=$editor_shipcount?>" readonly> </div>
+                    <input type="text" class="form-control boxed" name="ship_itemcount" placeholder="Sipariş Adet" value="<?php for($i = 0; $i<count($editor_shipcount); $i++){echo $editor_shipcount[$i].((($i+1)==count($editor_shipcount))?"":"-");} ?>" readonly> </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Sipariş Adresi: </label>

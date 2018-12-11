@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <h3 class="title"> Siparişler
-                        <a href="<?=$home_link."?m=item-editor"?>" class="btn btn-primary btn-sm rounded-s">  Ekle </a>
+
                     </h3>
 
                 </div>
@@ -110,34 +110,44 @@
                         </label>
                     </div>
                     <div class="item-col fixed item-col-img md">
-                       <div class="item-img rounded" style="background-image: url(<?=$result[0]?>)"></div>
+                        <?php for($i = 0; $i<count($result[0]); $i++){ ?>
+                       <div class="item-img rounded" style="background-image: url(<?=$result[0][$i]?>)"></div>
+                        <?php } ?>
                         </div>
                     <div class="item-col fixed pull-left item-col-title">
                         <div>
-                            <a href="<?=$home_link."?m=item-editor&c=".$result[2]?>" class="">
-                                <h4 class="item-title"> <?=$result[1]?></h4>
+                            <?php for($i = 0; $i<count($result[1]); $i++){ ?>
+                            <a href="<?=$home_link."?m=item-editor&c=".$result[2][$i]?>" class="">
+
+                                <h4 class="item-title"> <?=$result[1][$i]?></h4>
+
                             </a>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="item-col item-col-saleid">
-                        <div> <?=$result[2]?> </div>
+                        <div> <?=$result[3]?> </div>
                     </div>
                     <div class="item-col item-col-sales">
-                        <div> <?=$result[3]?> </div>
+                        <?php for($i = 0; $i<count($result[4]); $i++){ ?>
+                        <div> <?=$result[4][$i]?> </div>
+                        <?php } ?>
                     </div>
                     <div class="item-col item-col-category no-overflow">
                         <div class="no-overflow" style="padding-left: 25%">
-                            <?=$result[4]." ₺"?>
+                            <?=$result[5][count($result[5])-1]." ₺"?>
                         </div>
                     </div>
                     <div class="item-col item-col-category no-overflow">
+                        <?php for($i = 0; $i<count($result[6]); $i++){ ?>
                         <div class="no-overflow">
-                            <?=$result[5]?>
+                            <?=$result[6][$i]?>
                         </div>
+                        <?php } ?>
                     </div>
                     <div class="item-col item-col-author">
                         <div class="no-overflow">
-                            <?=$result[6]?>
+                            <?=$result[7]?>
                         </div>
                     </div>
                     <div class="item-col item-col-shipping">
@@ -163,13 +173,14 @@
                             </a>
                             <div class="item-actions-block">
                                 <ul class="item-actions-list">
-                                    <li>
-                                        <a class="remove" href="<?=$home_link."?m=item-editor&c_siparis=".$result[2]?>&e=delete" data-toggle="modal" data-target="#confirm-modal">
+                                    <!-- <li>
+                                        <a class="remove" href="<?=$home_link."?m=item-editor&c_siparis=".$result[3]?>&e=delete" data-toggle="modal" data-target="#confirm-modal">
                                             <i class="fa fa-trash-o "></i>
                                         </a>
                                     </li>
+                                    -->
                                     <li>
-                                        <a class="edit" href="<?=$home_link."?m=item-editor&c_siparis=".$result[2]?>">
+                                        <a class="edit" href="<?=$home_link."?m=item-editor&c_siparis=".$result[3]?>">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                     </li>
