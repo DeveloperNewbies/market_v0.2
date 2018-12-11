@@ -23,10 +23,11 @@ $ipset = new secIP();
 $user = new user();
 $card_secure_durum = true;
 
+
 $realIp = "http://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 
-$m = "";
-if(!isset($_POST['checkout']) || !isset($_SESSION['sepetim']))
+
+if(!isset($_SESSION["user"]) && count($_SESSION["sepetim"])<=0 )
     header("location: ".$realIp);
 else
     if(isset($_POST['checkout_adres']))
@@ -53,29 +54,34 @@ $expyear;
 $cvv;
 
 
-if(isset($_POST['ok_checkout'])){
-    if(isset($_POST['firstname']) && $_POST["firstname"]!="")
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    if($_POST["firstname"]!="")
         $checkout_name = $user->security ($_POST["firstname"]);
     else $card_secure_durum = false;
-    if(isset($_POST['email']) && $_POST["email"] !=""){
+    if($_POST["email"] !=""){
         if(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL ))
             $checkout_email = $user->security ($_POST["email"]);
         else $card_secure_durum = false;
     }
+    if($_POST["phone-number"]!=""){
+        if(filter_var($_POST["phone-number"], FILTER_VALIDATE_INT ) )
+            $checkout_phone_number = $user->security ($_POST["phone-number"]);
+        else $card_secure_durum = false;
+    } else $card_secure_durum = false;
 
-    else $card_secure_durum = false;
 
-    if(isset($_POST['checkout_adres']) && $m == "Yeni Adres Ekle"){
-        if(isset($_POST['address']) && $_POST["address"]!="")
+    if(isset($_GET["m"]) && $_GET["m"]=="adres"){
+        if($_POST["address"]!="")
             $checkout_adres=$user->security ($_POST["address"]);
         else $card_secure_durum = false;
-        if(isset($_POST['city']) && $_POST["city"]!="")
+        if($_POST["city"]!="")
             $checkout_city = $user->security ($_POST["city"]);
         else $card_secure_durum = false;
-        if(isset($_POST['state']) && $_POST["state"]!="")
+        if($_POST["state"]!="")
             $checkout_state = $user->security ($_POST["state"]);
         else $card_secure_durum = false;
-        if(isset($_POST['zip']) && $_POST["zip"]!=""){
+        if($_POST["zip"]!=""){
             if(filter_var($_POST["zip"], FILTER_VALIDATE_INT ) )
                 $checkout_zip = $user->security ($_POST["zip"]);
             else $card_secure_durum = false;
@@ -86,33 +92,34 @@ if(isset($_POST['ok_checkout'])){
 
 
     ////////////ödeme/////////////
-    if(isset($_POST['cardname']) && $_POST["cardname"]!="")
+    if($_POST["cardname"]!="")
         $cardname = $user->security ($_POST["cardname"]);
     else $card_secure_durum = false;
-    if(isset($_POST['cardnumber']) && $_POST["cardnumber"]!=""){
+    if($_POST["cardnumber"]!=""){
         if(filter_var($_POST["cardnumber"], FILTER_VALIDATE_INT ) )
             $checkout_zip = $user->security ($_POST["cardnumber"]);
         else $card_secure_durum = false;
     } else $card_secure_durum = false;
-    if(isset($_POST['expmonth']) && $_POST["expmonth"]!=""){
+    if($_POST["expmonth"]!=""){
         if(filter_var($_POST["expmonth"], FILTER_VALIDATE_INT ) )
             $expmonth = $user->security ($_POST["expmonth"]);
         else $card_secure_durum = false;
     }else $card_secure_durum = false;
-    if(isset($_POST['expyear']) && $_POST["expyear"]!=""){
+    if($_POST["expyear"]!=""){
         if(filter_var($_POST["expyear"], FILTER_VALIDATE_INT ) )
             $expyear = $user->security ($_POST["expyear"]);
         else $card_secure_durum = false;
     } else $card_secure_durum = false;
-    if(isset($_POST['cvv']) && $_POST["cvv"]!=""){
+    if($_POST["cvv"]!=""){
         if(filter_var($_POST["cvv"], FILTER_VALIDATE_INT ) )
             $cvv = $user->security ($_POST["cvv"]);
         else $card_secure_durum = false;
     }else $card_secure_durum = false;
-
-   //Buradan Apiye Data Yollanacak
+ if($card_secure_durum == true)
+  $sanal_pos = true;
 
 }
+
 
 ?>
 
@@ -140,7 +147,9 @@ if(isset($_POST['ok_checkout'])){
                         <input type="text" id="fname" name="firstname" placeholder="İsminiz">
                         <label for="email"><i class="fa fa-envelope"></i> Email</label>
                         <input type="text" id="email" name="email" placeholder="Email Adresiniz">
-                        <?php if($m == "Yeni Adres Ekle"){ ?>
+                        <label for="fname"><i class="fa fa-phone"></i> Tel</label>
+                        <input type="text" id="phone-number" name="phone-number" placeholder="Telefon numarası">
+                        <?php if(isset($_GET["m"]) && $_GET["m"]=="adres"){ ?>
                             <div class="container">
                                 <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
                                 <input type="text" id="adr" name="address" placeholder="Adres">
@@ -169,7 +178,7 @@ if(isset($_POST['ok_checkout'])){
                         <?php }else{?>
                             <ul class="list-group">
                                 <li class="list-group-item disabled"><?=$adresim?></li>
-                                <input type="submit" name="checkout_adres" value="Yeni Adres Ekle" class="btn">
+                                <a href="<?=$realIp."/checkout.php?m=adres"?>">  <button type="button" class="btn btn-success">Farklı bir adres ekle</button></a>
                             </ul>
                         <?php }?>
                     </div>
@@ -222,15 +231,16 @@ if(isset($_POST['ok_checkout'])){
                     </div>
                 </div>
                 <input type="hidden" value="user_pay_finished" name="user_pay">
-                <input type="hidden" value="" name="checkout">
-                <input type="submit" name="ok_checkout" class="btn" type="submit" value="Ödemeyi Tamamla">
+                <button class="btn" type="submit">
+                    Ödemeyi Tamamla
+                </button>
             </form>
         </div>
     </div>
     <div class="col-25">
         <div class="container">
             <h4>Ürünler <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b><?=count($_SESSION["sepetim"])?></b></span></h4>
-            <?php $item_top =0; foreach ($_SESSION['sepetim'] as $result){ $item_top +=$result[3]*$result[5] ?>
+            <?php $item_top = 0; foreach ($_SESSION["sepetim"] as $result){ $item_top +=$result[3]*$result[5] ?>
                 <p><?=$result[2]?> <span class="price"><?php echo $result[3]*$result[5] ;?>  ₺</span></p>
             <?php }  ?>
             <hr>
