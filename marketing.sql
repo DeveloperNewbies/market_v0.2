@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 10 Ara 2018, 23:59:46
+-- Üretim Zamanı: 11 Ara 2018, 19:40:43
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -166,27 +166,43 @@ INSERT INTO `m_marketinfo` (`id`, `urun_id`, `urun_info`, `urun_infocont`) VALUE
 
 CREATE TABLE `m_order` (
   `id` int(11) NOT NULL,
-  `urun_id` int(11) NOT NULL,
   `k_id` int(11) NOT NULL,
-  `urun_fiyat` float NOT NULL,
-  `urun_adet` int(11) NOT NULL,
   `tarih` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_op_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `k_ip` varchar(15) COLLATE utf8_turkish_ci NOT NULL,
-  `s_adres` text COLLATE utf8_turkish_ci NOT NULL,
   `kargo_takip_no` int(11) NOT NULL DEFAULT '0',
   `satis_sonuc` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
+-- --------------------------------------------------------
+
 --
--- Tablo döküm verisi `m_order`
+-- Tablo için tablo yapısı `m_orderbill`
 --
 
-INSERT INTO `m_order` (`id`, `urun_id`, `k_id`, `urun_fiyat`, `urun_adet`, `tarih`, `last_op_date`, `k_ip`, `s_adres`, `kargo_takip_no`, `satis_sonuc`) VALUES
-(1, 1, 2, 5, 2, '2018-12-08 20:42:44', '2018-12-10 19:28:01', '::81', '-', 2123123, 3),
-(2, 2, 3, 10, 3, '2018-12-07 13:38:00', '2018-12-08 20:44:09', '::81', '-', 0, 1),
-(3, 3, 4, 10, 3, '2018-12-07 13:38:00', '2018-12-08 20:44:09', '::81', '-', 0, 1),
-(4, 2, 5, 20, 2, '2018-12-10 20:19:18', '2018-12-10 20:28:39', '::81', '-', 153453153, 3);
+CREATE TABLE `m_orderbill` (
+  `id` int(11) NOT NULL,
+  `s_id` int(11) NOT NULL,
+  `urun_id` int(11) NOT NULL,
+  `urun_ad` text COLLATE utf8_turkish_ci NOT NULL,
+  `urun_fiyat` int(11) NOT NULL,
+  `urun_adet` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `m_orderbill_info`
+--
+
+CREATE TABLE `m_orderbill_info` (
+  `id` int(11) NOT NULL,
+  `s_id` int(11) NOT NULL,
+  `u_id` int(11) NOT NULL,
+  `u_name` text COLLATE utf8_turkish_ci NOT NULL,
+  `u_surname` text COLLATE utf8_turkish_ci NOT NULL,
+  `u_adress` text COLLATE utf8_turkish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -291,6 +307,18 @@ ALTER TABLE `m_order`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Tablo için indeksler `m_orderbill`
+--
+ALTER TABLE `m_orderbill`
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Tablo için indeksler `m_orderbill_info`
+--
+ALTER TABLE `m_orderbill_info`
+  ADD UNIQUE KEY `id` (`id`);
+
+--
 -- Tablo için indeksler `m_uinfo`
 --
 ALTER TABLE `m_uinfo`
@@ -346,7 +374,19 @@ ALTER TABLE `m_marketinfo`
 -- Tablo için AUTO_INCREMENT değeri `m_order`
 --
 ALTER TABLE `m_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `m_orderbill`
+--
+ALTER TABLE `m_orderbill`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `m_orderbill_info`
+--
+ALTER TABLE `m_orderbill_info`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_users`

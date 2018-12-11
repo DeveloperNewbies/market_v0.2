@@ -244,6 +244,12 @@ include('dbClass.php');
             return $this->db->userGetOrder($u_id);
         }
 
+        function addSiparis($u_id, $u_name, $u_surname, $u_adres, $u_ip, $u_sepet)
+        {
+            return $this->db->userAddOrder($u_id, $u_name, $u_surname, $u_ip, $u_adres, $u_sepet);
+        }
+
+
 		/*
 		 * There is Admin Power Activated
 		 * $permission > 1

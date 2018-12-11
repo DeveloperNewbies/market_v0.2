@@ -282,6 +282,59 @@
 
 
 
+
+        function userAddOrder($u_id, $u_name, $u_surname, $u_ip, $u_adres, $u_sepet)
+        {
+            try
+            {
+                $prepare = $this->pdo->prepare("INSERT INTO m_order(k_id, k_ip) VALUES(:k_id, :k_ip)");
+                $prepare->execute(array(
+                    "k_id" => $u_id,
+                    "k_ip" => $u_ip,
+                ));
+
+                try
+                {
+                    $s_id = $this->pdo->lastInsertId();
+                    foreach ($u_sepet as $item)
+                    {
+                        $prepare = $this->pdo->prepare("INSERT INTO m_orderbill(s_id, urun_id, urun_ad, urun_fiyat, urun_adet) VALUES(:sip_id, :u_id, :u_ad, :u_fiyat, :u_adet)");
+                        $prepare->execute(array(
+                            "sip_id" => $s_id,
+                            "u_id" => $item[0],
+                            "u_ad" => $item[2],
+                            "u_fiyat" => $item[3],
+                            "u_adet" => $item[5]
+                        ));
+                    }
+                    try
+                    {
+                        $prepare = $this->pdo->prepare("INSERT INTO m_orderbill_info(s_id, u_id, u_name, u_surname, u_adress) VALUES(:s_id, :u_id, :u_name, :u_surname, :u_adress)");
+                        $prepare->execute(array(
+                            "s_id" => $s_id,
+                            "u_id" => $u_id,
+                            "u_name" => $u_name,
+                            "u_surname" => $u_surname,
+                            "u_adress" => $u_adres
+                        ));
+                    }catch (PDOException $e)
+                    {
+                        //echo 'Cand Add User Billing İnfo to DB';
+                        return false;
+                    }
+                }catch (PDOException $e)
+                {
+                    //echo 'Cant Add User List Info To Db'
+                    return false;
+                }
+
+            }catch(PDOException $e)
+            {
+                echo 'Cant Create User Infos ' . $e->getMessage();
+                return false;
+            }
+        }
+
 		function getUrun($id)
         {
             if($id == "all")

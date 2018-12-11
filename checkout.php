@@ -20,31 +20,71 @@ require_once ("inc/secIP.php");
 require_once('inc/userClass.php');
 session_start();
 $ipset = new secIP();
-$user = new user();
 $card_secure_durum = true;
-
-
+$user;
 $realIp = "http://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 
+$m = "";
+if(!isset($_SESSION['user']))
+{
+    header("location: ".$realIp."/login");
+}else
+    {
+        if(!isset($_POST['checkout']) || !isset($_SESSION['sepetim']))
+            header("location: ".$realIp);
+        else
+            {
+                if(isset($_POST['checkout_adres']))
+                    $m = $user->security($_POST['checkout_adres']);
 
-if(!isset($_SESSION["user"]) && count($_SESSION["sepetim"])<=0 )
-    header("location: ".$realIp);
-else
-    if(isset($_POST['checkout_adres']))
-        $m = $user->security($_POST['checkout_adres']);
+                $user = new user();
+                $user = unserialize(base64_decode($_SESSION['user']));
+                $info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
+                $hash = hash("sha256", $info);
+                $remote_hash = '';
+                $islogged = true;
+                foreach($user->getHash() as $row)
+                {
+                    $remote_hash = $row['session_hash'];
+                }
+                if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+                {
+                    $islogged = false;
+                    $user->logOut();
+                    session_destroy();
+                    echo 'Oturum bilgisi ihlali!';
+                    header("Refresh: 3;");
+                }
+        }
 
+    }
 
 $adresim = "Adana";
-
+$card_secure_durum = true;
 
 //form post
 $checkout_name ;
+$checkout_surname;
 $checkout_email ;
 $checkout_adres;
 $checkout_adres ;
 $checkout_city ;
 $checkout_state;
 $checkout_zip ;
+$checkout_number = "";
+
+//checkout_s_id is set from db but for test u could take it a number
+$checkout_s_id = 1;
+$checkout_ip = "";
+if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
+    $checkout_ip = $_SERVER["HTTP_CLIENT_IP"];
+} elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
+    $checkout_ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+} else {
+    $checkout_ip = $_SERVER["REMOTE_ADDR"];
+}
+$checkout_amount = 0;
+$checkout_list=array();
 
 //form card
 $cardname ;
@@ -53,33 +93,36 @@ $expmonth;
 $expyear;
 $cvv;
 
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    if($_POST["firstname"]!="")
-        $checkout_name = $user->security ($_POST["firstname"]);
+if(isset($_POST['ok_checkout'])){
+    if(isset($_POST['firstname']) && $_POST['firstname']!="")
+        $checkout_name = $user->security ($_POST['firstname'], "adres");
     else $card_secure_durum = false;
-    if($_POST["email"] !=""){
+    if(isset($_POST['email']) && $_POST["email"] !=""){
         if(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL ))
-            $checkout_email = $user->security ($_POST["email"]);
+            $checkout_email = $user->security ($_POST["email"], "adres");
         else $card_secure_durum = false;
+    }else $card_secure_durum = false;
+
+    $name = explode(" ", $checkout_name);
+    $checkout_name = "";
+    for ($i = 0; $i<count($name); $i++)
+    {
+        if(($i+1) == count($name))
+            $checkout_surname = $name[$i];
+        else
+            $checkout_name .= $name[$i]." ";
     }
-    if($_POST["phone-number"]!=""){
-            $checkout_phone_number = $user->security ($_POST["phone-number"]);
-    } else $card_secure_durum = false;
-
-
-    if(isset($_GET["m"]) && $_GET["m"]=="adres"){
-        if($_POST["address"]!="")
-            $checkout_adres=$user->security ($_POST["address"]);
+    if(isset($_POST['checkout_adres']) && $m == "Yeni Adres Ekle"){
+        if(isset($_POST['address']) && $_POST["address"]!="")
+            $checkout_adres=$user->security ($_POST["address"], "adres");
         else $card_secure_durum = false;
-        if($_POST["city"]!="")
-            $checkout_city = $user->security ($_POST["city"]);
+        if(isset($_POST['city']) && $_POST["city"]!="")
+            $checkout_city = $user->security ($_POST["city"], "adres");
         else $card_secure_durum = false;
-        if($_POST["state"]!="")
-            $checkout_state = $user->security ($_POST["state"]);
+        if(isset($_POST['state']) && $_POST["state"]!="")
+            $checkout_state = $user->security ($_POST["state"], "adres");
         else $card_secure_durum = false;
-        if($_POST["zip"]!=""){
+        if(isset($_POST['zip']) && $_POST["zip"]!=""){
             if(filter_var($_POST["zip"], FILTER_VALIDATE_INT ) )
                 $checkout_zip = $user->security ($_POST["zip"]);
             else $card_secure_durum = false;
@@ -90,33 +133,180 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
     ////////////ödeme/////////////
-    if($_POST["cardname"]!="")
-        $cardname = $user->security ($_POST["cardname"]);
+    if(isset($_POST['cardname']) && $_POST["cardname"]!="")
+        $cardname = $user->security ($_POST["cardname"], "adres");
     else $card_secure_durum = false;
-    if($_POST["cardnumber"]!=""){
-        if(filter_var($_POST["cardnumber"], FILTER_VALIDATE_INT ) )
-            $checkout_zip = $user->security ($_POST["cardnumber"]);
+
+    if(isset($_POST['cardnumber']) && $_POST["cardnumber"]!=""){
+        if(is_numeric($_POST['cardnumber']) )
+            $cardnumber = $user->security ($_POST["cardnumber"], "adres");
         else $card_secure_durum = false;
+        echo is_numeric($_POST['cardnumber']);
     } else $card_secure_durum = false;
-    if($_POST["expmonth"]!=""){
+
+    if(isset($_POST['expmonth']) && $_POST["expmonth"]!=""){
         if(filter_var($_POST["expmonth"], FILTER_VALIDATE_INT ) )
             $expmonth = $user->security ($_POST["expmonth"]);
         else $card_secure_durum = false;
     }else $card_secure_durum = false;
-    if($_POST["expyear"]!=""){
+
+    if(isset($_POST['expyear']) && $_POST["expyear"]!=""){
         if(filter_var($_POST["expyear"], FILTER_VALIDATE_INT ) )
             $expyear = $user->security ($_POST["expyear"]);
         else $card_secure_durum = false;
     } else $card_secure_durum = false;
-    if($_POST["cvv"]!=""){
+
+    if(isset($_POST['cvv']) && $_POST["cvv"]!=""){
         if(filter_var($_POST["cvv"], FILTER_VALIDATE_INT ) )
             $cvv = $user->security ($_POST["cvv"]);
         else $card_secure_durum = false;
     }else $card_secure_durum = false;
 
 
-}
+    foreach ($_SESSION['sepetim'] as $item)
+    {
+        $checkout_tmp_list = array();
+        $checkout_amount += $item['3'] * $item['5'] * 100;
+        array_push($checkout_tmp_list, $item['2']);
+        array_push($checkout_tmp_list, $item['3']);
+        array_push($checkout_tmp_list, $item['5']);
+        array_push($checkout_list, $checkout_tmp_list);
+    }
+    if($card_secure_durum != false)
+    {
+        //Buradan Apiye Data Yollanacak
+        ####################### DÜZENLEMESİ ZORUNLU ALANLAR #######################
+        #
+        ## API Entegrasyon Bilgileri - Mağaza paneline giriş yaparak BİLGİ sayfasından alabilirsiniz.
+        $merchant_id 	= 'XXXXXX';
+        $merchant_key 	= 'YYYYYYYYYYYYYY';
+        $merchant_salt	= 'ZZZZZZZZZZZZZZ';
+        #
+        ## Müşterinizin sitenizde kayıtlı veya form vasıtasıyla aldığınız eposta adresi
+        $email = $checkout_email;
+        #
+        ## Tahsil edilecek tutar.
+        $payment_amount	= $checkout_amount; //9.99 için 9.99 * 100 = 999 gönderilmelidir.
+        #
+        ## Sipariş numarası: Her işlemde benzersiz olmalıdır!! Bu bilgi bildirim sayfanıza yapılacak bildirimde geri gönderilir.
+        $merchant_oid = $checkout_s_id;
+        #
+        ## Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız ad ve soyad bilgisi
+        $user_name = $checkout_name;
+        #
+        ## Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız adres bilgisi
+        $user_address = $checkout_adres;
+        #
+        ## Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız telefon bilgisi
+        $user_phone = $checkout_number;
+        #
+        ## Başarılı ödeme sonrası müşterinizin yönlendirileceği sayfa
+        ## !!! Bu sayfa siparişi onaylayacağınız sayfa değildir! Yalnızca müşterinizi bilgilendireceğiniz sayfadır!
+        ## !!! Siparişi onaylayacağız sayfa "Bildirim URL" sayfasıdır (Bakınız: 2.ADIM Klasörü).
+        $merchant_ok_url = "http://www.siteniz.com/odeme_basarili.php";
+        #
+        ## Ödeme sürecinde beklenmedik bir hata oluşması durumunda müşterinizin yönlendirileceği sayfa
+        ## !!! Bu sayfa siparişi iptal edeceğiniz sayfa değildir! Yalnızca müşterinizi bilgilendireceğiniz sayfadır!
+        ## !!! Siparişi iptal edeceğiniz sayfa "Bildirim URL" sayfasıdır (Bakınız: 2.ADIM Klasörü).
+        $merchant_fail_url = "http://www.siteniz.com/odeme_hata.php";
+        #
+        ## Müşterinin sepet/sipariş içeriği
+        $user_basket = $checkout_list;
+        #
+        /* ÖRNEK $user_basket oluşturma - Ürün adedine göre array'leri çoğaltabilirsiniz
+        $user_basket = base64_encode(json_encode(array(
+            array("Örnek ürün 1", "18.00", 1), // 1. ürün (Ürün Ad - Birim Fiyat - Adet )
+            array("Örnek ürün 2", "33.25", 2), // 2. ürün (Ürün Ad - Birim Fiyat - Adet )
+            array("Örnek ürün 3", "45.42", 1)  // 3. ürün (Ürün Ad - Birim Fiyat - Adet )
+        )));
+        */
+        ############################################################################################
 
+        ## Kullanıcının IP adresi
+        if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
+            $ip = $_SERVER["HTTP_CLIENT_IP"];
+        } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
+            $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        } else {
+            $ip = $_SERVER["REMOTE_ADDR"];
+        }
+
+        ## !!! Eğer bu örnek kodu sunucuda değil local makinanızda çalıştırıyorsanız
+        ## buraya dış ip adresinizi (https://www.whatismyip.com/) yazmalısınız. Aksi halde geçersiz paytr_token hatası alırsınız.
+        $user_ip=$checkout_ip;
+        ##
+
+        ## İşlem zaman aşımı süresi - dakika cinsinden
+        $timeout_limit = "30";
+
+        ## Hata mesajlarının ekrana basılması için entegrasyon ve test sürecinde 1 olarak bırakın. Daha sonra 0 yapabilirsiniz.
+        $debug_on = 1;
+
+        ## Mağaza canlı modda iken test işlem yapmak için 1 olarak gönderilebilir.
+        $test_mode = 0;
+
+        $no_installment	= 0; // Taksit yapılmasını istemiyorsanız, sadece tek çekim sunacaksanız 1 yapın
+
+        ## Sayfada görüntülenecek taksit adedini sınırlamak istiyorsanız uygun şekilde değiştirin.
+        ## Sıfır (0) gönderilmesi durumunda yürürlükteki en fazla izin verilen taksit geçerli olur.
+        $max_installment = 0;
+
+        $currency = "TL";
+
+        $user->addSiparis($user->getID(), $checkout_name, $checkout_surname, $checkout_adres, $checkout_ip, $_SESSION['sepetim']);
+
+
+        ####### Bu kısımda herhangi bir değişiklik yapmanıza gerek yoktur. #######
+        $hash_str = $merchant_id .$user_ip .$merchant_oid .$email .$payment_amount .$user_basket.$no_installment.$max_installment.$currency.$test_mode;
+        $paytr_token=base64_encode(hash_hmac('sha256',$hash_str.$merchant_salt,$merchant_key,true));
+        $post_vals=array(
+            'merchant_id'=>$merchant_id,
+            'user_ip'=>$user_ip,
+            'merchant_oid'=>$merchant_oid,
+            'email'=>$email,
+            'payment_amount'=>$payment_amount,
+            'paytr_token'=>$paytr_token,
+            'user_basket'=>$user_basket,
+            'debug_on'=>$debug_on,
+            'no_installment'=>$no_installment,
+            'max_installment'=>$max_installment,
+            'user_name'=>$user_name,
+            'user_address'=>$user_address,
+            'user_phone'=>$user_phone,
+            'merchant_ok_url'=>$merchant_ok_url,
+            'merchant_fail_url'=>$merchant_fail_url,
+            'timeout_limit'=>$timeout_limit,
+            'currency'=>$currency,
+            'test_mode'=>$test_mode
+        );
+
+        $ch=curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.paytr.com/odeme/api/get-token");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1) ;
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_vals);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        $result = @curl_exec($ch);
+
+        if(curl_errno($ch))
+            die("PAYTR IFRAME connection error. err:".curl_error($ch));
+
+        curl_close($ch);
+
+        $result=json_decode($result,1);
+
+        if($result['status']=='success')
+            $token=$result['token'];
+        else
+            die("PAYTR IFRAME failed. reason:".$result['reason']);
+        #########################################################################
+
+    }
+
+}
 
 ?>
 
@@ -144,9 +334,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <input type="text" id="fname" name="firstname" placeholder="İsminiz">
                         <label for="email"><i class="fa fa-envelope"></i> Email</label>
                         <input type="text" id="email" name="email" placeholder="Email Adresiniz">
-                        <label for="fname"><i class="fa fa-phone"></i> Tel</label>
-                        <input type="text" id="zp" name="phone-number" class="fa fa-address-card-o" placeholder="Telefon numarası">
-                        <?php if(isset($_GET["m"]) && $_GET["m"]=="adres"){ ?>
+                        <?php if($m == "Yeni Adres Ekle"){ ?>
                             <div class="container">
                                 <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
                                 <input type="text" id="adr" name="address" placeholder="Adres">
@@ -175,7 +363,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <?php }else{?>
                             <ul class="list-group">
                                 <li class="list-group-item disabled"><?=$adresim?></li>
-                                <a href="<?=$realIp."/checkout.php?m=adres"?>">  <button type="button" class="btn btn-success">Farklı bir adres ekle</button></a>
+                                <input type="submit" name="checkout_adres" value="Yeni Adres Ekle" class="btn">
                             </ul>
                         <?php }?>
                     </div>
@@ -228,22 +416,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                 </div>
                 <input type="hidden" value="user_pay_finished" name="user_pay">
-                <button class="btn" type="submit">
-                    Ödemeyi Tamamla
-                </button>
+                <input type="hidden" value="" name="checkout">
+                <input type="submit" name="ok_checkout" class="btn" type="submit" value="Ödemeyi Tamamla">
             </form>
         </div>
     </div>
     <div class="col-25">
         <div class="container">
             <h4>Ürünler <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b><?=count($_SESSION["sepetim"])?></b></span></h4>
-            <?php $item_top = 0; foreach ($_SESSION["sepetim"] as $result){ $item_top +=$result[3]*$result[5] ?>
+            <?php $item_top =0; foreach ($_SESSION['sepetim'] as $result){ $item_top +=$result[3]*$result[5] ?>
                 <p><?=$result[2]?> <span class="price"><?php echo $result[3]*$result[5] ;?>  ₺</span></p>
             <?php }  ?>
             <hr>
             <p>Toplam <span class="price" style="color:black"><b><?=$item_top?> ₺</b></span></p>
         </div>
     </div>
+    <script src="https://www.paytr.com/js/iframeResizer.min.js"></script>
+    <iframe src="https://www.paytr.com/odeme/guvenli/<?php echo $token;?>" id="paytriframe" frameborder="0" scrolling="no" style="width: 100%;"></iframe>
+    <script>iFrameResize({},'#paytriframe');</script>
 </div>
 </body>
 </html>
