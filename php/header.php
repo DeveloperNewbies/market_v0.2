@@ -3,20 +3,8 @@
  * Date: 28.11.2018
  * Time: 11:58
  */
-ob_start();
-function header_focus($m){
-    if(isset($_GET["m"])){
-        $url_m = $_GET["m"];
-        if($url_m == $m) return true;
-        else return "home";
-    }else{
-        return false;
-    }
-}
 
-if(isset($_GET["search"])){
-    $url_m = "magaza";
-}
+
 ?>
 <!-- Header -->
 <header class="header-v2">
@@ -34,30 +22,30 @@ if(isset($_GET["search"])){
                 <div class="menu-desktop">
                     <ul class="main-menu">
 
-                        <li <?php if(header_focus ("home")==false || !header_focus ("home") == "home" ){
+                        <li <?php if($url_m =="home" ){
                             ?> class="active-menu" <?php } ?>>
                             <a href="<?=$home_url?>"><?=$header_url[0]?></a>
 
                         </li>
 
 
-                        <li <?php if(header_focus ("magaza") === true){ ?> class="active-menu" <?php } ?>>
+                        <li <?php if($url_m =="magaza" ){ ?> class="active-menu" <?php } ?>>
                             <a href="<?=$header_magaza?>"><?=$header_url[1]?></a>
                         </li>
 
-                        <li <?php if(header_focus ("sepetim") === true){
+                        <li <?php if($url_m =="sepetim" ){
                             ?> class="active-menu " <?php } ?> >
                             <a href="<?=$header_sepetim?>"><?=$header_url[2]?></a>
                         </li>
 
 
 
-                        <li <?php if(header_focus ("hakkinda")=== true){
+                        <li <?php if($url_m =="hakkinda" ){
                             ?> class="active-menu" <?php } ?>>
                             <a href="<?=$header_about?>"><?=$header_url[3]?></a>
                         </li>
 
-                        <li <?php if(header_focus ("iletisim")=== true){
+                        <li <?php if($url_m =="iletisim" ){
                             ?> class="active-menu" <?php } ?>>
                             <a href="<?=$header_contact?>"><?=$header_url[4]?></a>
                         </li>
@@ -139,6 +127,12 @@ if(isset($_GET["search"])){
             </li>
 
             <?php if($islogged){ ?>
+                <li>
+                    <a href="<?=$home_url."/index.php?m=hesabim&account=sepetim"?>">Siparişler</a>
+                </li>
+                <li>
+                    <a href="<?=$home_url."/index.php?m=hesabim&account=hesabim&reload=adres"?>">Adreslerim</a>
+                </li>
             <li>
                 <a href="<?=$side_bar_hesabım?>">Hesabım</a>
             </li>
