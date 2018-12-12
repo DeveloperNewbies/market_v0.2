@@ -9,8 +9,8 @@
 $user_account_update_pass_alert = "re";
 
 
-$usertmp_mail = ($user->getUserInfosOut())['e-posta'];
-$usertmp_adres = ($user->getUserInfosOut())['adres'];
+$usertmp_mail = ($user->getUserInfosOut()['e-posta']);
+$usertmp_adres = ($user->getUserInfosOut()['adres']);
 
     $re_pas = (isset($_GET["reload"])) ? $_GET["reload"] : "home";
 
