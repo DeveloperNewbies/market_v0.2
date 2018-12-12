@@ -1,8 +1,8 @@
 <?php
 	class secIP
 	{
-		private $local = "shop.ay-soft.com";
-		private $port = "80";
+		private $local = "localhost";
+		private $port = "81";
 		private $file ="";
 		
 		public function getLocal()

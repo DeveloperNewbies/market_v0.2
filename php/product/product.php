@@ -380,7 +380,11 @@ $user = new user();
 
 
 
-<?php }else{ ?>
+<?php }else{
+
+       $all_cat = $user->getAllCategory();
+
+       ?>
 
 
 <!-- Product -->
@@ -393,18 +397,13 @@ $user = new user();
                 </button>
 
 
-
-             <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-                <!-- MEN -->
+                <?php foreach ($all_cat as $item){ ?>
+                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".<?=$item[0]?>">
+                    <?=$item[1]?>
                 </button>
 
+                <?php } ?>
 
-
-
-
-                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
-                    <!-- watches -->
-                </button>
             </div>
 
 
@@ -431,6 +430,7 @@ $user = new user();
 
        $items = array();
        $items_image = array();
+       $item_cat = array();
        $urunler;
        if(isset($_GET['search']))
        {
@@ -455,6 +455,7 @@ $user = new user();
        {
            array_push($items_image, $db->getUrunImg($item['urun_id'])[0][2]);
            array_push($items, $item);
+           array_push($item_cat, $item['urun_grup']);
        }
 
 
@@ -466,7 +467,7 @@ $user = new user();
             foreach ($items as $item){
        ?>
 
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?=$item['urun_grup']?>">
                 <!-- Block2 -->
                 <div class="block2">
                     <div class="block2-pic hov-img0">

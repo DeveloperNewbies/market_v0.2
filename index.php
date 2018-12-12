@@ -85,7 +85,7 @@ if($islogged){
     $side_bar = array("Anasayfa","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
 
     //php/account/account.php
-//user account page variable
+    //user account page variable
     $account_username ="" ;//username
     $account_surname="" ;//surname
     $account_email="" ; //email

@@ -39,17 +39,19 @@
                                     <tbody>
                                     <?php foreach ($siparisler as $result){ ?>
                                     <tr class="odd gradeX">
-                                        <td><button type="button" class="btn btn-primary btn-sm"><a href="<?=$home_link."/index.php?m=hesabim&account=siparis&sp=".$result[0]?>"> Ürün ayrıntıları</a></button></td>
+                                        <td><button type="button" class="btn btn-primary btn-sm"><a href="<?=$home_link."/index.php?m=hesabim&account=siparis&sp=".$result[3]?>"> Ürün ayrıntıları</a></button></td>
                                         <td><?=$result[1]?></td>
                                         <td>
+                                            <?php for($i = 0; $i<count($result[2]); $i++){ ?>
                                             <div class="header-cart-item-img">
-                                                <img src="<?=$result[2]?>" alt="<?=$result[4]?>">
+                                                <img src="<?=$result[2][$i]?>" alt="<?=$result[4][$i]?>">
                                             </div>
+                                            <?php } ?>
                                         </td>
                                         <td><?=$result[3]?></td>
-                                        <td class="center"><a href="<?=$home_link."/index.php?m=magaza&id=".$result[0]?>"><?=$result[4]?></a></td>
-                                        <td class="center"><?=$result[5]?> ₺</td>
-                                        <td class="center"><?=$result[6]?></td>
+                                        <td class="center"><?php for($i = 0; $i<count($result[0]); $i++){ ?><a href="<?=$home_link."/index.php?m=magaza&id=".$result[0][$i]?>"><?php echo (($i+1) == count($result[0])) ? $result[4][$i] : $result[4][$i]." - ";?> </a>  <?php } ?> </td>
+                                        <td class="center"><?=$result[5][count($result[5])-1]?> ₺</td>
+                                        <td class="center"><?php for($i = 0; $i<count($result[6]); $i++){ echo (($i+1) == count($result[6])) ? $result[6][$i] : $result[6][$i]." - "; } ?></td>
                                         <td class="center"><?=$result[7]?></td>
                                         <td class="center"><?=$result[8]?></td>
                                         <td class="center"><?=$result[9]?></td>

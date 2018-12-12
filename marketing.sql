@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 11 Ara 2018, 23:51:17
+-- Üretim Zamanı: 12 Ara 2018, 18:07:16
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -110,7 +110,7 @@ CREATE TABLE `m_market` (
 
 INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `kdv`, `urun_adet`, `urun_tarih`, `urun_grup`, `is_active`) VALUES
 (1, 'Harnup Özü', 'Harnup Özü', 'Harnup Özü', 10.99, 18, 20, '2018-12-09 15:29:10', 1, 1),
-(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13.99, 18, 5, '2018-12-12 01:33:14', 2, 1),
+(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13.99, 18, 5, '2018-12-12 01:33:14', 3, 1),
 (3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 18, 10, '0000-00-00 00:00:00', 1, 1),
 (4, 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 17.5, 18, 12, '2018-12-03 00:00:00', 1, 1);
 
@@ -180,7 +180,8 @@ CREATE TABLE `m_order` (
 
 INSERT INTO `m_order` (`id`, `k_id`, `tarih`, `last_op_date`, `k_ip`, `kargo_takip_no`, `satis_sonuc`) VALUES
 (8, 5, '2018-12-11 21:54:12', '2018-12-12 01:04:12', '::1', 0, 0),
-(9, 5, '2018-12-12 01:15:34', '2018-12-12 01:15:34', '::1', 0, 0);
+(9, 5, '2018-12-12 01:15:34', '2018-12-12 01:15:34', '::1', 0, 0),
+(10, 1, '2018-12-12 02:20:01', '2018-12-12 02:20:01', '::1', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -205,7 +206,9 @@ INSERT INTO `m_orderbill` (`id`, `s_id`, `urun_id`, `urun_ad`, `urun_fiyat`, `ur
 (61, 8, 2, 'Tahinli Harnup Özü', 13, 1),
 (62, 8, 3, 'Nar Ekşisi', 6, 3),
 (63, 8, 4, 'Tahinli Harnup Özü 700 GR', 18, 3),
-(64, 9, 2, 'Tahinli Harnup Özü', 13, 1);
+(64, 9, 2, 'Tahinli Harnup Özü', 13, 1),
+(65, 10, 2, 'Tahinli Harnup Özü', 13.99, 3),
+(66, 10, 3, 'Nar Ekşisi', 5.99, 1);
 
 -- --------------------------------------------------------
 
@@ -228,7 +231,8 @@ CREATE TABLE `m_orderbill_info` (
 
 INSERT INTO `m_orderbill_info` (`id`, `s_id`, `u_id`, `u_name`, `u_surname`, `u_adress`) VALUES
 (4, 8, 5, 'Test ', 'Test', 'Adana'),
-(5, 9, 5, 'Test ', 'Test', 'Adana');
+(5, 9, 5, 'Test ', 'Test', 'Adana'),
+(6, 10, 1, 'doruk ', 'doruk', 'Adana');
 
 -- --------------------------------------------------------
 
@@ -240,7 +244,7 @@ CREATE TABLE `m_uinfo` (
   `k_id` int(11) NOT NULL,
   `k_ad` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
   `k_soyad` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
-  `k_tel` int(11) NOT NULL,
+  `k_tel` bigint(11) NOT NULL,
   `k_adresi` mediumtext COLLATE utf8_turkish_ci NOT NULL,
   `k_adresi2` text COLLATE utf8_turkish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
@@ -250,11 +254,11 @@ CREATE TABLE `m_uinfo` (
 --
 
 INSERT INTO `m_uinfo` (`k_id`, `k_ad`, `k_soyad`, `k_tel`, `k_adresi`, `k_adresi2`) VALUES
-(1, 'Doruk', 'Han', 0, '-', '-'),
+(1, 'Doruk', 'Han', 0, 'HATAY/MKÜ', '-'),
 (2, 'Mehmet', 'Sincap', 0, '-', '-'),
 (3, 'Sincap', 'Mehmet', 0, '-', '-'),
 (4, 'Sincap', 'Sincap', 0, '-', '-'),
-(5, 'Test', 'Test', 0, 'Hatay/İskenderun İskenderun Teknik Üniversitesi', ''),
+(5, 'Test', 'Test', 5326547895, 'Hatay/İskenderun İskenderun Teknik Üniversitesi', '-'),
 (6, 'Alp', 'Deny', 0, '-', '-');
 
 -- --------------------------------------------------------
@@ -279,11 +283,11 @@ CREATE TABLE `m_users` (
 --
 
 INSERT INTO `m_users` (`id`, `k_adi`, `k_sifre`, `session_hash`, `ip`, `tarih`, `online`, `user_group`) VALUES
-(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', '6cd927b40e8175d06f0be44198b043733ac096ba826c66756eb47d667799d0ba', '::1', '2018-11-28 00:00:00', 1, 2),
+(1, 'doruk@hotmail.com', '4297f44b13955235245b2497399d7a93', 'f426527be624e3b0431981426d7dbaad95a6a126dcbafeffcf53842b80097d8b', '::1', '2018-11-28 00:00:00', 1, 2),
 (2, 'mehmet_tuna_anadolu@hotmail.com', '4297f44b13955235245b2497399d7a93', '729aaaf93c3e17bf60a9186c3e00fb1ace828b42661beec5b100d788326bccdc', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (3, 'sincap_mehmet_anadolu@hotmail.co', '4297f44b13955235245b2497399d7a93', '61a8a1224cd6cdd64ac4cfd85879c859238e01ea64909a6b85669327fe06d1bb', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
 (4, 'sincap@hotmail.com', '4297f44b13955235245b2497399d7a93', '3f9afd31745da229d7b3602d2efdfab0e7d54f4800cf49f4f90cdb05ff360485', '10.21.199.198', '2018-11-28 00:00:00', 1, 1),
-(5, 'test@hotmail.com', '4297f44b13955235245b2497399d7a93', '19ac865762ae4ec936d043699fe7e1c6f44107808f699baca257a179354ac6d5', '::1', '2018-11-28 00:00:00', 1, 2),
+(5, 'test@hotmail.com', '4297f44b13955235245b2497399d7a93', '19ac865762ae4ec936d043699fe7e1c6f44107808f699baca257a179354ac6d5', '::1', '2018-11-28 00:00:00', 0, 2),
 (6, 'adeny@hotmail.com', '4297f44b13955235245b2497399d7a93', 'cce49dcaeb2e51f13c124d1ab13c52be8b61a5799f594fef8aa1e9b42abdcc91', '192.168.43.209', '2018-12-01 00:00:00', 0, 1);
 
 --
@@ -400,19 +404,19 @@ ALTER TABLE `m_marketinfo`
 -- Tablo için AUTO_INCREMENT değeri `m_order`
 --
 ALTER TABLE `m_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_orderbill`
 --
 ALTER TABLE `m_orderbill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_orderbill_info`
 --
 ALTER TABLE `m_orderbill_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `m_users`

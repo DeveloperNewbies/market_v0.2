@@ -50,7 +50,9 @@ include('dbClass.php');
 		{
 			return (new self());
 		}
-		
+
+
+
 		function createUser($nuname, $nupass)
 		{
 			$this->createDb();
@@ -157,14 +159,24 @@ include('dbClass.php');
 		
 		//Sends array of users all infos
 		
-		function userInfos()
+		/*function userInfos()
 		{
 			return $this->uinfos;
 			//
 			//$ui = array($this->id,$this->username,$this->date, $this->statue);
 			//return $ui;
-		}
-		
+		}*/
+
+        function checkPass($old_pass)
+        {
+            if(md5($old_pass) == $this->password)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
 		function setSecurity()
 		{
 			$this->createDb();
@@ -186,12 +198,12 @@ include('dbClass.php');
 		}
 		
 
-		function showUserInfo()
+		/*function showUserInfo()
 		{
 			echo ' Kullanıcı: ' . $this->username;
 			echo ' Şifre: ' . $this->password;
 			echo ' Tarih: ' . $this->udate;
-		}
+		}*/
 
 
 		function getUserCount()
@@ -204,6 +216,18 @@ include('dbClass.php');
             return $this->permission;
         }
 
+        function updateInfos($id, $email, $adress)
+        {
+            if($this->db->updateUserMainInfos($id, $email, $adress))
+            {
+                $this->username = $email;
+                $this->adress = $adress;
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
         function updateAdress($u_id, $adress, $adress2)
         {
             if($this->db->updateUserAdress($u_id, $adress, $adress2))
@@ -217,11 +241,26 @@ include('dbClass.php');
                 }
 
         }
-
+        function updatePassword($id, $new_pass)
+        {
+            if($this->db->updateUserPassword($id, $new_pass))
+            {
+                $this->password = md5($new_pass);
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
 
         function getUrun($id)
         {
             return $this->db->getUrun($id);
+        }
+
+        function getAllCategory()
+        {
+            return $this->db->getAllCategory();
         }
 
         function getUrunKategori($item_cat_id)
@@ -242,6 +281,16 @@ include('dbClass.php');
         function getSiparisByUserID($u_id)
         {
             return $this->db->userGetOrderByUserID($u_id);
+        }
+
+        function getSiparisFaturaInfo($s_id)
+        {
+            return $this->db->userGetOrderBillInfo($s_id);
+        }
+
+        function getSiparisUrunInfo($s_id)
+        {
+            return $this->db->userGetOrderBillItems($s_id);
         }
 
         function addSiparis($u_id, $u_name, $u_surname, $u_adres, $u_ip, $u_sepet)

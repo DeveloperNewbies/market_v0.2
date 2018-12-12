@@ -3,9 +3,9 @@
 	class dbMain
 	{
 
-		private $host = "localhost:3306";//main decleration
-		private $huser = "enesbudak";
-		private $hpass = "21211986";
+		private $host = "localhost";//main decleration
+		private $huser = "root";
+		private $hpass = "";
 		private $database = "marketing";
 		private $dsn;
 
@@ -261,6 +261,32 @@
             }
         }
 
+        function updateUserMainInfos($u_id, $email, $adres)
+        {
+            try
+            {
+                $prepare = $this->pdo->prepare("UPDATE m_users SET k_adi=:email WHERE id=:u_id");
+                $prepare->execute(array(
+                    "email" => $email,
+                    "u_id" => $u_id
+                ));
+                try
+                {
+                    $prepare = $this->pdo->prepare("UPDATE m_uinfo SET k_adresi=:k_adres WHERE k_id=:u_id");
+                    $prepare->execute(array(
+                        "k_adres" => $adres,
+                        "u_id" => $u_id
+                    ));
+                    return true;
+                }catch (PDOException $e)
+                {
+                    return false;
+                }
+            }catch (PDOException $e)
+            {
+                return false;
+            }
+        }
         function updateUserAdress($u_id ,$adres, $adres2)
         {
             $prepare = $this->pdo->prepare("UPDATE m_uinfo SET k_adresi=:adres, k_adresi2=:adres2 WHERE k_id=:u_id");
@@ -280,6 +306,23 @@
             }
         }
 
+        function updateUserPassword($u_id, $new_password)
+        {
+            $prepare = $this->pdo->prepare("UPDATE m_users SET k_sifre=:sifre WHERE id=:u_id");
+            $prepare->execute(array(
+                "sifre" => md5($new_password),
+                "u_id" => $u_id
+            ));
+            if($prepare->rowCount())
+            {
+                return true;
+            }
+            else
+            {
+                //$error = $this->pdo->errorInfo();
+                return false;
+            }
+        }
 
 
 
@@ -358,6 +401,24 @@
             }
 
         }
+
+        function getAllCategory()
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_itemcat");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                //$error = $this->pdo->errorInfo();
+                //echo 'Cant Get Item Category At All'.$error[2];
+                return false;
+            }
+        }
+
         function getUrunKategori($item_cat_id)
         {
             if($item_cat_id == "all")
@@ -474,6 +535,34 @@
         function userGetOrderByUserID($id)
         {
             $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE k_id ='{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        function userGetOrderBillItems($s_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_orderbill WHERE s_id ='{$s_id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        function userGetOrderBillInfo($s_id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_orderbill_info WHERE s_id ='{$s_id}'");
             $prepare->execute();
             if($prepare->rowCount())
             {
