@@ -16,8 +16,8 @@
 	####################### DÜZENLEMESİ ZORUNLU ALANLAR #######################
 	#
 	## API Entegrasyon Bilgileri - Mağaza paneline giriş yaparak BİLGİ sayfasından alabilirsiniz.
-	$merchant_key 	= 'YYYYYYYYYYYYYY';
-	$merchant_salt	= 'ZZZZZZZZZZZZZZ';
+	$merchant_key 	= 'UTFL8d85tM4C2huL';
+	$merchant_salt	= 'ceqZRNm5jaFykuax';
 	###########################################################################
 
 	####### Bu kısımda herhangi bir değişiklik yapmanıza gerek yoktur. #######

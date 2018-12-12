@@ -52,7 +52,7 @@ $i = 0;
     <div class="container">
         <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
             <button class="how-pos3 hov3 trans-04 js-hide-modal<?=($i+1)?>">
-                <img src="images/icons/icon-close.png" alt="CLOSE">
+				<p style="color:white;font-size:20px">KAPAT </p>
             </button>
 
             <div class="row">

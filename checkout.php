@@ -24,6 +24,18 @@ $card_secure_durum = true;
 $user;
 $realIp = "http://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 
+
+//form post
+$checkout_name ;
+$checkout_surname;
+$checkout_email ;
+$checkout_adres;
+$checkout_adres ;
+$checkout_city ;
+$checkout_state;
+$checkout_zip ;
+$checkout_number = "";
+
 $m = "";
 if(!isset($_SESSION['user']))
 {
@@ -55,23 +67,28 @@ if(!isset($_SESSION['user']))
                     echo 'Oturum bilgisi ihlali!';
                     header("Refresh: 3;");
                 }
+				$infos = $user->getUserInfosOut();
+                
+				foreach($infos as $item)
+				{
+					$checkout_name = $infos['ad'];
+					$checkout_surname = $infos['soyad'];
+					$checkout_email = $infos['e-posta'];
+					$checkout_number = $infos['tel'];
+					$checkout_adres = $infos['adres'];
+					$adresim =  $infos['adres'];
+				}
+				
+				
+                
         }
 
     }
 
-$adresim = "Adana";
+
 $card_secure_durum = true;
 
-//form post
-$checkout_name ;
-$checkout_surname;
-$checkout_email ;
-$checkout_adres;
-$checkout_adres ;
-$checkout_city ;
-$checkout_state;
-$checkout_zip ;
-$checkout_number = "";
+
 
 //checkout_s_id is set from db but for test u could take it a number
 $checkout_s_id = 1;
@@ -130,40 +147,17 @@ if(isset($_POST['ok_checkout'])){
                 $checkout_zip = $user->security ($_POST["zip"]);
             else $card_secure_durum = false;
         } else $card_secure_durum = false;
+		if(isset($_POST['phone-number']) && $_POST["phone-number"]!=""){
+            if(is_numeric($_POST['phone-number']) )
+                $checkout_number = $user->security ($_POST["phone-number"]);
+            else $card_secure_durum = false;
+        } else $card_secure_durum = false;
     }else{
         $checkout_adres = $adresim;
     }
 
 
-    ////////////ödeme/////////////
-    if(isset($_POST['cardname']) && $_POST["cardname"]!="")
-        $cardname = $user->security ($_POST["cardname"], "adres");
-    else $card_secure_durum = false;
-
-    if(isset($_POST['cardnumber']) && $_POST["cardnumber"]!=""){
-        if(is_numeric($_POST['cardnumber']) )
-            $cardnumber = $user->security ($_POST["cardnumber"], "adres");
-        else $card_secure_durum = false;
-    } else $card_secure_durum = false;
-
-    if(isset($_POST['expmonth']) && $_POST["expmonth"]!=""){
-        if(filter_var($_POST["expmonth"], FILTER_VALIDATE_INT ) )
-            $expmonth = $user->security ($_POST["expmonth"]);
-        else $card_secure_durum = false;
-    }else $card_secure_durum = false;
-
-    if(isset($_POST['expyear']) && $_POST["expyear"]!=""){
-        if(filter_var($_POST["expyear"], FILTER_VALIDATE_INT ) )
-            $expyear = $user->security ($_POST["expyear"]);
-        else $card_secure_durum = false;
-    } else $card_secure_durum = false;
-
-    if(isset($_POST['cvv']) && $_POST["cvv"]!=""){
-        if(filter_var($_POST["cvv"], FILTER_VALIDATE_INT ) )
-            $cvv = $user->security ($_POST["cvv"]);
-        else $card_secure_durum = false;
-    }else $card_secure_durum = false;
-
+   
 
     foreach ($_SESSION['sepetim'] as $item)
     {
@@ -180,9 +174,9 @@ if(isset($_POST['ok_checkout'])){
         ####################### DÜZENLEMESİ ZORUNLU ALANLAR #######################
         #
         ## API Entegrasyon Bilgileri - Mağaza paneline giriş yaparak BİLGİ sayfasından alabilirsiniz.
-        $merchant_id 	= 'XXXXXX';
-        $merchant_key 	= 'YYYYYYYYYYYYYY';
-        $merchant_salt	= 'ZZZZZZZZZZZZZZ';
+        $merchant_id 	= '125781';
+        $merchant_key 	= 'UTFL8d85tM4C2huL';
+        $merchant_salt	= 'ceqZRNm5jaFykuax';
         #
         ## Müşterinizin sitenizde kayıtlı veya form vasıtasıyla aldığınız eposta adresi
         $email = $checkout_email;
@@ -194,7 +188,7 @@ if(isset($_POST['ok_checkout'])){
         $merchant_oid = $checkout_s_id;
         #
         ## Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız ad ve soyad bilgisi
-        $user_name = $checkout_name;
+        $user_name = $checkout_name.$checkout_surname;
         #
         ## Müşterinizin sitenizde kayıtlı veya form aracılığıyla aldığınız adres bilgisi
         $user_address = $checkout_adres;
@@ -255,8 +249,8 @@ if(isset($_POST['ok_checkout'])){
 
         $currency = "TL";
 
-        $user->addSiparis($user->getID(), $checkout_name, $checkout_surname, $checkout_adres, $checkout_ip, $_SESSION['sepetim']);
-
+        $checkout_s_id = $user->addSiparis($user->getID(), $checkout_name, $checkout_surname, $checkout_adres, $checkout_ip, $_SESSION['sepetim']);
+		$merchant_oid = $checkout_s_id;
 
         ####### Bu kısımda herhangi bir değişiklik yapmanıza gerek yoktur. #######
         $hash_str = $merchant_id .$user_ip .$merchant_oid .$email .$payment_amount .$user_basket.$no_installment.$max_installment.$currency.$test_mode;
@@ -330,19 +324,19 @@ if(isset($_POST['ok_checkout'])){
             <form action="checkout.php" method="post">
 
                 <div class="row">
-                    <div class="col-50">
+                     <div class="col-50">
                         <h3><?php if($card_secure_durum == false){?> <div class="content" style="color: red;">Girdiğiniz bilgiler hatalı</div><?php }?> <br>Fatura Adresi</h3>
                         <label for="fname"><i class="fa fa-user"></i> Tam İsim</label>
-                        <input type="text" id="fname" name="firstname" placeholder="İsminiz">
+                        <input type="text" id="fname" name="firstname" placeholder="İsminiz" value="<?php echo $checkout_name." ".$checkout_surname ?>">
                         <label for="email"><i class="fa fa-envelope"></i> Email</label>
 
-                        <input type="text" id="email" name="email" placeholder="Email Adresiniz">
+                        <input type="text" id="email" name="email" placeholder="Email Adresiniz" value="<?php echo $checkout_email; ?>">
                         <label for="fname"><i class="fa fa-phone"></i> Tel</label>
-                        <input type="text" id="zp" name="phone-number" class="fa fa-address-card-o" placeholder="Telefon numarası">
+                        <input type="text" id="zp" name="phone-number" class="fa fa-address-card-o" placeholder="Telefon numarası" value="<?php echo $checkout_number; ?>">
                         <?php if($m == "Yeni Adres Ekle"){ ?>
                             <div class="container">
                                 <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
-                                <input type="text" id="adr" name="address" placeholder="Adres">
+                                <input type="text" id="adr" name="address" placeholder="Adres" value="<?php echo $checkout_adres; ?>">
                                 <div class="container">
                                     <label for="city"><i class="fa fa-institution"></i> Şehir</label>
                                     <select class="form-control" name="city">
@@ -375,50 +369,7 @@ if(isset($_POST['ok_checkout'])){
 
 
 
-                    <div class="col-50">
-
-                        <h3>Ödeme</h3>
-
-                        <label for="fname">Desteklenen kartlar</label>
-                        <div class="icon-container">
-                            <i class="fa fa-cc-visa" style="color:navy;"></i>
-                            <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-50">
-
-                                <label for="cname">Kart Üzerindeki İsim</label>
-                                <input type="text" id="cname" name="cardname" placeholder="Enes Budak">
-                                <div class="container">
-
-                                    <div class="row" style="margin: 2%;">
-                                        <label for="ccnum" style="margin-right: 2%;">Kredi Kartı Numarası</label>
-                                        <input type="number" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-
-                                    </div>
-                                    <div class="row" style="margin: 2%;">
-                                        <label for="expmonth" style="margin-right: 3%;">Son Kullanma Tarihi</label>
-                                        <select  name="expmonth" class=" form-control-sm">
-                                            <?php  for($result=1; $result<=12;$result++){  ?>
-                                                <option value="<?=$result?>"><?=($result<10) ? "0".$result : $result ?> </option>
-                                            <?php }  ?>
-                                        </select>
-                                        <select name="expyear" class=" form-control-sm">
-                                            <?php  for($result=2018; $result<=2048;$result++){  ?>
-                                                <option value="<?=$result?>"><?=$result?></option>
-                                            <?php }  ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="container" style="margin-top: 5%;" >
-                                    <label for="cvv" style="margin-top:40px;">CVV</label>
-                                    <input type="number" id="cvv" name="cvv"  placeholder="352">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    
                 </div>
                 <input type="hidden" value="user_pay_finished" name="user_pay">
                 <input type="hidden" value="" name="checkout">

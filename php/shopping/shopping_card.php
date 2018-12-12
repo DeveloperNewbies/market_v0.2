@@ -37,6 +37,7 @@ $s_sepetfull_vergi = 0;
                                 <th class="column-3">Fiyat</th>
                                 <th class="column-4">Adet</th>
                                 <th class="column-5">Toplam</th>
+								<th></th>
                             </tr>
                              <?php  if(count($user_shopping_item) > 0){ foreach ($user_shopping_item as $result){  ?>
                             <tr class="table_row" id="table_row<?=$result[0]?>">
@@ -68,9 +69,15 @@ $s_sepetfull_vergi = 0;
                                     $s_sepetfull_top += (floatval($result[3])/(floatval(1+(intval($result[4])/100))))*($result[5]);
                                     $s_sepet_top += floatval($result[3])*($result[5]);
                                     $s_sepetfull_vergi += round(floatval($result[3])/(1+(intval($result[4])/100)), 2)*($result[4]/100) * $result[5];
-                                    ?> ₺  <button onclick="refreshPage()" type="button" class="refreshbutton<?=$result[0]?>"> <i class="fa fa-trash"></i> </button></td>
-                            </tr>
+                                    ?> ₺  
+							<td class="column-3">
+			<button onclick="refreshPage()" type="button" class="refreshbutton<?=$result[0]?>"> <i class="fa fa-trash"></i> </button></td>
                             <?php } }else   echo "sepetiniz boş"; ?>
+							</tr>
+									
+                           
+						  </td>
+						
 
                         </table>
                     </div>

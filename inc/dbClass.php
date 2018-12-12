@@ -3,9 +3,9 @@
 	class dbMain
 	{
 
-		private $host = "localhost";//main decleration
-		private $huser = "root";
-		private $hpass = "";
+		private $host = "localhost:3306";//main decleration
+		private $huser = "enesbudak";
+		private $hpass = "21211986";
 		private $database = "marketing";
 		private $dsn;
 
@@ -292,7 +292,7 @@
                     "k_id" => $u_id,
                     "k_ip" => $u_ip,
                 ));
-
+				$s_id = $this->pdo->lastInsertId();
                 try
                 {
                     $s_id = $this->pdo->lastInsertId();
@@ -317,6 +317,7 @@
                             "u_surname" => $u_surname,
                             "u_adress" => $u_adres
                         ));
+						return $s_id;
                     }catch (PDOException $e)
                     {
                         //echo 'Cand Add User Billing İnfo to DB';
