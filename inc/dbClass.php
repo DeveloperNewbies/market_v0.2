@@ -330,10 +330,11 @@
         {
             try
             {
-                $prepare = $this->pdo->prepare("INSERT INTO m_order(k_id, k_ip) VALUES(:k_id, :k_ip)");
+                $prepare = $this->pdo->prepare("INSERT INTO m_order(k_id, k_ip, kargo_firma) VALUES(:k_id, :k_ip, :k_firma)");
                 $prepare->execute(array(
                     "k_id" => $u_id,
                     "k_ip" => $u_ip,
+                    "k_firma" => ""
                 ));
 				$s_id = $this->pdo->lastInsertId();
                 try
