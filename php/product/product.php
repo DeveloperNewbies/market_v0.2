@@ -205,14 +205,14 @@ $user = new user();
                                                <i class="fs-16 zmdi zmdi-plus"></i>
                                            </div>
                                        </div>
-                                       
+                                       <div >
 
 
                                      <input type="hidden" id="urun_id" name="urun_id" value="<?=$id?>">
                                      <input style="margin-bottom:20px;" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="          Sepete Ekle         ">
 
                                      <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail "> <a href="<?=$home_url."/index.php?m=magaza"?>">Alışverişe Devam Et</a></button>
-                                    
+                                     </div>
                                    </div>
 
                                </div>

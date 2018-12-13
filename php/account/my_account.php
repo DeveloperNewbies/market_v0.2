@@ -5,9 +5,8 @@
  * Date: 6.12.2018
  * Time: 19:05
  */
-
+/** @var $user user */
 $user_account_update_pass_alert = "re";
-
 
 $usertmp_mail = ($user->getUserInfosOut()['e-posta']);
 $usertmp_adres = ($user->getUserInfosOut()['adres']);
@@ -19,7 +18,7 @@ $usertmp_adres = ($user->getUserInfosOut()['adres']);
          switch ($_POST["control"]) {
              case "account":
                  if ( isset( $_POST["password"] ) && isset( $_POST["email-address"] ) && isset( $_POST["address"] )) {
-                     if ( $user->checkPass($user->security($_POST['password'], "pass")) && $_POST["email-address"] != "" && filter_var($_POST['email-address'], FILTER_VALIDATE_EMAIL) && $_POST["address"] != "")
+                     if ( $user->checkPass($user->security($_POST['password'], "pass")) && $_POST["email-address"] != "" &&  $_POST["address"] != "")
                      {
                          $user_email = $user->security ( $_POST["email-address"] , "mail");
 
@@ -48,7 +47,14 @@ $usertmp_adres = ($user->getUserInfosOut()['adres']);
 
                      }else
                          {
-                             echo "Bilgilerinizi Kontrol Ediniz.";
+                           ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Girdiğiniz bilgiler </strong> hatalı!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                    <?php
                          }
 
                  } else $user_account_update_pass_alert = "true";
@@ -174,11 +180,11 @@ switch ($re_pas){
         <div style="margin:3%;">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=update" method="post">
                 <?php if($user_account_update_pass_alert == "true"){ ?>
-                    <div class="form-group col-md-6">
+                    <div class="form-group ">
                         <label for="inputEmail4"><h3 class="alert">Parolanız hatalı</h3> </label>
                     </div>
                 <?php }else if ($user_account_update_pass_alert == "false"){?>
-                    <div class="form-group col-md-6">
+                    <div class="form-group ">
                         <label for="inputEmail4"><h3 class="alert">Hesap bilgileri güncellendi</h3> </label>
                     </div>
                 <?php  } ?>

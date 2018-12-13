@@ -111,6 +111,10 @@ $expyear;
 $cvv;
 
 if(isset($_POST['ok_checkout'])){
+	  if(isset($_POST['address']) && $_POST["address"]!=""){
+		  $checkout_adres=$user->security ($_POST["address"], "adres");
+		  $adresim = $checkout_adres;	
+		}
     if(isset($_POST['firstname']) && $_POST['firstname']!="")
         $checkout_name = $user->security ($_POST['firstname'], "adres");
     else $card_secure_durum = false;
@@ -133,8 +137,11 @@ if(isset($_POST['ok_checkout'])){
     }
 
     if(isset($_POST['checkout_adres']) && $m == "Yeni Adres Ekle"){
-        if(isset($_POST['address']) && $_POST["address"]!="")
-            $checkout_adres=$user->security ($_POST["address"], "adres");
+        if(isset($_POST['address']) && $_POST["address"]!=""){
+		  $checkout_adres=$user->security ($_POST["address"], "adres");
+		  $adresim = $checkout_adres;	
+		}
+          
         else $card_secure_durum = false;
         if(isset($_POST['city']) && $_POST["city"]!="")
             $checkout_city = $user->security ($_POST["city"], "adres");
@@ -199,12 +206,12 @@ if(isset($_POST['ok_checkout'])){
         ## Başarılı ödeme sonrası müşterinizin yönlendirileceği sayfa
         ## !!! Bu sayfa siparişi onaylayacağınız sayfa değildir! Yalnızca müşterinizi bilgilendireceğiniz sayfadır!
         ## !!! Siparişi onaylayacağız sayfa "Bildirim URL" sayfasıdır (Bakınız: 2.ADIM Klasörü).
-        $merchant_ok_url = "http://www.siteniz.com/odeme_basarili.php";
+        $merchant_ok_url = "http://shop.ay-soft.com/odeme_basarili.php";
         #
         ## Ödeme sürecinde beklenmedik bir hata oluşması durumunda müşterinizin yönlendirileceği sayfa
         ## !!! Bu sayfa siparişi iptal edeceğiniz sayfa değildir! Yalnızca müşterinizi bilgilendireceğiniz sayfadır!
         ## !!! Siparişi iptal edeceğiniz sayfa "Bildirim URL" sayfasıdır (Bakınız: 2.ADIM Klasörü).
-        $merchant_fail_url = "http://www.siteniz.com/odeme_hata.php";
+        $merchant_fail_url = "http://shop.ay-soft.com/odeme_hata.php";
         #
         ## Müşterinin sepet/sipariş içeriği
         $user_basket = $checkout_list;
@@ -301,8 +308,21 @@ if(isset($_POST['ok_checkout'])){
         #########################################################################
 
     }
+	?>
 
-}
+	    <script src="https://www.paytr.com/js/iframeResizer.min.js">
+	  iFrameResize({},'#paytriframe');
+    $('iframe paytriframe').attr('target', '_blank');
+
+	</script>
+    <iframe target="_blank" src="https://www.paytr.com/odeme/guvenli/<?php echo $token;?>" id="paytriframe" frameborder="0" scrolling="no" style="width: 100%;"></iframe>
+    
+
+<?php
+
+}else{
+	if($checkout_adres == "")
+		$m = "Yeni Adres Ekle";
 
 ?>
 
@@ -387,9 +407,9 @@ if(isset($_POST['ok_checkout'])){
             <p>Toplam <span class="price" style="color:black"><b><?=$item_top?> ₺</b></span></p>
         </div>
     </div>
-    <script src="https://www.paytr.com/js/iframeResizer.min.js"></script>
-    <iframe src="https://www.paytr.com/odeme/guvenli/<?php echo $token;?>" id="paytriframe" frameborder="0" scrolling="no" style="width: 100%;"></iframe>
-    <script>iFrameResize({},'#paytriframe');</script>
+  
 </div>
 </body>
 </html>
+
+<?php } ?>

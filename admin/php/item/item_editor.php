@@ -40,7 +40,12 @@ $kategoriler = array("1","2","3");
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> KDV: </label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control boxed" name="item_kdv" placeholder="KDV Oranı" value="<?=$editor_itemkdv?>" required> </div>
+                    <!--<input type="number" class="form-control boxed" name="item_kdv" placeholder="KDV Oranı" value="<?=$editor_itemkdv?>" required> -->
+					<select name="item_kdv" class="c-select form-control boxed">
+						<option value="8">%8</option>
+						<option value="18">%18</option>
+						</select>
+				</div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Adet: </label>
@@ -110,6 +115,22 @@ $kategoriler = array("1","2","3");
                 <div class="col-sm-10">
                     <input type="text" class="form-control boxed" name="ship_adress" placeholder="Sipariş Adresi" value="<?=$editor_s_adres?>" readonly> </div>
             </div>
+			<div class="form-group row">
+
+                  <label class="col-sm-2 form-control-label text-xs-right"> Kargo Firması: </label>
+                  <div class="col-sm-10">
+                    <select name="shippername" class="form-control boxed" >
+                      <option value="mng">MNG</option>
+                      <option value="ptt">PTT</option>
+                      <option value="yurtici">YURTİÇİ</option>
+                      <option value="aras">ARAS</option>
+                      <option value="sürat">SÜRAT</option>
+
+                    </select>
+                  </div>
+
+            </div>
+
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Kargo Numarası: </label>
                 <div class="col-sm-10">
@@ -163,8 +184,15 @@ $kategoriler = array("1","2","3");
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> KDV: </label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control boxed" name="item_kdv" placeholder="KDV Oranı" value="<?=$editor_itemkdv?>" required> </div>
+				 <div class="col-sm-10">
+               
+                   <!-- <input type="number" class="form-control boxed" name="item_kdv" placeholder="KDV Oranı" value="<?=$editor_itemkdv?>" required> -->   
+				<select name="item_kdv" class="c-select form-control boxed" required>
+					<option name="8">%8</option>
+					<option name="18">%18</option>
+				</select>
+				</div>
+					
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label text-xs-right"> Ürün Adet: </label>

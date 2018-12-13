@@ -23,6 +23,12 @@
                     <a href="<?=$home_link?>">
                         <i class="fa fa-home"></i> Yönetim paneli </a>
                 </li>
+				<li>
+					<a href="<?=$home_link."?m=ad-category"?>">
+						<i class="fa fa-category"></i> Kategori Ekle
+					   </a>
+					
+				</li>
                 <li>
                     <a href="">
                         <i class="fa fa-th-large"></i> Ürün Yönetimi

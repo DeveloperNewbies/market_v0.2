@@ -22,10 +22,10 @@
                 <div class="input-group">
                     <input type="text" class="form-control boxed rounded-s" placeholder="Ara...">
                     <span class="input-group-btn">
-                                        <button class="btn btn-secondary rounded-s" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
+          <button class="btn btn-secondary rounded-s" type="button">
+                                    <i class="fa fa-search"></i>
+                                    </button>
+                                  </span>
                 </div>
             </form>
         </div>
@@ -40,56 +40,52 @@
                             <span></span>
                         </label>
                     </div>
-                    <div class="item-col item-col-header fixed item-col-img md">
+                      <div class="item-col item-col-header fixed item-col-img xs"></div>
+                      <div class="item-col item-col-header item-col-title">
                         <div>
-                            <span>Görsel</span>
+                          <span>Ürün Adı</span>
                         </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-title">
+                      </div>
+                      <div class="item-col item-col-header item-col-stats">
+                        <div class="no-overflow">
+                          <span> ID</span>
+                        </div>
+                      </div>
+                      <div class="item-col item-col-header item-col-stats">
+                        <div class="no-overflow">
+                          <span> Adeti</span>
+                        </div>
+                      </div>
+                      <div class="item-col item-col-header item-col-stats">
+                        <div class="no-overflow">
+                          <span>Fiyat</span>
+                        </div>
+                      </div>
+                      <div class="item-col item-col-header item-col-stats">
+                        <div class="no-overflow">
+                          <span>Kategori</span>
+                        </div>
+                      </div>
+                      <div class="item-col item-col-header item-col-stats">
+                        <div class="no-overflow">
+                          <span>Alıcı</span>
+                        </div>
+                      </div>
+                      <div class="item-col item-col-header item-col-stats">
+                        <div class="no-overflow">
+                          <span>Kargo Numarası</span>
+                        </div>
+                      </div>
+                      <div class="item-col item-col-header item-col-stats">
+                        <div class="no-overflow">
+                          <span>Tamamlanma Durumu</span>
+                        </div>
+                      </div>
+                      <div class="item-col item-col-header item-col-date">
                         <div>
-                            <span>Ürün Adı</span>
+                          <span>Sipariş Tarihi</span>
                         </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-saleid">
-                        <div>
-                            <span>Sipariş ID</span>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-sales">
-                        <div>
-                            <span>Sipariş Adeti</span>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-stats">
-                        <div class="no-overflow">
-                            <span>Fiyat</span>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-category">
-                        <div class="no-overflow">
-                            <span>Kategori</span>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-author">
-                        <div class="no-overflow">
-                            <span>Alıcı</span>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-shipping">
-                        <div class="no-overflow">
-                            <span>Kargo Numarası</span>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-date2">
-                        <div class="no-overflow">
-                            <span>Tamamlanma Durumu</span>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-header item-col-date">
-                        <div class="no-overflow">
-                            <span>Sipariş Tarihi</span>
-                        </div>
-                    </div>
+                      </div>
 
                     <div class="item-col item-col-header fixed item-col-actions-dropdown"> </div>
                 </div>
@@ -109,57 +105,68 @@
                             <span></span>
                         </label>
                     </div>
-                    <div class="item-col fixed item-col-img md">
-                        <?php for($i = 0; $i<count($result[0]); $i++){ ?>
-                       <div class="item-img rounded" style="background-image: url(<?=$result[0][$i]?>)"></div>
+                    <div class="item-col fixed item-col-img xs">
+                  <?php for($i = 0; $i<count($result[0]); $i++){ ?>
+                        <div class="item-img xs rounded" style="background-image: url(<?=$result[0][$i]?>)"></div>
                         <?php } ?>
-                        </div>
-                    <div class="item-col fixed pull-left item-col-title">
-                        <div>
-                            <?php for($i = 0; $i<count($result[1]); $i++){ ?>
-                            <a href="<?=$home_link."?m=item-editor&c=".$result[2][$i]?>" class="">
-
-                                <h4 class="item-title"> <?=$result[1][$i]?></h4>
-
-                            </a>
-                            <?php } ?>
-                        </div>
                     </div>
-                    <div class="item-col item-col-saleid">
-                        <div> <?=$result[3]?> </div>
+                    <div class="item-col item-col-title no-overflow">
+                      <div>
+                        <?php for($i = 0; $i<count($result[1]); $i++){ ?>
+                        <a href="<?=$home_link."?m=item-editor&c=".$result[2][$i]?>" class="">
+
+                            <h4 class="item-title"> <?=$result[1][$i]?></h4>
+
+                        </a>
+                        <?php } ?>
+                      </div>
                     </div>
+
+
                     <div class="item-col item-col-sales">
-                        <?php for($i = 0; $i<count($result[4]); $i++){ ?>
-                        <div> <?=$result[4][$i]?> </div>
-                        <?php } ?>
+                      <div class="item-heading">Sipariş ID</div>
+                      <div><?=$result[3]?>  </div>
                     </div>
-                    <div class="item-col item-col-category no-overflow">
-                        <div class="no-overflow" style="padding-left: 25%">
-                            <?=$result[5][count($result[5])-1]." ₺"?>
-                        </div>
+
+                    <div class="item-col item-col-sales">
+                      <div class="item-heading">Sipariş Adeti</div>
+                      <div> <?php for($i = 0; $i<count($result[4]); $i++){ ?>
+                      <div> <?=$result[4][$i]?> </div>
+                      <?php } ?> </div>
                     </div>
-                    <div class="item-col item-col-category no-overflow">
-                        <?php for($i = 0; $i<count($result[6]); $i++){ ?>
+
+                    <div class="item-col item-col-sales">
+                      <div class="item-heading">Fiyat</div>
+                      <div> <?=$result[5][count($result[5])-1]." ₺"?> </div>
+                    </div>
+
+                    <div class="item-col item-col-sales">
+                      <div class="item-heading">Kategori</div>
+                      <div>   <?php for($i = 0; $i<count($result[6]); $i++){ ?>
                         <div class="no-overflow">
                             <?=$result[6][$i]?>
                         </div>
-                        <?php } ?>
+                        <?php } ?> </div>
                     </div>
-                    <div class="item-col item-col-author">
-                        <div class="no-overflow">
-                            <?=$result[7]?>
-                        </div>
-                    </div>
-                    <div class="item-col item-col-shipping">
-                        <div class="no-overflow"> <?=$result[8]?></div>
-                    </div>
-                    <div class="item-col item-col-date2">
 
-                        <div class="no-overflow"> <?php echo ($result[9] < 3)? "Tamamlanmadı":"Tamamlandı";?></div>
+                    <div class="item-col item-col-sales">
+                      <div class="item-heading">Alıcı</div>
+                      <div>   <?=$result[7]?> </div>
                     </div>
+
+                    <div class="item-col item-col-sales">
+                      <div class="item-heading">Kargo Numarası</div>
+                      <div> <?=$result[8]?> </div>
+                    </div>
+
+                    <div class="item-col item-col-sales">
+                      <div class="item-heading">Tamamlanma Durumu</div>
+                      <div> <?php echo ($result[9] < 3)? "Tamamlanmadı":"Tamamlandı";?> </div>
+                    </div>
+
                     <div class="item-col item-col-date">
-                        <div class="item-heading"></div>
-                        <div class="no-overflow"> <?=$result[10]?></div>
+                      <div class="item-heading">Published</div>
+                      <div> <?=$result[10]?> </div>
                     </div>
                     <div class="item-col fixed item-col-actions-dropdown">
                         <div class="item-actions-dropdown">
@@ -173,12 +180,7 @@
                             </a>
                             <div class="item-actions-block">
                                 <ul class="item-actions-list">
-                                    <!-- <li>
-                                        <a class="remove" href="<?=$home_link."?m=item-editor&c_siparis=".$result[3]?>&e=delete" data-toggle="modal" data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o "></i>
-                                        </a>
-                                    </li>
-                                    -->
+                                  
                                     <li>
                                         <a class="edit" href="<?=$home_link."?m=item-editor&c_siparis=".$result[3]?>">
                                             <i class="fa fa-pencil"></i>

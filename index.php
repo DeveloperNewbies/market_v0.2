@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <?php
+//error_reporting(0);
+//ob_start();
+session_start();
+
 /**
  * Date: 28.11.2018
  * Time: 11:53
@@ -275,9 +279,8 @@ if(isset($_POST['urun_cikar'])){
 
 <?php
  require_once ("php/header.php");
- ?>
 
-<?php if(!isset($url_m)) {?>
+if(!isset($url_m)) {?>
 <?php require_once("php/sidebar.php")?>
 <?php require_once ("php/cart.php")?>
 <?php require_once ("php/slider.php")?>
@@ -296,10 +299,7 @@ if(isset($_POST['urun_cikar'])){
  require_once ("php/slider.php");
  require_once ("php/banner.php");
  require_once ("php/product.php");
- require_once ("php/footer.php");
- require_once ("php/back_to_top.php");
  require_once ("php/modall.php");
-
             break;
         case "hakkinda":
             require_once("php/sidebar.php");
@@ -331,9 +331,11 @@ if(isset($_POST['urun_cikar'])){
             require_once ("php/account/account.php");
             require_once ("php/back_to_top.php");
             break;
-            case "sozlesme":
+           case "sozlesme":
+			echo "Sözleşme sayfası";
            break;
            case "politic":
+			echo "politika sayfası";
            break;
         default :
             require_once("php/sidebar.php");
@@ -350,6 +352,5 @@ require_once ("php/body_script.php");
 ?>
 
 
-<script src="js_ema/sepet_add_item.js"></script>
 </body>
 </html>

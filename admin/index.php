@@ -1,5 +1,3 @@
-
-
 <?php
 /**
  * Date: 30.11.2018
@@ -139,15 +137,19 @@ if($user_granted)
         }
 
 
-
+	/////ad category /////
+if(isset($_POST["admin_category"])){
+  $_POST["ad_category"]	;
+	
+}
 
 if(isset($_POST['add_new_item']))
 {
     //TODO check Security of Image And Add Category for The İtem. chmod Cant be 0777 img folder and name cant be Exactly Uploaded Name. Hash Them
     $url_m = "item-list";
-    if(isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']) && isset($_POSt['item_kdv']))
+    if(isset($_POST['category']) && isset($_POST['item_price']) && isset($_POST['item_desc']) && isset($_POST['item_name']) && isset($_POST['item_count']) && isset($_POST['item_kdv']))
     {
-        if($_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "" || $_POSt['item_kdv'] == "")
+        if($_POST['item_name'] == "" || $_POST['item_price'] == "" || $_POST['category'] == "" || $_POST['item_count'] == "" || $_POST['item_kdv'] == "")
         {
             echo "Ürün İsmi, Fiyatı, KDV Oranı, Adeti veya Kategorisi boş bırakılamaz";
         }else
@@ -658,7 +660,10 @@ if($url_m == "home"){
             case  "home":
                 require_once("php/website_metric.php");
                 break;
-            case "orders":
+			case "ad-category":
+				require_once("php/add_category.php");
+				break;
+				 case "orders":
                 require_once ("php/item/siparisler.php");
                 break;
             case   "item-list";

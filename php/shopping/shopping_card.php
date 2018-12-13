@@ -29,6 +29,7 @@ $s_sepetfull_vergi = 0;
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
                 <div class="m-l-25 m-r--38 m-lr-0-xl">
+                    <?php if(count ($user_shopping_item)>0) {?>
                     <div class="wrap-table-shopping-cart">
                         <table class="table-shopping-cart">
                             <tr class="table_head">
@@ -39,7 +40,7 @@ $s_sepetfull_vergi = 0;
                                 <th class="column-5">Toplam</th>
 								<th></th>
                             </tr>
-                             <?php  if(count($user_shopping_item) > 0){ foreach ($user_shopping_item as $result){  ?>
+                             <?php  foreach ($user_shopping_item as $result){  ?>
                             <tr class="table_row" id="table_row<?=$result[0]?>">
                                 <td class="column-1">
                                     <div class="how-itemcart1">
@@ -72,15 +73,26 @@ $s_sepetfull_vergi = 0;
                                     ?> ₺  
 							<td class="column-3">
 			<button onclick="refreshPage()" type="button" class="refreshbutton<?=$result[0]?>"> <i class="fa fa-trash"></i> </button></td>
-                            <?php } }else   echo "sepetiniz boş"; ?>
-							</tr>
-									
-                           
+                            <?php }  ?>
+							</tr
 						  </td>
 						
 
                         </table>
                     </div>
+                    <?php } else {?>
+                    <div class="content" style="padding-left:25%;">
+                        <h2>Sepetiniz Boş </h2>
+                    <button  class="btn btn-primary" style="margin: 4%;">
+                        <a href="<?=$home_url."/index.php?m=magaza"?>">
+                            Alışverişe başla
+                        </a>
+                        </button>
+                    </div>
+
+                    <?php }
+                    if(count ($user_shopping_item)>0){
+                    ?>
 
                     <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
                         <div class="flex-w flex-m m-r-20 m-tb-5">
@@ -149,9 +161,11 @@ $s_sepetfull_vergi = 0;
 
                     <input type="submit" name="checkout" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" value="Alışverişi Tamamla">
 
-
+                    <?php } ?>
                 </div>
+
             </div>
+
         </div>
     </div>
 </form>
