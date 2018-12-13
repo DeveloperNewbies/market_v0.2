@@ -34,21 +34,21 @@
                 <ul class="item-list striped">
                     <li class="item item-list-header">
                         <div class="item-row">
-                            <div class="item-col item-col-header fixed item-col-img xs"></div>
+                          
                             <div class="item-col item-col-header item-col-title">
                                 <div>
                                     <span>Ürün</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales">
-                                <div>
-                                    <span>Satılan adet sayısı</span>
-                                </div>
+                            <div class="item-col item-col-header item-col-stats">
+                              <div class="no-overflow">
+                                <span> Satılan Adet Sayısı</span>
+                              </div>
                             </div>
                             <div class="item-col item-col-header item-col-stats">
-                                <div class="no-overflow">
-                                    <span>Fiyat</span>
-                                </div>
+                              <div class="no-overflow">
+                                <span> Fiyat</span>
+                              </div>
                             </div>
                             <div class="item-col item-col-header item-col-date">
                                 <div>
@@ -113,17 +113,20 @@
                                                    </a>
                                                </div>
                                            </div>
-                                           <div class="item-col item-col-header fixed item-col-img xs"></div>
+
                                            <div class="item-col item-col-header item-col-sales">
+                                               <div class="item-heading">Adet</div>
                                                <div>
-                                                   <span><?=$result[2]?></span>
+                                                   <?=$result[2]?>
                                                </div>
                                            </div>
 
                                            <div class="item-col item-col-sales">
+                                             <div class="item-heading">Fiyat</div>
                                                <div> <?=$result[3]." ₺"?> </div>
                                            </div>
                                            <div class="item-col item-col-date">
+                                               <div class="item-heading">Eklenme Tarihi</div>
                                                <div> <?=$result[4]?> </div>
                                            </div>
                                        </div>
