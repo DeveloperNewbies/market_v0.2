@@ -209,18 +209,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/php/product/product.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="415" lean-forward="true" selection-start-line="415" selection-end-line="415" />
-              <folding>
-                <element signature="n#style#0;n#input#1;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/php/contact/contact.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="438">
@@ -229,20 +217,35 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/php/account/orders.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="59" column="57" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
+            <state relative-caret-position="272">
+              <caret line="27" column="37" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#section#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#0;n#article#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://D:/Site Repo/market_v0.2/php/account/orders.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-794">
+              <caret selection-end-line="83" selection-end-column="10" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#section#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#0;n#article#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/php/account/account.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+            <state relative-caret-position="272">
+              <caret line="102" column="46" lean-forward="true" selection-start-line="102" selection-start-column="46" selection-end-line="102" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -380,12 +383,12 @@
         <option value="$PROJECT_DIR$/admin/index.php" />
         <option value="$PROJECT_DIR$/inc/userClass.php" />
         <option value="$PROJECT_DIR$/inc/dbClass.php" />
-        <option value="$PROJECT_DIR$/php/account/orders.php" />
         <option value="$PROJECT_DIR$/php/account/account.php" />
+        <option value="$PROJECT_DIR$/php/account/orders.php" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="31" />
     <option name="width" value="1346" />
     <option name="height" value="688" />
@@ -492,7 +495,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="203194000" />
+    <option name="totallyTimeSpent" value="204798000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -523,7 +526,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://D:/Site Repo/market_v0.2/php/product/product.php" />
     <entry file="file://D:/Site Repo/market_v0.2/php/product.php" />
     <entry file="file://G:/web/index.php" />
     <entry file="file://F:/değişiklikler/main.js" />
@@ -768,17 +770,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/php/account/orders.php">
+    <entry file="file://$PROJECT_DIR$/php/account/account.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="59" column="57" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
+        <state relative-caret-position="272">
+          <caret line="102" column="46" lean-forward="true" selection-start-line="102" selection-start-column="46" selection-end-line="102" selection-end-column="46" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/php/account/account.php">
+    <entry file="file://D:/Site Repo/market_v0.2/php/account/orders.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+        <state relative-caret-position="-794">
+          <caret selection-end-line="83" selection-end-column="10" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#section#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#0;n#article#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/php/account/orders.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="27" column="37" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#section#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#0;n#article#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

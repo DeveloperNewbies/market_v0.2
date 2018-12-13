@@ -6,6 +6,17 @@
  * Time: 17:53
  */
 
+?>
+
+
+<?php
+/**
+ * Created by PhpStorm.
+ * User: mehmet
+ * Date: 6.12.2018
+ * Time: 17:53
+ */
+
 
 if(count($siparisler)>0)
     $account_order = true;
@@ -64,7 +75,7 @@ else
                                                 <td class="center"><?=$result[8]?></td>
                                                 <td class="center"><?=$result[9]?></td>
                                                 <td><?=$result[10]?></a></td>
-                                                <td>Kargo firması</td>
+                                                <td><?=$result[11]?></td>
                                             </tr>
                                         <?php }?>
                                         </tbody>
