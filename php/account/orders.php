@@ -34,6 +34,7 @@
                                         <th>Tarih</th>
                                         <th>Son İşlem Tarihi</th>
                                         <th>Kargo Takibi Numarası</th>
+                                        <th>Kargo firması</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -56,6 +57,7 @@
                                         <td class="center"><?=$result[8]?></td>
                                         <td class="center"><?=$result[9]?></td>
                                         <td><?=$result[10]?></a></td>
+                                        <td>Kargo firması ismi</td>
                                     </tr>
                                     <?php }?>
                                     </tbody>
