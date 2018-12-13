@@ -10,7 +10,6 @@ session_start();
  */
 require_once('inc/secIP.php');
 require_once('inc/userClass.php');
-session_start();
 $ipset = new secIP();
 $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $islogged = false;

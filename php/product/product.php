@@ -387,6 +387,11 @@ $user = new user();
 <?php }else{
 
        $all_cat = $user->getAllCategory();
+        $selected_cat = -1;
+        if(isset($_GET['cat']))
+        {
+            $selected_cat = $user->security($_GET['cat']);
+        }
 
        ?>
 
@@ -396,20 +401,27 @@ $user = new user();
     <div class="container">
         <div class="flex-w flex-sb-m p-b-52">
             <div class="flex-w flex-l-m filter-tope-group m-tb-10">
-                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+
+                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" id="group-1" data-filter="*">
                     Tüm Ürünler
                 </button>
 
 
-                <?php foreach ($all_cat as $item){ ?>
-                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".<?=$item[0]?>">
+                <?php $i = 0; foreach ($all_cat as $item){ ?>
+                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" id="group<?=$i?>" data-filter=".<?=$item[0]?>">
                     <?=$item[1]?>
                 </button>
 
-                <?php } ?>
+                <?php $i++; } $i = 0; ?>
 
             </div>
-
+            <?php
+            echo '<script>
+              $(document).ready(function(){ 
+                  $("#group'.$selected_cat.'").click();
+              });
+                </script>';
+            ?>
 
 
             <!-- Search product -->

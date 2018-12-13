@@ -724,7 +724,7 @@
         {
             try
             {
-                $prepare = $this->pdo->prepare("INSERT INTO m_market(urun_ad, urun_aciklama, urun_details, urun_fiyat, urun_kdv, urun_adet, urun_tarih, urun_grup) VALUES(:u_ad, :u_acik, :u_detay, :u_fiyat, :u_kdv, :u_adet, :u_tarih, :u_grup)");
+                $prepare = $this->pdo->prepare("INSERT INTO m_market(urun_ad, urun_aciklama, urun_details, urun_fiyat, kdv, urun_adet, urun_tarih, urun_grup) VALUES(:u_ad, :u_acik, :u_detay, :u_fiyat, :u_kdv, :u_adet, :u_tarih, :u_grup)");
                 $adate = date('Y-m-d H-i-s');
                 $prepare->execute(array(
                     "u_ad" => $urun_ad,
