@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 12 Ara 2018, 18:07:16
+-- Üretim Zamanı: 13 Ara 2018, 22:14:29
 -- Sunucu sürümü: 10.1.36-MariaDB
 -- PHP Sürümü: 7.2.11
 
@@ -109,8 +109,8 @@ CREATE TABLE `m_market` (
 --
 
 INSERT INTO `m_market` (`urun_id`, `urun_ad`, `urun_aciklama`, `urun_details`, `urun_fiyat`, `kdv`, `urun_adet`, `urun_tarih`, `urun_grup`, `is_active`) VALUES
-(1, 'Harnup Özü', 'Harnup Özü', 'Harnup Özü', 10.99, 18, 20, '2018-12-09 15:29:10', 1, 1),
-(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13.99, 18, 5, '2018-12-12 01:33:14', 3, 1),
+(1, 'Harnup Özü', 'Harnup Özü', 'Harnup Özü', 10.99, 8, 20, '2018-12-13 23:30:02', 1, 1),
+(2, 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 'Tahinli Harnup Özü', 13.99, 18, 5, '2018-12-14 00:00:41', 3, 1),
 (3, 'Nar Ekşisi', 'Katıksız Nar Ekşisi', 'Katıksız Nar Ekşisi', 5.99, 18, 10, '0000-00-00 00:00:00', 1, 1),
 (4, 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 'Tahinli Harnup Özü 700 GR', 17.5, 18, 12, '2018-12-03 00:00:00', 1, 1);
 
@@ -171,6 +171,7 @@ CREATE TABLE `m_order` (
   `last_op_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `k_ip` varchar(15) COLLATE utf8_turkish_ci NOT NULL,
   `kargo_takip_no` int(11) NOT NULL DEFAULT '0',
+  `kargo_firma` text COLLATE utf8_turkish_ci NOT NULL,
   `satis_sonuc` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
@@ -178,10 +179,10 @@ CREATE TABLE `m_order` (
 -- Tablo döküm verisi `m_order`
 --
 
-INSERT INTO `m_order` (`id`, `k_id`, `tarih`, `last_op_date`, `k_ip`, `kargo_takip_no`, `satis_sonuc`) VALUES
-(8, 5, '2018-12-11 21:54:12', '2018-12-12 01:04:12', '::1', 0, 0),
-(9, 5, '2018-12-12 01:15:34', '2018-12-12 01:15:34', '::1', 0, 0),
-(10, 1, '2018-12-12 02:20:01', '2018-12-12 02:20:01', '::1', 0, 0);
+INSERT INTO `m_order` (`id`, `k_id`, `tarih`, `last_op_date`, `k_ip`, `kargo_takip_no`, `kargo_firma`, `satis_sonuc`) VALUES
+(8, 5, '2018-12-11 21:54:12', '2018-12-12 01:04:12', '::1', 0, '', 0),
+(9, 5, '2018-12-12 01:15:34', '2018-12-12 01:15:34', '::1', 0, '', 0),
+(10, 1, '2018-12-12 02:20:01', '2018-12-14 00:07:56', '::1', 0, 'yurtici', 0);
 
 -- --------------------------------------------------------
 
