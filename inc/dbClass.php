@@ -379,14 +379,20 @@
             }
         }
 
-		function getUrun($id)
+		function getUrun($id, $situat = "user")
         {
             if($id == "all")
             {
-                $prepare = $this->pdo->prepare("SELECT * FROM m_market");
+                if($situat == "admin")
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_market");
+                else
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE is_active > 0");
             }else
             {
-                $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
+                if($situat == "admin")
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}'");
+                else
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_market WHERE urun_id = '{$id}' AND is_active > 0");
             }
             $prepare->execute();
             if($prepare->rowCount())
@@ -759,6 +765,28 @@
                 return false;
             }
         }
+        function adminSetItemActive($u_id ,$is_active)
+        {
+
+            try
+            {
+                if($is_active)
+                {
+                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=1 WHERE urun_id=:u_id");
+                }else
+                {
+                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=0 WHERE urun_id=:u_id");
+                }
+                $prepare->execute(array(
+                    "u_id" => $u_id
+                ));
+                return true;
+
+            }catch (PDOException $e)
+            {
+                return false;
+            }
+        }
         function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
             try{
@@ -800,16 +828,17 @@
             }
         }
 //TODO Change This
-        function adminEditShipInfo($ship_id, $ship_number, $s_result)
+        function adminEditShipInfo($ship_id, $ship_number, $s_result, $s_name)
         {
             try
             {
-                $prepare = $this->pdo->prepare("UPDATE m_order SET kargo_takip_no=:s_number, last_op_date=:s_lastch, satis_sonuc=:s_result WHERE id=:s_id");
+                $prepare = $this->pdo->prepare("UPDATE m_order SET kargo_takip_no=:s_number, last_op_date=:s_lastch, satis_sonuc=:s_result, kargo_firma=:k_firma WHERE id=:s_id");
                 $adate = date('Y-m-d H-i-s');
                 $prepare->execute(array(
                     "s_number" => $ship_number,
                     "s_lastch" => $adate,
                     "s_result" => $s_result,
+                    "k_firma" => $s_name,
                     "s_id" => $ship_id
                 ));
                 return true;

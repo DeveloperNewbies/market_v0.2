@@ -253,9 +253,9 @@ include('dbClass.php');
             }
         }
 
-        function getUrun($id)
+        function getUrun($id, $situat = "user")
         {
-            return $this->db->getUrun($id);
+            return $this->db->getUrun($id, $situat);
         }
 
         function getAllCategory()
@@ -310,7 +310,7 @@ include('dbClass.php');
         }
         function adminGetItem($id)
         {
-            return $this->db->getUrun($id);
+            return $this->db->getUrun($id, "admin");
         }
         function adminGetSoldInfo($s_id)
         {
@@ -342,6 +342,10 @@ include('dbClass.php');
         {
             return $this->db->adminAddNewItemImg($urun_id, $urun_ad, $urun_img);
         }
+        function adminSetItemActive($u_id, $is_active)
+        {
+            return $this->db->adminSetItemActive($u_id, $is_active);
+        }
         function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
             return $this->db->adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat);
@@ -350,9 +354,9 @@ include('dbClass.php');
         {
             return $this->db->adminEditItemImg($urun_id, $urun_img_id, $urun_ad, $urun_img);
         }
-        function adminEditShipInfo($ship_id, $ship_number, $s_result)
+        function adminEditShipInfo($ship_id, $ship_number, $s_result, $s_name)
         {
-            return $this->db->adminEditShipInfo($ship_id, $ship_number, $s_result);
+            return $this->db->adminEditShipInfo($ship_id, $ship_number, $s_result, $s_name);
         }
 
         function adminDeleteItem($item_id)

@@ -42,8 +42,8 @@ $kategoriler = array("1","2","3");
                 <div class="col-sm-10">
                     <!--<input type="number" class="form-control boxed" name="item_kdv" placeholder="KDV Oranı" value="<?=$editor_itemkdv?>" required> -->
 					<select name="item_kdv" class="c-select form-control boxed">
-						<option value="8">%8</option>
-						<option value="18">%18</option>
+						<option value="8" <?php echo ($editor_itemkdv == 8) ? "selected='selected'" : ""; ?>>%8</option>
+						<option value="18" <?php echo ($editor_itemkdv == 18) ? "selected='selected'" : ""; ?>>%18</option>
 						</select>
 				</div>
             </div>
@@ -73,6 +73,10 @@ $kategoriler = array("1","2","3");
                 </div><div class="" style="width: 60px; height: 60px; position: relative; margin-left: 5%;"> <img src="<?="../".$editor_itemimg[$a]?>" style="width: 60px; height: 60px;" alt="IMG-LOGO"> </div>
             </div>
             <?php }?>
+            <div class="form-group row">
+                <label class="col-sm-2 form-control-label text-xs-right"> Ürünü Aktif Et: </label>
+                <input type="checkbox" name="is_item_active" value="is_active">
+            </div>
             <div class="form-group row">
                 <div class="col-sm-10 col-sm-offset-2">
                     <input type="submit" class="btn btn-primary" name="ch_item" value="<?=$editor_process?>">
@@ -120,11 +124,11 @@ $kategoriler = array("1","2","3");
                   <label class="col-sm-2 form-control-label text-xs-right"> Kargo Firması: </label>
                   <div class="col-sm-10">
                     <select name="shippername" class="form-control boxed" >
-                      <option value="mng">MNG</option>
-                      <option value="ptt">PTT</option>
-                      <option value="yurtici">YURTİÇİ</option>
-                      <option value="aras">ARAS</option>
-                      <option value="sürat">SÜRAT</option>
+                      <option value="mng" <?php echo ($editor_cargo == "mng") ? "selected='selected'" : ""; ?>>MNG</option>
+                      <option value="ptt" <?php echo ($editor_cargo == "ptt") ? "selected='selected'" : ""; ?>>PTT</option>
+                      <option value="yurtici" <?php echo ($editor_cargo == "yurtici") ? "selected='selected'" : ""; ?>>YURTİÇİ</option>
+                      <option value="aras" <?php echo ($editor_cargo == "aras") ? "selected='selected'" : ""; ?>>ARAS</option>
+                      <option value="sürat" <?php echo ($editor_cargo == "sürat") ? "selected='selected'" : ""; ?>>SÜRAT</option>
 
                     </select>
                   </div>

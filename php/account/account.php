@@ -80,6 +80,7 @@ $siparisler = array(
                 array_push($siparis_tmp, $siparis['tarih']);
                 array_push($siparis_tmp, $siparis['last_op_date']);
                 array_push($siparis_tmp, ($siparis['kargo_takip_no'] == 0)? "-":$siparis['kargo_takip_no']);
+                array_push($siparis_tmp, ($siparis['kargo_firma'] == "") ? "Kargo Firması Bilgisi Girilmedi":$siparis['kargo_firma']);
                 array_push($siparisler, $siparis_tmp);
             }
         }else

@@ -101,7 +101,10 @@
     <div class="size-303" id="google_map" data-map-x="36.204214" data-map-y="36.160108"  data-scrollwhell="0" data-draggable="1" data-zoom="18"></div>
 </div>
 
-
+<!--===============================================================================================-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes"></script>
+<script src="js/map-custom.js"></script>
+<!--===============================================================================================-->
 
 
 

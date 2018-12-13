@@ -79,8 +79,8 @@ if($user_granted)
     //admin variable
     $admin_username = $user->name." ".$user->surname;
     //aktif satılan ürün sayısı mağazada bulunan
-    if($user->getUrun("all"))
-        $active_items =count($user->getUrun("all"));
+    if($user->getUrun("all", "admin"))
+        $active_items =count($user->getUrun("all", "admin"));
     else
         $active_items = 0;
     //toplam satılan ürün sayısı
@@ -249,7 +249,6 @@ if(isset($_POST['ch_item']))
             $item_count = $user->security($_POST['item_count']);
             $item_category = $user->security($_POST['category']);
             $item_category += 1;
-
             $item_img = array();
             $img_dest = preg_replace('/\s+/', '_', $item_name);
 
@@ -320,6 +319,11 @@ if(isset($_POST['ch_item']))
                         }
                         echo "Herşey Yolunda";
                     }
+                    if(isset($_POST['is_item_active']))
+                        $user->adminSetItemActive($item_id, true);
+                    else
+                        $user->adminSetItemActive($item_id, false);
+
                     echo "Ürün Düzenleme Başarılı";
 
                 }else
@@ -344,12 +348,13 @@ if(isset($_POST['ch_ship']))
 {
     $url_m = "orders";
 
-    if(isset($_POST['ship_id']) && isset($_POST['ship_shipnumber']))
+    if(isset($_POST['ship_id']) && isset($_POST['ship_shipnumber']) && isset($_POST['shippername']))
     {
         $ship_id = $user->security($_POST['ship_id']);
         $ship_number = $user->security($_POST['ship_shipnumber']);
+        $shipper_name = $user->security($_POST['shippername'], "shipper");
         $shipment_result = ($ship_number == "0") ? 0:(isset($_POST['is_ship_reject']) ? 2:(isset($_POST['is_ship_ok']) ? 3: 1));
-        $is_ok = $user->adminEditShipInfo($ship_id,$ship_number,$shipment_result);
+        $is_ok = $user->adminEditShipInfo($ship_id,$ship_number,$shipment_result, $shipper_name);
         if($is_ok)
         {
             echo "Sipariş Bilgisi Güncellendi!";
@@ -446,7 +451,7 @@ if($url_m == "home"){
                     array_push($item_adet, $item1['urun_adet']);
                     array_push($item_price, $item1['urun_fiyat']);
                     $item_top += $item1['urun_fiyat'];
-                    foreach ($user->getUrun($item1['urun_id']) as $item2)
+                    foreach ($user->getUrun($item1['urun_id'], "admin") as $item2)
                     {
                         array_push($item_kateg, $user->getUrunKategori($item2['urun_grup'])[0][0]);
                     }
@@ -490,7 +495,7 @@ if($url_m == "home"){
          //6 index Satış Tarihi
      );
 
-    $result = $user->getUrun("all");
+    $result = $user->getUrun("all", "admin");
     if($result)
     {
         $i = 0;
@@ -501,7 +506,7 @@ if($url_m == "home"){
             array_push($item_list_array[$i], $item['urun_ad']);
             array_push($item_list_array[$i], $item['urun_adet']);
             array_push($item_list_array[$i], $item['urun_fiyat']);
-            foreach ($user->getUrun($item['urun_id']) as $item1)
+            foreach ($user->getUrun($item['urun_id'], "admin") as $item1)
             {
                 array_push($item_list_array[$i], $user->getUrunKategori($item1['urun_grup'])[0][0]);
             }
@@ -542,7 +547,8 @@ if($url_m == "home"){
                 $editor_name = "Ürün Düzenle";
 
                 $item_id = $user->security($_GET['c']);
-                $result = $user->getUrun($item_id);
+                $result = $user->getUrun($item_id, "admin");
+
                 foreach ($result as $item)
                 {
                     $editor_itemid = $item['urun_id'];
@@ -551,7 +557,7 @@ if($url_m == "home"){
                     $editor_itemprice = $item['urun_fiyat'];
                     $editor_itemkdv = $item['kdv'];
                     $editor_itemcount = $item['urun_adet'];
-                    foreach ($user->getUrun($editor_itemid) as $item1)
+                    foreach ($user->getUrun($editor_itemid, "admin") as $item1)
                     {
                         $editor_defaultopt = $item1['urun_grup'];
                     }
@@ -565,6 +571,7 @@ if($url_m == "home"){
                     for ($j = $i; $j < 3; $j++)
                         array_push($editor_itemimg, "");
                     $editor_process = "Kaydet";
+                    $user->adminSetItemActive($item_id, false);
                 }
             }
 
@@ -596,6 +603,7 @@ if($url_m == "home"){
                 $editor_itemprice = array();
                 $editor_shipcount = array();
                 $editor_itempricefull = 0;
+                $editor_cargo = "";
                 foreach ($result as $item) {
 
                     foreach ($user->adminGetSoldInfo($item['id']) as $item1)
@@ -608,7 +616,7 @@ if($url_m == "home"){
 
                     }
                     array_push($editor_itemprice, $editor_itempricefull);
-
+                    $editor_cargo = $item['kargo_firma'];
                     $editor_ship_nasur = "";
                     foreach ($user->adminGetBillInfo($item['id']) as $item1)
                     {

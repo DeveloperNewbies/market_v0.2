@@ -57,7 +57,7 @@
                                         <td class="center"><?=$result[8]?></td>
                                         <td class="center"><?=$result[9]?></td>
                                         <td><?=$result[10]?></a></td>
-                                        <td>Kargo firması ismi</td>
+                                        <td><?=$result[11]?></td>
                                     </tr>
                                     <?php }?>
                                     </tbody>
