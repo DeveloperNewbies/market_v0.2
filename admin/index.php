@@ -167,6 +167,8 @@ if(isset($_POST['add_new_item']))
                 $item_desc = $user->security($_POST['item_desc'], "desc");
                 $item_price = $user->security($_POST['item_price']);
                 $item_kdv = $user->security($_POST['item_kdv']);
+                if($item_kdv == 0)
+                    $item_kdv = 18;
                 $item_count = $user->security($_POST['item_count']);
                 $item_category = $user->security($_POST['category']);
                 $item_category += 1;
