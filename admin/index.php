@@ -165,7 +165,7 @@ if(isset($_POST['add_new_item']))
 
                 $item_img = array();
                 $img_dest = preg_replace('/\s+/', '_', $item_name);
-
+                $img_dest = mb_convert_case($img_dest, MB_CASE_LOWER, "UTF-8");
 
 
                 $expensions= array("jpeg","jpg","png");
@@ -723,8 +723,4 @@ if($url_m == "home"){
 </body>
 </html>
 <?php } ?>
-
-
-
-
 
