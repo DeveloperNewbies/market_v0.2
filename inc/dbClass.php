@@ -213,7 +213,15 @@
 		
 		function setSecure($id)
 		{
-			$info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$id.''.$_SESSION['user'].'';
+		    $u_adress = "";
+            if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
+                $u_adress = $_SERVER["HTTP_CLIENT_IP"];
+            } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
+                $u_adress = $_SERVER["HTTP_X_FORWARDED_FOR"];
+            } else {
+                $u_adress = $_SERVER["REMOTE_ADDR"];
+            }
+			$info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.$id.''.$_SESSION['user'].'';
 			$hash = hash("sha256",$info);
 			$ip_addr = $_SERVER['REMOTE_ADDR'];
 			try
