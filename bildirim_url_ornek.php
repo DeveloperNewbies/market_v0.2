@@ -2,6 +2,7 @@
 
     require_once ('inc/userClass.php');
     require_once ('inc/dbClass.php');
+    $db = new dbMain();
 	## 2. ADIM için örnek kodlar ##
 
 	## ÖNEMLİ UYARILAR ##
@@ -58,7 +59,7 @@
 		## 2) Eğer ödemenin onaylanmama sebebini kayıt edecekseniz aşağıdaki değerleri kullanabilirsiniz.
 		## $post['failed_reason_code'] - başarısız hata kodu
 		## $post['failed_reason_msg'] - başarısız hata mesajı
-
+        $db->adminDeleteOrder($post['merchant_oid']-60);
 	}
 
 	## Bildirimin alındığını PayTR sistemine bildir.
