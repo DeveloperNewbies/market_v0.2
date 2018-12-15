@@ -182,7 +182,7 @@ if(isset($_POST['add_new_item']))
                 $expensions= array("jpeg","jpg","png");
                 $img_counter = 0;
                 for($i = 0; $i<3; $i++) {
-                    if (isset($_FILES['item-image-'.$i]) && !empty($_FILES['item-image-'.$i]['name'])) {
+                    if (file_exists($_FILES['item-image-'.$i]['tmp_name']) && is_uploaded_file($_FILES['item-image-'.$i]['tmp_name'])) {
                         $errors = array();
                         $file_name = $_FILES['item-image-'.$i]['name'];
                         $file_size = $_FILES['item-image-'.$i]['size'];
@@ -272,7 +272,7 @@ if(isset($_POST['ch_item']))
             $expensions= array("jpeg","jpg","png");
             $img_counter = 0;
             for($i = 0; $i<3; $i++) {
-                if (isset($_FILES['item-image-'.$i]) && !empty($_FILES['item-image-'.$i]['name'])) {
+                if (file_exists($_FILES['item-image-'.$i]['tmp_name']) && is_uploaded_file($_FILES['item-image-'.$i]['tmp_name'])) {
                     $errors = array();
                     $file_name = $_FILES['item-image-'.$i]['name'];
                     $file_size = $_FILES['item-image-'.$i]['size'];
@@ -337,7 +337,14 @@ if(isset($_POST['ch_item']))
                 }
             }else
             {
-                echo "En Az 1 Adet Ürün Görseli Eklemelisiniz.";
+                $is_ok = $user->adminEditItem($item_id, $item_name, $item_desc, $item_price, $item_kdv, $item_count, $item_category);
+                if($is_ok)
+                {
+                    echo "Ürün Düzenleme Başarılı";
+                }else
+                    {
+                        echo "Ürün Düzenlerken Bir Sorun Oluştu.";
+                    }
             }
 
         }
