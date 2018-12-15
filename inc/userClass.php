@@ -338,9 +338,9 @@ include('dbClass.php');
         {
             return $this->db->adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat);
         }
-        function adminAddNewItemImg($urun_id, $urun_ad, $urun_img)
+        function adminAddNewItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img)
         {
-            return $this->db->adminAddNewItemImg($urun_id, $urun_ad, $urun_img);
+            return $this->db->adminAddNewItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img);
         }
         function adminSetItemActive($u_id, $is_active)
         {

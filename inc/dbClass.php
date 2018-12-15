@@ -758,15 +758,35 @@
                 return false;
             }
         }
-        function adminAddNewItemImg($urun_id, $urun_ad, $urun_img)
+        function adminAddNewItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img)
         {
+            $is_there = false;
             try
             {
-                $prepare = $this->pdo->prepare("INSERT INTO m_marketimg(urun_id, urun_img) VALUES(:u_id, :u_img)");
-                $prepare->execute(array(
-                    "u_id" => $urun_id,
-                    "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img
-                ));
+                $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$urun_id}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    for($i = 0; $i < count($result); $i++)
+                    {
+                        if($i == $urun_img_num)
+                            $is_there = true;
+                    }
+
+                }
+                if($is_there)
+                {
+                    $this->adminEditItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img);
+                }else
+                    {
+                        $prepare = $this->pdo->prepare("INSERT INTO m_marketimg(urun_id, urun_img) VALUES(:u_id, :u_img)");
+                        $prepare->execute(array(
+                            "u_id" => $urun_id,
+                            "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img
+                        ));
+                    }
+
                 return true;
 
             }catch (PDOException $e)
@@ -823,11 +843,19 @@
         {
             try
             {
+
+                $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$urun_id}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $images = $prepare->fetchAll();
+                }
+
                 $prepare = $this->pdo->prepare("UPDATE m_marketimg SET urun_img=:u_img WHERE urun_id=:u_id AND id=:u_img_id");
                 $prepare->execute(array(
                     "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img,
                     "u_id" => $urun_id,
-                    "u_img_id" => $urun_img_id
+                    "u_img_id" => $images[$urun_img_id][0]
                 ));
                 return true;
 

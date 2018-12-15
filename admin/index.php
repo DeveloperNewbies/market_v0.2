@@ -13,6 +13,7 @@ $realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $user_granted = false;
 /** @var $user user  */
 $user;
+mb_internal_encoding('UTF-8');
 if(isset($_SESSION['user']))
 {
 
@@ -176,7 +177,7 @@ if(isset($_POST['add_new_item']))
                 $item_img = array();
                 $img_dest = preg_replace('/\s+/', '_', $item_name);
                 $img_dest = mb_convert_case($img_dest, MB_CASE_LOWER, "UTF-8");
-
+                $img_dest = md5($img_dest);
 
                 $expensions= array("jpeg","jpg","png");
                 $img_counter = 0;
@@ -215,11 +216,14 @@ if(isset($_POST['add_new_item']))
                         if (!file_exists("../images/".$img_dest.$last_id)) {
                             mkdir("../images/".$img_dest.$last_id, 0777, true);
                         }
+                        $i = 0;
                         foreach ($item_img as $item)
                         {
                             move_uploaded_file($item[0], "../images/".$img_dest.$last_id."/".$item[1]);
-                            $add_img = $user->adminAddNewItemImg($last_id, $img_dest, $item[1]);
+                            $add_img = $user->adminAddNewItemImg($last_id, $i, $img_dest, $item[1]);
+                            $i++;
                         }
+                        $i = 0;
                         echo "Yeni Ürün Ekleme Başarılı";
 
                     }else
@@ -261,13 +265,14 @@ if(isset($_POST['ch_item']))
             $item_category += 1;
             $item_img = array();
             $img_dest = preg_replace('/\s+/', '_', $item_name);
-
+            $img_dest = mb_convert_case($img_dest, MB_CASE_LOWER, "UTF-8");
+            $img_dest = md5($img_dest);
 
 
             $expensions= array("jpeg","jpg","png");
             $img_counter = 0;
             for($i = 0; $i<3; $i++) {
-                if (isset($_FILES['item-image-'.$i])) {
+                if (isset($_FILES['item-image-'.$i]) && !empty($_FILES['item-image-'.$i]['name'])) {
                     $errors = array();
                     $file_name = $_FILES['item-image-'.$i]['name'];
                     $file_size = $_FILES['item-image-'.$i]['size'];
@@ -283,18 +288,8 @@ if(isset($_POST['ch_item']))
                     if ($file_size > 4194304) {
                         array_push($errors, $file_name . " Dosya Boyutu 4 MB Aşamaz");
                     }
-
                     if (empty($errors) == true) {
-                        $j = 0;
-                        foreach ($user->getUrunIMG($item_id) as $item) {
-                            if($j == $i)
-                            {
-                                array_push($item_img, array($file_tmp, $file_name, $item['id']));
-                            }
-                            $j++;
-                            //move_uploaded_file($file_tmp, "images/".$file_name);
-                        }
-                        $j = 0;
+                        array_push($item_img, array($file_tmp, $file_name, $i));
                     }
                 }else
                 {
@@ -310,12 +305,13 @@ if(isset($_POST['ch_item']))
                     {
                         if (!file_exists("../images/".$img_dest.$item_id."/".$item[1])) {
                             move_uploaded_file($item[0], "../images/".$img_dest.$item_id."/".$item[1]);
+                            $add_img = $user->adminAddNewItemImg($item_id, $item[2], $img_dest, $item[1]);
                         }else
                             {
-
+                                $add_img = $user->adminEditItemImg($item_id, $item[2], $img_dest, $item[1]);
+                                //Delete Old Files in Server
+                                echo "Herşey Yolunda";
                             }
-                        $add_img = $user->adminEditItemImg($item_id, $item[2], $img_dest, $item[1]);
-                        //Delete Old Files in Server
                         $leave_files = array();
                         $new_files = $user->getUrunIMG($item_id);
                         foreach ($new_files as $file)
@@ -327,7 +323,6 @@ if(isset($_POST['ch_item']))
                             if( !in_array(basename($file), $leave_files) )
                                 unlink($file);
                         }
-                        echo "Herşey Yolunda";
                     }
                     if(isset($_POST['is_item_active']))
                         $user->adminSetItemActive($item_id, true);
