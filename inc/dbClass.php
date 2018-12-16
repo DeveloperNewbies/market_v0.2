@@ -61,6 +61,24 @@
             return $text;
         }
 
+        function systemLogIt($user_name, $u_log, $u_lcat, $u_ip, $u_date)
+        {
+            try
+            {
+                $prepare = $this->pdo->prepare("INSERT INTO m_log(k_adi, log, log_cat, ip, tarih) VALUES (:k_ad, :l_log, :l_logcat, :l_ip, :l_date)");
+                $prepare->execute(array(
+                    "k_ad" => $user_name,
+                    "l_log" => $u_log,
+                    "l_logcat" => $u_lcat,
+                    "l_ip" => $u_ip,
+                    "l_date" => $u_date
+                ));
+            }catch (PDOException $e)
+            {
+                //echo "Log Does Not Response..";
+            }
+        }
+
 		function logIn($uname, $upass)
 		{
 
