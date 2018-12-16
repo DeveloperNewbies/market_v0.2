@@ -368,7 +368,7 @@ if(isset($_POST['ok_checkout'])){
                                     <label for="city"><i class="fa fa-institution"></i> Şehir</label>
                                     <select class="form-control" name="city" required>
                                         <?php for ($result = 1; $result<=81;$result++){ ?>
-                                            <option value="<?=$result?>"><?=$city_array[$result]?></option>
+                                            <option value="<?=$city_array[$result]?>"><?=$city_array[$result]?></option>
                                         <?php } ?>
                                     </select>
 

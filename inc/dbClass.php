@@ -456,7 +456,7 @@
         {
             if($item_cat_id == "all")
             {
-                $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat");
+                $prepare = $this->pdo->prepare("SELECT * FROM m_itemcat");
                 $prepare->execute();
                 if($prepare->rowCount())
                 {
@@ -470,7 +470,7 @@
                 }
             }else
                 {
-                    $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
                     $prepare->execute();
                     if($prepare->rowCount())
                     {
@@ -852,21 +852,27 @@
                 return false;
             }
         }
-        function adminSetItemActive($u_id ,$is_active)
+        function adminSetItemActive($u_id, $is_active)
         {
 
             try
             {
                 if($is_active)
                 {
-                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=1 WHERE urun_id=:u_id");
+                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=:active WHERE urun_id=:u_id");
+                    $prepare->execute(array(
+                        "active" => 1,
+                        "u_id" => $u_id
+                    ));
                 }else
                 {
-                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=0 WHERE urun_id=:u_id");
+                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=:active WHERE urun_id=:u_id");
+                    $prepare->execute(array(
+                        "active" => 0,
+                        "u_id" => $u_id
+                    ));
                 }
-                $prepare->execute(array(
-                    "u_id" => $u_id
-                ));
+
                 return true;
 
             }catch (PDOException $e)
