@@ -66,7 +66,7 @@ if(!isset($_SESSION['user']))
                 {
                     $remote_hash = $row['session_hash'];
                 }
-                if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+                if($user->getIp() != $u_adress || $hash != $remote_hash)
                 {
                     $islogged = false;
                     $user->logOut();
@@ -146,7 +146,7 @@ if(isset($_POST['ok_checkout'])){
         }
     }
 
-    if(isset($_POST['checkout_adres']) && $m == "Yeni Adres Ekle"){
+    if(!isset($_POST['checkout_adres_static'])){
         if(isset($_POST['address']) && $_POST["address"]!=""){
             $checkout_adres=$user->security ($_POST["address"], "adres");
             $adresim = $checkout_adres;
@@ -171,8 +171,11 @@ if(isset($_POST['ok_checkout'])){
         } else $card_secure_durum = false;
         if($card_secure_durum)
         {
-            $checkout_adres = $checkout_city."/".$checkout_state." ".$checkout_zip." ".$checkout_adres;
-        }
+            $checkout_adres = $checkout_city."/".$checkout_state." - ".$checkout_adres." ".$checkout_zip;
+        }else
+            {
+                $checkout_adres = $adresim;
+            }
     }else{
         $checkout_adres = $adresim;
     }
@@ -346,7 +349,7 @@ if(isset($_POST['ok_checkout'])){
     <div class="col-75">
         <div class="container">
             <form action="checkout.php" method="post">
-
+                <input type="hidden" value="" name="checkout">
                 <div class="row">
                     <div class="col-50">
                         <h3><?php if($card_secure_durum == false){?> <div class="content" style="color: red;">Girdiğiniz bilgiler hatalı</div><?php }?> <br>Fatura Adresi</h3>
@@ -360,10 +363,7 @@ if(isset($_POST['ok_checkout'])){
                         <?php if($m == "Yeni Adres Ekle"){ ?>
                             <div class="container">
                                 <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
-                                <div class="container">
-                                    <label for="adresss"><i class="fa fa-institution">Mahalle/Sokak</i></label>
-                                    <input type="text" id="adr" name="address" placeholder="Adres" required>
-                                </div>
+
                                 <div class="container">
                                     <label for="city"><i class="fa fa-institution"></i> Şehir</label>
                                     <select class="form-control" name="city" required>
@@ -383,13 +383,18 @@ if(isset($_POST['ok_checkout'])){
                                             <input type="number" id="zip" name="zip" placeholder="01030" required>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div class="container">
+                                    <label for="adresss"><i class="fa fa-institution">Mahalle/Sokak</i></label>
+                                    <input type="text" id="adr" name="address" placeholder="Adres" required>
                                 </div>
                             </div>
 
                         <?php }else{?>
                             <ul class="list-group">
                                 <li class="list-group-item disabled"><?=$adresim?></li>
-                                <input type="hidden" value="" name="checkout">
+                                <input type="hidden" value="" name="checkout_adres_static">
                                 <input type="submit" name="checkout_adres" value="Yeni Adres Ekle" class="btn">
                             </ul>
                         <?php }?>
@@ -400,7 +405,7 @@ if(isset($_POST['ok_checkout'])){
 
                 </div>
                 <input type="hidden" value="user_pay_finished" name="user_pay">
-                <input type="hidden" value="" name="checkout">
+
                 <input type="submit" name="ok_checkout" class="btn" type="submit" value="Ödemeyi Tamamla">
             </form>
         </div>

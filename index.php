@@ -68,7 +68,7 @@ if(isset($_SESSION['user']))
     {
         $remote_hash = $row['session_hash'];
     }
-    if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+    if($user->getIp() != $u_adress || $hash != $remote_hash)
     {
         $islogged = false;
         $user->logOut();

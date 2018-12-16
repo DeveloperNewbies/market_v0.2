@@ -34,7 +34,7 @@ if(isset($_SESSION['user']))
     {
         $remote_hash = $row['session_hash'];
     }
-    if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+    if($user->getIp() != $u_adress || $hash != $remote_hash)
     {
         $user->logOut();
         session_destroy();
@@ -148,8 +148,16 @@ if($user_granted)
 
 	/////ad category /////
 if(isset($_POST["admin_category"])){
-  $_POST["ad_category"]	;
-	
+    $url_m = "home";
+    $cat_name = $user->security($_POST["ad_category"], "cat_name");
+    $result = $user->adminAddNewCat($cat_name);
+    if($result)
+    {
+        echo "Kategori Ekleme Başarılı";
+    }else
+        {
+            echo "Kategori Eklerken Bir Hatayla Karşılaşıldı.";
+        }
 }
 
 if(isset($_POST['add_new_item']))
@@ -648,6 +656,9 @@ if($url_m == "home"){
         {
             //Add New İtem
         }
+}else if($url_m == "ad-category")
+{
+    $editor_name = "Kategori Ekleme";
 }
 
 

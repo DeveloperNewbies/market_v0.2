@@ -333,6 +333,12 @@ include('dbClass.php');
             return $this->db->adminFindUserFromOrder($id);
         }
 
+        //Admin Add New Category to System
+        function adminAddNewCat($cat_name)
+        {
+            return $this->db->adminAddNewCategory($cat_name);
+        }
+
 //Admin İtem Functions..
         function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {

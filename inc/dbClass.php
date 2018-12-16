@@ -643,6 +643,31 @@
             }
         }
 
+        function adminUpdateItemCount($item_id, $order_count)
+        {
+            $item_count = 0;
+            foreach ($this->getUrun($item_id) as $item)
+            {
+                $item_count = $item['urun_adet'];
+            }
+            $item_count -= $order_count;
+            if($item_count < 0)
+                return false;
+
+            $prepare = $this->pdo->prepare("UPDATE m_market SET urun_adet=:u_adet WHERE urun_id=:u_id");
+            $prepare->execute(array(
+               "u_adet" => $item_count,
+                "u_id" => $item_id
+            ));
+            if($prepare->rowCount())
+            {
+                return true;
+            }else
+                {
+                    return false;
+                }
+        }
+
         function adminGetItemSoldInfoCount($id)
         {
             $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_orderbill WHERE urun_id = '{$id}'");
@@ -733,6 +758,21 @@
             {
                 return false;
             }
+        }
+
+        function adminAddNewCategory($cat_name)
+        {
+            $prepare = $this->pdo->prepare("INSERT INTO m_itemcat(item_cat_name) VALUES (:ic_name)");
+            $prepare->execute(array(
+                "ic_name" => $cat_name
+            ));
+            if($prepare->rowCount())
+            {
+                return true;
+            }else
+                {
+                    return false;
+                }
         }
 
         function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
