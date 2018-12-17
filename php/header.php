@@ -162,7 +162,7 @@
                 <img src="images/icons/icon-close2.png" alt="Kapat">
             </button>
 
-            <form class="wrap-search-header flex-w p-l-15" method="get" action="<?=$header_magaza?>">
+            <form class="wrap-search-header flex-w p-l-15" method="get" action="<?=$home_link."/index.php?m=magaza"?>">
                 <button class="flex-c-m trans-04">
                     <i class="zmdi zmdi-search"></i>
                 </button>

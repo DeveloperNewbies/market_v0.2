@@ -44,10 +44,6 @@ $side_bar_giris = "/login";
 //side bar çıkış kısmının linki
 $side_bar_cikis = "?logout=1";
 
-//ürünler bu linkteki adrese gönderilecek edilecek
-
-
-
 if(isset($_SESSION['user']))
 {
     $user = new user();
@@ -200,6 +196,10 @@ if(isset($_POST['urun_ekle']))
         user_sepet($user_shopping_item);
         header("location:".$header_magaza."&id=".$id);
     }
+}
+
+if(isset($_GET["search"])){
+    $url_m = "magaza";
 }
 
 //sepet add item code
