@@ -24,7 +24,7 @@ $s_sepetfull_vergi = 0;
 
 
 <!-- Shoping Cart -->
-<form class="bg0 p-t-75 p-b-85" action="<?=$home_link?>/checkout.php" method="post" id="s_form">
+<form class="bg0 p-t-75 p-b-85" action="<?=$home_url."/checkout.php"?>" method="post" id="s_form">
     <div class="container" id="s_form_container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">

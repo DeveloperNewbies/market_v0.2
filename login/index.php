@@ -1,11 +1,14 @@
+
+
+
+
 <?php
     require_once('../inc/userClass.php');
 	require_once('../inc/secIP.php');
 	session_start();
 	
 	$ipset = new secIP();
-	//$realip = "https://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
-	$realip = $ipset->getLocal().$ipset->getFile();
+	$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 	
 	if(isset($_SESSION['loggedin']))
     {
@@ -13,11 +16,11 @@
         {
 			if(isset($_SESSION['user']))
 			{
-				header("Refresh: 0; url=".$realip."/");
+				header("Refresh: 0; url=http://".$realip."/");
 			}else
 			{
 				session_destroy();
-				header("Refresh: 3; url=".$realip."/login/login.php");
+				header("Refresh: 3; url=http://".$realip."/login/login.php");
 				return;
 			}
         }
@@ -32,7 +35,7 @@
 			if(empty ($uname) || empty($pass) || empty($ad) || empty($soyad))
 			{
 				echo 'You can not register with empty fields';
-				header("Refresh: 3; url=".$realip."/login/login.php?register=true");
+				header("Refresh: 3; url=http://".$realip."/login/login.php?register=true");
 			}
 			else
 			{
@@ -48,17 +51,17 @@
 						
 						
 						$newuser->setSecurity();
-						header("Refresh: 1; url=".$realip."/index.php");
+						header("Refresh: 1; url=http://".$realip."/index.php");
 					}
 					else
 					{
 						echo 'Cant logged in after register.';
-						header("Refresh: 3; url=".$realip."/login/login.php");
+						header("Refresh: 3; url=http://".$realip."/login/login.php");
 					}
 				}else
 				{
 					echo 'Cant registered at moment.';
-					header("Refresh: 3; url=".$realip."/login/login.php?register=false");
+					header("Refresh: 3; url=http://".$realip."/login/login.php?register=false");
 				}
 					
 			}
@@ -81,7 +84,7 @@
 					
 					
 					$user->setSecurity();
-					header("Refresh: 0; url=".$realip."/index.php");
+					header("Refresh: 0; url=http://".$realip."/index.php");
 				}else
 				{
 					echo 'Username or Password Wrong!';
@@ -98,7 +101,7 @@
 <title>Market Login</title>
 <!-- Meta-Tags -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="keywords" content="Instant Sign In Form Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //Meta-Tags -->
@@ -137,7 +140,7 @@
 						<span class="checkbox1">
 							<label class="checkbox"><input type="checkbox" name="checkbox" checked="">Beni hatırla</label>
 						</span>
-						<!--<a class="forgot" href="#">Şifremi Unuttum??</a>-->
+						<a class="forgot" href="#">Şifremi Unuttum??</a>
 						<div class="clear"> </div>
 					</div>
 					<input type="submit" name="login" value="Giriş Yap">

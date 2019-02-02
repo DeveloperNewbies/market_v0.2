@@ -8,13 +8,10 @@
 
 
     <div class="header-block header-block-nav">
-		
         <ul class="nav-profile">
-				
+
             <li class="profile dropdown">
-					
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-					<i class="fa fa-user" ></i>
                     <span class="name"> <?=$admin_username?> </span>
                 </a>
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">

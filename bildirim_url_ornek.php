@@ -2,7 +2,6 @@
 
     require_once ('inc/userClass.php');
     require_once ('inc/dbClass.php');
-	$db = new dbMain();
 	## 2. ADIM için örnek kodlar ##
 
 	## ÖNEMLİ UYARILAR ##
@@ -44,27 +43,14 @@
 		}
 	 */
 
-
 	if( $post['status'] == 'success' ) { ## Ödeme Onaylandı
-		
+
 		## BURADA YAPILMASI GEREKENLER
 		## 1) Siparişi onaylayın.
 		## 2) Eğer müşterinize mesaj / SMS / e-posta gibi bilgilendirme yapacaksanız bu aşamada yapmalısınız.
 		## 3) 1. ADIM'da gönderilen payment_amount sipariş tutarı taksitli alışveriş yapılması durumunda
 		## değişebilir. Güncel tutarı $post['total_amount'] değerinden alarak muhasebe işlemlerinizde kullanabilirsiniz.
-		
-		##Update Item Count
-        /*$sold_info = $db->adminGetItemSoldInfo($post['merchant_oid']-60);
-        if($sold_info)
-        {
-            $send_count = 0;
-            foreach ($sold_info as $item)
-            {
-                $send_count = $item['urun_adet'];
-            }
-            $result = $db->adminUpdateItemCount($post['merchant_oid']-60, $send_count);
-        }*/
-		unset($_SESSION['sepetim']);
+
 	} else { ## Ödemeye Onay Verilmedi
 
 		## BURADA YAPILMASI GEREKENLER
@@ -72,7 +58,7 @@
 		## 2) Eğer ödemenin onaylanmama sebebini kayıt edecekseniz aşağıdaki değerleri kullanabilirsiniz.
 		## $post['failed_reason_code'] - başarısız hata kodu
 		## $post['failed_reason_msg'] - başarısız hata mesajı
-		$db->adminDeleteOrder($post['merchant_oid']-60);
+
 	}
 
 	## Bildirimin alındığını PayTR sistemine bildir.

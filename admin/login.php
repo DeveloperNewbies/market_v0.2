@@ -6,23 +6,20 @@
  * Time: 22:01
  */
 
-
-//You'll Find Nothing Dumb..
 require_once('../inc/userClass.php');
 require_once('../inc/secIP.php');
 session_start();
 
 $ipset = new secIP();
-//You'll Find Nothing Dumb..
-$realip = "".$ipset->getLocal().$ipset->getFile();
+$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 
 $language ="tr";
 $title = "Anasayfa";
 $charset = "UTF-8";
-$home_link ="".$realip."/admin/index.php";
-$magaza_page ="".$realip."/index.php";
+$home_link ="http://".$realip."/admin/index.php";
+$magaza_page ="http://".$realip."/index.php";
 
-//You'll Find Nothing Dumb..
+
 if(isset($_POST['login'])) {
     if (isset($_POST['username']) && isset($_POST['password'])) {
 
@@ -38,7 +35,7 @@ if(isset($_POST['login'])) {
 
 
             $user->setSecurity();
-            header("Refresh: 1; url=" . $realip . "/admin/index.php");
+            header("Refresh: 1; url=http://" . $realip . "/admin/index.php");
         } else {
             echo 'Username or Password Wrong!';
             header("Refresh: 2;");

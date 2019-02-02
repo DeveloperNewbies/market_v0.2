@@ -11,8 +11,7 @@ session_start();
 require_once('inc/secIP.php');
 require_once('inc/userClass.php');
 $ipset = new secIP();
-//$realip = "https://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
-$realip = $ipset->getLocal().$ipset->getFile();
+$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $islogged = false;
 
 /** @var $user user */
@@ -22,14 +21,13 @@ $language ="tr";
 $site_about ="hakkında";
 $title = "Anasayfa";
 $charset = "UTF-8";
-$home_link = $realip; // aq memmedi şuraya htpps koyma
+$home_link ="http://".$realip;
 $home_url =$home_link;
-$form_url = "optimumilac.com/checkout.php";
 $header_magaza = $home_link."/index.php?m=magaza";
 $header_sepetim = $home_link."/index.php?m=sepetim";
 $header_about = $home_link."/index.php?m=hakkinda";
 $header_contact = $home_link."/index.php?m=iletisim";
-$header_url = array("Anasayfa","ONLİNE ALIŞVERİŞ","Sepetim","Hakkında","İletişim");
+$header_url = array("Anasayfa","Online Alışveriş","Sepetim","Hakkında","İletişim");
 
 
 
@@ -54,15 +52,7 @@ if(isset($_SESSION['user']))
 {
     $user = new user();
     $user = unserialize(base64_decode($_SESSION['user']));
-    $u_adress = "";
-    if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
-        $u_adress = $_SERVER["HTTP_CLIENT_IP"];
-    } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
-        $u_adress = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    } else {
-        $u_adress = $_SERVER["REMOTE_ADDR"];
-    }
-    $info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.$user->getID().''.$_SESSION['user'].'';
+    $info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
     $hash = hash("sha256", $info);
     $remote_hash = '';
     $islogged = true;
@@ -70,7 +60,7 @@ if(isset($_SESSION['user']))
     {
         $remote_hash = $row['session_hash'];
     }
-    if($user->getIp() != $u_adress || $hash != $remote_hash)
+    if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
     {
         $islogged = false;
         $user->logOut();
@@ -89,7 +79,7 @@ if(isset($_GET['logout']))
         session_destroy();
         session_start();
         $_SESSION['sepetim'] = $ptr_sepet;
-        header("Refresh: 0; url=".$realip."/");
+        header("Refresh: 0; url=http://".$realip."/");
         return;
     }
 }
@@ -156,12 +146,6 @@ function user_sepet($usi){
 
 $url_m =(isset($_GET["m"])) ? $_GET["m"] : "home" ;
 
-
-if(isset($_GET["search"])){
-     $url_m = "magaza";
- }
-
-
 if(isset($_POST["completeshopping"]))
     $url_m = "sepetim";
 
@@ -206,13 +190,7 @@ if(isset($_POST['urun_ekle']))
                 array_push($user_shopping_item, $urun_array);
             }
         user_sepet($user_shopping_item);
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != '') {
-            header("location: https://".$_SERVER['HTTP_HOST']."/index.php?m=magaza&id=".$id);
-        }else
-            {
-                header("Location: ".$header_magaza."&id=".$id);
-            }
-
+        header("location:".$header_magaza."&id=".$id);
     }
 }
 
@@ -234,7 +212,7 @@ if(isset($_POST["shopping_card_update"])){
     /*bu kısımda $user_shopping_item in son hali var al onu ve database yi güncelle
     *
      *
-      */
+     */
     user_sepet($user_shopping_item);
 }
 
@@ -292,25 +270,35 @@ if(isset($_POST['urun_cikar'])){
     <!--===============================================================================================-->
     <!--===============================================================================================-->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-    
 
     <link rel="stylesheet" type="text/css" href="css/account.css">
-    
 </head>
 <body class="animsition">
 
 
 <?php
-    require_once ("php/header.php");
+ require_once ("php/header.php");
 
+if(!isset($url_m)) {?>
+<?php require_once("php/sidebar.php")?>
+<?php require_once ("php/cart.php")?>
+<?php require_once ("php/slider.php")?>
+<?php require_once ("php/banner.php")?>
+<?php require_once ("php/product.php")?>
+<?php require_once ("php/footer.php")?>
+<?php require_once ("php/back_to_top.php")?>
+<?php require_once ("php/modall.php")?>
+<?php require_once ("php/body_script.php") ?>
+<?php
+ }else{
     switch ($url_m){
         case  "home":
-            require_once("php/sidebar.php");
-            require_once ("php/cart.php");
-            require_once ("php/slider.php");
-            require_once ("php/banner.php");
-            require_once ("php/product.php");
-            require_once ("php/modall.php");
+  require_once("php/sidebar.php");
+ require_once ("php/cart.php");
+ require_once ("php/slider.php");
+ require_once ("php/banner.php");
+ require_once ("php/product.php");
+ require_once ("php/modall.php");
             break;
         case "hakkinda":
             require_once("php/sidebar.php");
@@ -354,11 +342,14 @@ if(isset($_POST['urun_cikar'])){
             echo "Hata";
             require_once ("php/back_to_top.php");
             break;
+    }
+
 }
 require_once ("php/footer.php");
 require_once ("php/back_to_top.php");
 require_once ("php/body_script.php");
 ?>
+
 
 </body>
 </html>

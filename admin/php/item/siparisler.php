@@ -93,7 +93,8 @@
               <?php
               $foreach = 0;
                  foreach ($shipping_list_array as $result){
-                     
+                     if($foreach >= 10)
+                         break;
               ?>
 
             <li class="item">
@@ -199,7 +200,6 @@
 
         </ul>
     </div>
-	<!-- 
     <nav class="text-right">
         <ul class="pagination">
             <li class="page-item">
@@ -225,5 +225,4 @@
             </li>
         </ul>
     </nav>
--->
 </article>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Mehme
+ * User: Mehmet
  * Date: 10.12.2018
  * Time: 14:37
  */
@@ -22,9 +22,7 @@ session_start();
 $ipset = new secIP();
 $card_secure_durum = true;
 $user;
-//$realip = "https://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
-//Yukardaki Gibi "https://". koyma Simcap Koymaaaa!
-$realip = $ipset->getLocal().$ipset->getFile();
+$realIp = "http://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 
 
 //form post
@@ -32,6 +30,7 @@ $checkout_name ;
 $checkout_surname;
 $checkout_email ;
 $checkout_adres;
+$checkout_adres ;
 $checkout_city ;
 $checkout_state;
 $checkout_zip ;
@@ -40,24 +39,19 @@ $checkout_number = "";
 $m = "";
 if(!isset($_SESSION['user']))
 {
-    header("location: ".$realip."/login");
+    header("location: ".$realIp."/login");
 }else
     {
         if(!isset($_POST['checkout']) || !isset($_SESSION['sepetim']))
-            header("location: ".$realip);
+            header("location: ".$realIp);
         else
             {
-                
+                if(isset($_POST['checkout_adres']))
+                    $m = $user->security($_POST['checkout_adres']);
+
                 $user = new user();
                 $user = unserialize(base64_decode($_SESSION['user']));
-                if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
-                    $u_adress = $_SERVER["HTTP_CLIENT_IP"];
-                } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
-                    $u_adress = $_SERVER["HTTP_X_FORWARDED_FOR"];
-                } else {
-                    $u_adress = $_SERVER["REMOTE_ADDR"];
-                }
-                $info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.$user->getID().''.$_SESSION['user'].'';
+                $info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
                 $hash = hash("sha256", $info);
                 $remote_hash = '';
                 $islogged = true;
@@ -65,25 +59,25 @@ if(!isset($_SESSION['user']))
                 {
                     $remote_hash = $row['session_hash'];
                 }
-                if($user->getIp() != $u_adress || $hash != $remote_hash)
+                if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
                 {
                     $islogged = false;
                     $user->logOut();
                     session_destroy();
                     echo 'Oturum bilgisi ihlali!';
-                 	header("Refresh: 3;");
+                    header("Refresh: 3;");
                 }
-				if(isset($_POST['checkout_adres']))
-                    $m = $user->security($_POST['checkout_adres'], "ch_adress");
-
 				$infos = $user->getUserInfosOut();
                 
-				$checkout_name = $infos['ad'];
-                $checkout_surname = $infos['soyad'];
-                $checkout_email = $infos['e-posta'];
-                $checkout_number = $infos['tel'];
-                $checkout_adres = $infos['adres'];
-                $adresim =  $infos['adres'];
+				foreach($infos as $item)
+				{
+					$checkout_name = $infos['ad'];
+					$checkout_surname = $infos['soyad'];
+					$checkout_email = $infos['e-posta'];
+					$checkout_number = $infos['tel'];
+					$checkout_adres = $infos['adres'];
+					$adresim =  $infos['adres'];
+				}
 				
 				
                 
@@ -91,12 +85,8 @@ if(!isset($_SESSION['user']))
 
     }
 
-if(!islogged)
-{
-	header("location: ".$realip."/login");
-}else
-{
-	$card_secure_durum = true;
+
+$card_secure_durum = true;
 
 
 
@@ -113,8 +103,12 @@ if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
 $checkout_amount = 0;
 $checkout_list=array();
 
-
-
+//form card
+$cardname ;
+$cardnumber;
+$expmonth;
+$expyear;
+$cvv;
 
 if(isset($_POST['ok_checkout'])){
 	  if(isset($_POST['address']) && $_POST["address"]!=""){
@@ -142,10 +136,10 @@ if(isset($_POST['ok_checkout'])){
         }
     }
 
-       if(!isset($_POST['checkout_adres_static'])){
+    if(isset($_POST['checkout_adres']) && $m == "Yeni Adres Ekle"){
         if(isset($_POST['address']) && $_POST["address"]!=""){
 		  $checkout_adres=$user->security ($_POST["address"], "adres");
-		  $adresim = $checkout_adres;
+		  $adresim = $checkout_adres;	
 		}
           
         else $card_secure_durum = false;
@@ -156,7 +150,7 @@ if(isset($_POST['ok_checkout'])){
             $checkout_state = $user->security ($_POST["state"], "adres");
         else $card_secure_durum = false;
         if(isset($_POST['zip']) && $_POST["zip"]!=""){
-            if(is_numeric($_POST["zip"]) )
+            if(filter_var($_POST["zip"], FILTER_VALIDATE_INT ) )
                 $checkout_zip = $user->security ($_POST["zip"]);
             else $card_secure_durum = false;
         } else $card_secure_durum = false;
@@ -165,16 +159,12 @@ if(isset($_POST['ok_checkout'])){
                 $checkout_number = $user->security ($_POST["phone-number"]);
             else $card_secure_durum = false;
         } else $card_secure_durum = false;
-		   if($card_secure_durum)
-        {
-            $checkout_adres = $checkout_city."/".$checkout_state." - ".$checkout_adres." ".$checkout_zip;
-        }else
-		   {
-			   $checkout_adres = $adresim;
-		   }
     }else{
         $checkout_adres = $adresim;
     }
+
+
+   
 
     foreach ($_SESSION['sepetim'] as $item)
     {
@@ -216,12 +206,12 @@ if(isset($_POST['ok_checkout'])){
         ## Başarılı ödeme sonrası müşterinizin yönlendirileceği sayfa
         ## !!! Bu sayfa siparişi onaylayacağınız sayfa değildir! Yalnızca müşterinizi bilgilendireceğiniz sayfadır!
         ## !!! Siparişi onaylayacağız sayfa "Bildirim URL" sayfasıdır (Bakınız: 2.ADIM Klasörü).
-        $merchant_ok_url = "https://www.optimumilac.com/index.php?m=hesabim&account=sepetim";
+        $merchant_ok_url = "http://shop.ay-soft.com/odeme_basarili.php";
         #
         ## Ödeme sürecinde beklenmedik bir hata oluşması durumunda müşterinizin yönlendirileceği sayfa
         ## !!! Bu sayfa siparişi iptal edeceğiniz sayfa değildir! Yalnızca müşterinizi bilgilendireceğiniz sayfadır!
         ## !!! Siparişi iptal edeceğiniz sayfa "Bildirim URL" sayfasıdır (Bakınız: 2.ADIM Klasörü).
-        $merchant_fail_url = "https://www.optimumilac.com/odeme_hata.php";
+        $merchant_fail_url = "http://shop.ay-soft.com/odeme_hata.php";
         #
         ## Müşterinin sepet/sipariş içeriği
         $user_basket = $checkout_list;
@@ -326,7 +316,15 @@ if(isset($_POST['ok_checkout'])){
 
 	</script>
     <iframe target="_blank" src="https://www.paytr.com/odeme/guvenli/<?php echo $token;?>" id="paytriframe" frameborder="0" scrolling="no" style="width: 100%;"></iframe>
-    <?php }else{ ?>
+    
+
+<?php
+
+}else{
+	if($checkout_adres == "")
+		$m = "Yeni Adres Ekle";
+
+?>
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -344,7 +342,7 @@ if(isset($_POST['ok_checkout'])){
     <div class="col-75">
         <div class="container">
             <form action="checkout.php" method="post">
-			<input type="hidden" value="" name="checkout">
+
                 <div class="row">
                      <div class="col-50">
                         <h3><?php if($card_secure_durum == false){?> <div class="content" style="color: red;">Girdiğiniz bilgiler hatalı</div><?php }?> <br>Fatura Adresi</h3>
@@ -358,13 +356,12 @@ if(isset($_POST['ok_checkout'])){
                         <?php if($m == "Yeni Adres Ekle"){ ?>
                             <div class="container">
                                 <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
-								
-                               
+                                <input type="text" id="adr" name="address" placeholder="Adres" value="<?php echo $checkout_adres; ?>">
                                 <div class="container">
                                     <label for="city"><i class="fa fa-institution"></i> Şehir</label>
-                                    <select class="form-control" name="city" required>
+                                    <select class="form-control" name="city">
                                         <?php for ($result = 1; $result<=81;$result++){ ?>
-                                            <option value="<?=$city_array[$result]?>"><?=$city_array[$result]?></option>
+                                            <option value="<?=$result?>"><?=$city_array[$result]?></option>
                                         <?php } ?>
                                     </select>
 
@@ -372,25 +369,19 @@ if(isset($_POST['ok_checkout'])){
                                     <div class="row" style="margin-top: 2%;">
                                         <div class="col-50">
                                             <label for="state">İlçe</label>
-                                            <input type="text" id="state" name="state" placeholder="İlçe" required>
+                                            <input type="text" id="state" name="state" placeholder="İlçe">
                                         </div>
                                         <div class="col-50">
                                             <label for="zip">Posta Kodu</label>
-                                            <input type="number" id="zip" name="zip" placeholder="01030" required>
+                                            <input type="number" id="zip" name="zip" placeholder="01030">
                                         </div>
                                     </div>
-								
                                 </div>
-								<div class="container">
-									<label for="adresss"><i class="fa fa-institution">Mahalle/Sokak</i></label>
-									<input type="text" id="adr" name="address" placeholder="Adres" required>
-									</div>
                             </div>
 
                         <?php }else{?>
                             <ul class="list-group">
                                 <li class="list-group-item disabled"><?=$adresim?></li>
-								<input type="hidden" value="" name="checkout_adres_static">
                                 <input type="submit" name="checkout_adres" value="Yeni Adres Ekle" class="btn">
                             </ul>
                         <?php }?>
@@ -401,6 +392,7 @@ if(isset($_POST['ok_checkout'])){
                     
                 </div>
                 <input type="hidden" value="user_pay_finished" name="user_pay">
+                <input type="hidden" value="" name="checkout">
                 <input type="submit" name="ok_checkout" class="btn" type="submit" value="Ödemeyi Tamamla">
             </form>
         </div>
@@ -419,6 +411,5 @@ if(isset($_POST['ok_checkout'])){
 </div>
 </body>
 </html>
-<?php } ?>
-<?php } ?>
 
+<?php } ?>
