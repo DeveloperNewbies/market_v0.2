@@ -21,6 +21,6 @@
                 </div>
             </div>
 		<input type="hidden" name="admin_category" value="add">
-		<button type="submit" class="btn btn-primary">Ekle</button>
+		<input type="submit" class="btn btn-primary" value="Ekle">
     </form>
 </article>

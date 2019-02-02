@@ -3,9 +3,9 @@
 	class dbMain
 	{
 
-		private $host = "localhost";//main decleration
-		private $huser = "root";
-		private $hpass = "";
+		private $host = "localhost:3306";//main decleration
+		private $huser = "budakenes";
+		private $hpass = "21211986";
 		private $database = "marketing";
 		private $dsn;
 
@@ -61,6 +61,24 @@
             return $text;
         }
 
+		function systemLogIt($user_name, $u_log, $u_lcat, $u_ip, $u_date)
+        {
+            try
+            {
+                $prepare = $this->pdo->prepare("INSERT INTO m_log(k_adi, log, log_cat, ip, tarih) VALUES (:k_ad, :l_log, :l_logcat, :l_ip, :l_date)");
+                $prepare->execute(array(
+                    "k_ad" => $user_name,
+                    "l_log" => $u_log,
+                    "l_logcat" => $u_lcat,
+                    "l_ip" => $u_ip,
+                    "l_date" => $u_date
+                ));
+            }catch (PDOException $e)
+            {
+                //echo "Log Does Not Response..";
+            }
+        }
+		
 		function logIn($uname, $upass)
 		{
 
@@ -101,7 +119,7 @@
                 return false;
             }
         }
-		
+
 		function logOut($uname, $upass)
 		{
 			try
@@ -113,7 +131,8 @@
 				echo '' . $e->getMessage();
 			}
 		}
-		
+
+
 		function createNewUser($ad, $soyad, $uname, $upass)
 		{
 			try
@@ -213,12 +232,20 @@
 		
 		function setSecure($id)
 		{
-			$info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$id.''.$_SESSION['user'].'';
+		    $u_adress = "";
+            if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
+                $u_adress = $_SERVER["HTTP_CLIENT_IP"];
+            } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
+                $u_adress = $_SERVER["HTTP_X_FORWARDED_FOR"];
+            } else {
+                $u_adress = $_SERVER["REMOTE_ADDR"];
+            }
+			$info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.$id.''.$_SESSION['user'].'';
 			$hash = hash("sha256",$info);
-			$ip_addr = $_SERVER['REMOTE_ADDR'];
+			
 			try
 			{
-				$prepare = $this->pdo->prepare("UPDATE m_users SET ip = '{$ip_addr}', session_hash = '{$hash}' WHERE id = '{$id}'");
+				$prepare = $this->pdo->prepare("UPDATE m_users SET ip = '{$u_adress}', session_hash = '{$hash}' WHERE id = '{$id}'");
 				$prepare->execute();
 			}catch(PDOException $e)
 			{
@@ -330,10 +357,11 @@
         {
             try
             {
-                $prepare = $this->pdo->prepare("INSERT INTO m_order(k_id, k_ip) VALUES(:k_id, :k_ip)");
+                $prepare = $this->pdo->prepare("INSERT INTO m_order(k_id, k_ip, kargo_firma) VALUES(:k_id, :k_ip, :k_firma)");
                 $prepare->execute(array(
                     "k_id" => $u_id,
                     "k_ip" => $u_ip,
+                    "k_firma" => ""
                 ));
 				$s_id = $this->pdo->lastInsertId();
                 try
@@ -429,7 +457,7 @@
         {
             if($item_cat_id == "all")
             {
-                $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat");
+                $prepare = $this->pdo->prepare("SELECT * FROM m_itemcat");
                 $prepare->execute();
                 if($prepare->rowCount())
                 {
@@ -443,7 +471,7 @@
                 }
             }else
                 {
-                    $prepare = $this->pdo->prepare("SELECT item_cat_name FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
                     $prepare->execute();
                     if($prepare->rowCount())
                     {
@@ -634,6 +662,31 @@
             }
         }
 
+     function adminUpdateItemCount($item_id, $order_count)
+        {
+            $item_count = 0;
+            foreach ($this->getUrun($item_id) as $item)
+            {
+                $item_count = $item['urun_adet'];
+            }
+            $item_count -= $order_count;
+            if($item_count < 0)
+                return false;
+
+            $prepare = $this->pdo->prepare("UPDATE m_market SET urun_adet=:u_adet WHERE urun_id=:u_id");
+            $prepare->execute(array(
+               "u_adet" => $item_count,
+                "u_id" => $item_id
+            ));
+            if($prepare->rowCount())
+            {
+                return true;
+            }else
+                {
+                    return false;
+                }
+        }
+		
         function adminGetItemSoldInfoCount($id)
         {
             $prepare = $this->pdo->prepare("SELECT urun_adet FROM m_orderbill WHERE urun_id = '{$id}'");
@@ -726,6 +779,21 @@
             }
         }
 
+        function adminAddNewCategory($cat_name)
+        {
+            $prepare = $this->pdo->prepare("INSERT INTO m_itemcat(item_cat_name) VALUES (:ic_name)");
+            $prepare->execute(array(
+                "ic_name" => $cat_name
+            ));
+            if($prepare->rowCount())
+            {
+                return true;
+            }else
+                {
+                    return false;
+                }
+        }
+		
         function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
             try
@@ -749,15 +817,35 @@
                 return false;
             }
         }
-        function adminAddNewItemImg($urun_id, $urun_ad, $urun_img)
+        function adminAddNewItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img)
         {
+            $is_there = false;
             try
             {
-                $prepare = $this->pdo->prepare("INSERT INTO m_marketimg(urun_id, urun_img) VALUES(:u_id, :u_img)");
-                $prepare->execute(array(
-                    "u_id" => $urun_id,
-                    "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img
-                ));
+                $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$urun_id}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $result = $prepare->fetchAll();
+                    for($i = 0; $i < count($result); $i++)
+                    {
+                        if($i == $urun_img_num)
+                            $is_there = true;
+                    }
+
+                }
+                if($is_there)
+                {
+                    $this->adminEditItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img);
+                }else
+                    {
+                        $prepare = $this->pdo->prepare("INSERT INTO m_marketimg(urun_id, urun_img) VALUES(:u_id, :u_img)");
+                        $prepare->execute(array(
+                            "u_id" => $urun_id,
+                            "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img
+                        ));
+                    }
+
                 return true;
 
             }catch (PDOException $e)
@@ -772,14 +860,20 @@
             {
                 if($is_active)
                 {
-                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=1 WHERE urun_id=:u_id");
+                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=:active WHERE urun_id=:u_id");
+                    $prepare->execute(array(
+                        "active" => 1,
+                        "u_id" => $u_id
+                    ));
                 }else
                 {
-                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=0 WHERE urun_id=:u_id");
+                    $prepare = $this->pdo->prepare("UPDATE m_market SET is_active=:active WHERE urun_id=:u_id");
+                    $prepare->execute(array(
+                        "active" => 0,
+                        "u_id" => $u_id
+                    ));
                 }
-                $prepare->execute(array(
-                    "u_id" => $u_id
-                ));
+
                 return true;
 
             }catch (PDOException $e)
@@ -814,11 +908,19 @@
         {
             try
             {
+
+                $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$urun_id}'");
+                $prepare->execute();
+                if($prepare->rowCount())
+                {
+                    $images = $prepare->fetchAll();
+                }
+
                 $prepare = $this->pdo->prepare("UPDATE m_marketimg SET urun_img=:u_img WHERE urun_id=:u_id AND id=:u_img_id");
                 $prepare->execute(array(
                     "u_img" => "images/".$urun_ad.$urun_id."/".$urun_img,
                     "u_id" => $urun_id,
-                    "u_img_id" => $urun_img_id
+                    "u_img_id" => $images[$urun_img_id][0]
                 ));
                 return true;
 
