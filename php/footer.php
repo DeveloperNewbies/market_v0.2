@@ -57,28 +57,22 @@
 
         <ul>
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=magaza&cat=0"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Harnup Özü
             </a>
           </li>
 
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=magaza&cat=1"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Kremler
             </a>
           </li>
 
           <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=magaza&cat=2"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Gıda Takviyesi
             </a>
           </li>
-          <li class="p-b-10">
-            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-              Doğal ve Gurme Gıda
-            </a>
-          </li>
-
 
         </ul>
       </div>

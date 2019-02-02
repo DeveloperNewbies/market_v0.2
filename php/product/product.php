@@ -417,7 +417,7 @@ $user = new user();
             </div>
             <?php
             echo '<script>
-              $(document).ready(function(){ 
+              $(document).ready(function(){
                   $("#group'.$selected_cat.'").click();
               });
                 </script>';

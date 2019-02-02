@@ -44,15 +44,19 @@ $side_bar_giris = "/login";
 //side bar çıkış kısmının linki
 $side_bar_cikis = "?logout=1";
 
-//ürünler bu linkteki adrese gönderilecek edilecek
-
-
-
 if(isset($_SESSION['user']))
 {
     $user = new user();
     $user = unserialize(base64_decode($_SESSION['user']));
-    $info=''.$_SERVER['HTTP_USER_AGENT'].''.$_SERVER['REMOTE_ADDR'].''.$user->getID().''.$_SESSION['user'].'';
+    $u_adress = "";
+    if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
+        $u_adress = $_SERVER["HTTP_CLIENT_IP"];
+    } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
+        $u_adress = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    } else {
+        $u_adress = $_SERVER["REMOTE_ADDR"];
+    }
+    $info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.$user->getID().''.$_SESSION['user'].'';
     $hash = hash("sha256", $info);
     $remote_hash = '';
     $islogged = true;
@@ -60,7 +64,7 @@ if(isset($_SESSION['user']))
     {
         $remote_hash = $row['session_hash'];
     }
-    if($user->getIp() != $_SERVER['REMOTE_ADDR'] || $hash != $remote_hash)
+    if($user->getIp() != $u_adress || $hash != $remote_hash)
     {
         $islogged = false;
         $user->logOut();
@@ -192,6 +196,10 @@ if(isset($_POST['urun_ekle']))
         user_sepet($user_shopping_item);
         header("location:".$header_magaza."&id=".$id);
     }
+}
+
+if(isset($_GET["search"])){
+    $url_m = "magaza";
 }
 
 //sepet add item code
