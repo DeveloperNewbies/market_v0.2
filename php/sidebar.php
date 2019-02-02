@@ -12,7 +12,7 @@
         <div class="flex-r w-full p-b-30 p-r-27">
             <!-- Logo desktop -->
             <a href="<?=$home_url?>" class="logo" style="margin-right: 40%;margin-top: 10px;">
-                <img src="images/icons/logo-01.png" alt="IMG-LOGO" >
+               <strong>OPTIMUM İLAÇ</strong>
             </a>
 
             <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-sidebar">

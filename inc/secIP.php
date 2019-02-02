@@ -1,14 +1,15 @@
 <?php
 	class secIP
 	{
-		private $local = "localhost";
-		private $port = "81";
+	    private $protocol = "https://";
+		private $local = "optimumilac.com";
+		private $port = "80";
 		private $file ="";
-		
-		public function getLocal()
-		{
-			return $this->local;
-		}
+
+        public function getLocal()
+        {
+            return $this->protocol.$this->local;
+        }
 		public function getPort()
 		{
 			return $this->port;

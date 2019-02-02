@@ -6,10 +6,31 @@
 
 
 ?>
+
+
 <!-- Header -->
 <header class="header-v2">
     <!-- Header desktop -->
     <div class="container-menu-desktop trans-03">
+    <div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container">
+					<div class="left-top-bar">
+						Kampanyalardan Haberdar Olmak İçin Takipte Kalın !
+					</div>
+
+					<div class="right-top-bar flex-w h-full">
+					
+					
+						<a href="#" class="flex-c-m trans-04 p-lr-25">
+							EN
+						</a>
+                        <a href="#" class="flex-c-m trans-04 p-lr-25">
+							TR
+						</a>
+					
+					</div>
+				</div>
+			</div>
         <div class="wrap-menu-desktop">
             <nav class="limiter-menu-desktop p-l-45">
 
@@ -162,7 +183,7 @@
                 <img src="images/icons/icon-close2.png" alt="Kapat">
             </button>
 
-            <form class="wrap-search-header flex-w p-l-15" method="get" action="<?=$header_magaza?>">
+            <form class="wrap-search-header flex-w p-l-15" method="get" action="<?=$home_link."/index.php?m=magaza"?>">
                 <button class="flex-c-m trans-04">
                     <i class="zmdi zmdi-search"></i>
                 </button>

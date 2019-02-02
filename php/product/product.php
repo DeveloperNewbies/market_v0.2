@@ -19,7 +19,7 @@ $user = new user();
        $id = $_GET["id"];
        //Urun Detayları alınıyor
        $id = $db->security($id);
-
+       
        $urun = $db->getUrun($id);
 
        $des_detail = "";
@@ -150,11 +150,11 @@ $user = new user();
 							 <?=$product_price?> ₺
 						    </span>
 
-                           <p class="stext-102 cl3 p-t-23">
+                        <!--   <p class="stext-102 cl3 p-t-23">
                                <?=$product_description?>
-                           </p>
+                           </p> 
 
-                           <!--  -->
+                            -->
                            <div class="p-t-33">
                                <?php
                                for($i = 0; $i < count($option); $i++){
@@ -235,10 +235,11 @@ $user = new user();
                            <li class="nav-item p-b-10">
                                <a class="nav-link" data-toggle="tab" href="#information" role="tab">Ürün özellikleri</a>
                            </li>
-
+                          <!--
                            <li class="nav-item p-b-10">
                                <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Yorumlar (<?=$related?>)</a>
                            </li>
+                        -->
                        </ul>
 
                        <!-- Tab panes -->
@@ -283,12 +284,12 @@ $user = new user();
                                <?php } ?>
                            </div>
 
-                           <!-- - -->
+                           <!-- 
                            <div class="tab-pane fade" id="reviews" role="tabpanel">
                                <div class="row">
                                    <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                                        <div class="p-b-30 m-lr-15-sm">
-                                           <!-- Review -->
+                                           <!-- Review 
                                            <div class="flex-w flex-t p-b-68">
                                                <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
                                                    <img src="images/enes.jpg" alt="AVATAR">
@@ -314,8 +315,9 @@ $user = new user();
                                                    </p>
                                                </div>
                                            </div>
+                                              -->
 
-                                           <!-- Add review -->
+                                           <!-- Add review
                                            <form class="w-full">
                                                <h5 class="mtext-108 cl2 p-b-7">
                                                    Yorum ekleyin
@@ -361,6 +363,7 @@ $user = new user();
                                                    Gönder
                                                </button>
                                            </form>
+                                             -->
                                        </div>
                                    </div>
                                </div>
