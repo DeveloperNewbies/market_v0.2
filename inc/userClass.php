@@ -51,7 +51,23 @@ include('dbClass.php');
 			return (new self());
 		}
 
+        function logIT($log, $log_cat)
+        {
+            $ip = "";
+            if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
+                $ip = $_SERVER["HTTP_CLIENT_IP"];
+            } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
+                $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+            } else {
+                $ip = $_SERVER["REMOTE_ADDR"];
+            }
 
+            $tmp_user = $this->getID();
+
+            $ldate = date('Y-m-d H-i-s');
+
+            $this->db->systemLogIt($tmp_user, $log, $log_cat, $ip, $ldate);
+        }
 
 		function createUser($nuname, $nupass)
 		{
@@ -65,8 +81,9 @@ include('dbClass.php');
 			$this->logIn($nuname, $nupass);
 			if($this->isLogged())
 			{
+			    
                 $this->getUserInfos($nuname, $nupass);
-
+				$this->logIT("Kullanıcı Giriş Yaptı", "1");
                 $this->permission = $this->db->getUserPermission($this->id);
 
             }
@@ -74,7 +91,8 @@ include('dbClass.php');
 			
 
 		}
-		
+
+
 		function registerNewUser($ad, $soyad, $nuname, $nupass)
 		{
 			$this->createDb();
@@ -222,6 +240,7 @@ include('dbClass.php');
             {
                 $this->username = $email;
                 $this->adress = $adress;
+                $this->logIT("Bilgi Güncellemesi..", "1");
                 return true;
             }else
             {
@@ -234,6 +253,7 @@ include('dbClass.php');
             {
                 $this->adress = $adress;
                 $this->adress2 = $adress2;
+                $this->logIT("Adres bilgisi güncellemesi..", "1");
                 return true;
             }else
                 {
@@ -246,6 +266,7 @@ include('dbClass.php');
             if($this->db->updateUserPassword($id, $new_pass))
             {
                 $this->password = md5($new_pass);
+                $this->logIT("Şifre bilgisi güncellemesi..", "1");
                 return true;
             }else
             {
@@ -275,6 +296,7 @@ include('dbClass.php');
 
         function findUrun($name)
         {
+            $this->logIT("Ürün Araması..", "2");
 		    return $this->db->findUrun($name);
         }
 
@@ -295,6 +317,7 @@ include('dbClass.php');
 
         function addSiparis($u_id, $u_name, $u_surname, $u_adres, $u_ip, $u_sepet)
         {
+            $this->logIT("Sipariş İsteği..", "3");
             return $this->db->userAddOrder($u_id, $u_name, $u_surname, $u_ip, $u_adres, $u_sepet);
         }
 
@@ -333,38 +356,52 @@ include('dbClass.php');
             return $this->db->adminFindUserFromOrder($id);
         }
 
+        //Admin Add New Category to System
+        function adminAddNewCat($cat_name)
+        {
+            $this->logIT("Kategori Eklenmesi..", "2");
+            return $this->db->adminAddNewCategory($cat_name);
+        }
+
 //Admin İtem Functions..
         function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
+            $this->logIT("Yeni Ürün Eklenmesi..", "2");
             return $this->db->adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat);
         }
-        function adminAddNewItemImg($urun_id, $urun_ad, $urun_img)
+        function adminAddNewItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img)
         {
-            return $this->db->adminAddNewItemImg($urun_id, $urun_ad, $urun_img);
+            return $this->db->adminAddNewItemImg($urun_id, $urun_img_num, $urun_ad, $urun_img);
         }
         function adminSetItemActive($u_id, $is_active)
         {
+            $this->logIT("Ürün Aktifleştirme..", "2");
             return $this->db->adminSetItemActive($u_id, $is_active);
         }
         function adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
+            $this->logIT("Ürün bilgisi güncellemesi..", "2");
             return $this->db->adminEditItem($urun_id ,$urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat);
         }
         function adminEditItemImg($urun_id, $urun_img_id,$urun_ad, $urun_img)
         {
+            $this->logIT("Ürün fotoğraf bilgisi güncellemesi..", "2");
             return $this->db->adminEditItemImg($urun_id, $urun_img_id, $urun_ad, $urun_img);
         }
         function adminEditShipInfo($ship_id, $ship_number, $s_result, $s_name)
         {
+            $this->logIT("Sipariş bilgisi güncellemesi..", "3");
             return $this->db->adminEditShipInfo($ship_id, $ship_number, $s_result, $s_name);
         }
 
         function adminDeleteItem($item_id)
         {
+            $this->logIT("Ürün silinmesi..", "2");
             return $this->db->adminDeleteItem($item_id);
         }
         function adminDeleteOrder($order_id)
         {
+            $this->logIT("Sipariş Silinmesi..", "3");
             return $this->db->adminDeleteOrder($order_id);
         }
 	}

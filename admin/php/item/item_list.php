@@ -83,8 +83,7 @@
             <?php
             $foreach = 0;
             foreach ($item_list_array as $result){
-                if($foreach >= 10)
-                    break;
+               
                 ?>
 
                 <li class="item">
@@ -106,25 +105,31 @@
                             </div>
                         </div>
                         <div class="item-col item-col-sales">
+							<div class="item-heading">Satıştaki Adet</div>
                             <div> <?=$result[2]?> </div>
                         </div>
                         <div class="item-col item-col-stats no-overflow">
+							<div class="item-heading">Fiyat</div>
+							
                             <div class="no-overflow">
                                 <?=$result[3]." ₺"?>
                             </div>
                         </div>
                         <div class="item-col item-col-category no-overflow">
+							<div class="item-heading">Kategori</div>
                             <div class="no-overflow">
+								
                                 <?=$result[4]?>
                             </div>
                         </div>
                         <div class="item-col item-col-author">
+							<div class="item-heading">Urün ID</div>
                             <div class="no-overflow">
                                 <?=$result[5]?>
                             </div>
                         </div>
                         <div class="item-col item-col-date">
-                            <div class="item-heading"></div>
+                            <div class="item-heading">Satış Tarihi</div>
                             <div class="no-overflow"> <?=$result[6]?></div>
                         </div>
                         <div class="item-col fixed item-col-actions-dropdown">
@@ -163,6 +168,7 @@
 
         </ul>
     </div>
+<!-- 
     <nav class="text-right">
         <ul class="pagination">
             <li class="page-item">
@@ -188,4 +194,5 @@
             </li>
         </ul>
     </nav>
+-->
 </article>

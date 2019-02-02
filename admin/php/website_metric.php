@@ -29,7 +29,7 @@
                                     <div class="name"> Aktif satılan ürün sayısı </div>
                                 </div>
                                 <div class="progress stat-progress">
-                                    <div class="progress-bar" style="width: 75%;"></div>
+                                    <div class="progress-bar" style="width: <?php echo ($whole_items == 0) ? 0 : ($active_items/$whole_items)*100; ?>%;"></div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 stat-col">
@@ -41,7 +41,7 @@
                                     <div class="name"> Toplam satılan ürün sayısı </div>
                                 </div>
                                 <div class="progress stat-progress">
-                                    <div class="progress-bar" style="width: 25%;"></div>
+                                    <div class="progress-bar" style="width: <?php echo ($items_sold == 0) ? 0:100; ?>%;"></div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6  stat-col">
@@ -53,7 +53,7 @@
                                     <div class="name"> Aylık gelir </div>
                                 </div>
                                 <div class="progress stat-progress">
-                                    <div class="progress-bar" style="width: 60%;"></div>
+                                    <div class="progress-bar" style="width: 100%;"></div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6  stat-col">
@@ -65,7 +65,7 @@
                                     <div class="name"> Toplam kullanıcı sayısı </div>
                                 </div>
                                 <div class="progress stat-progress">
-                                    <div class="progress-bar" style="width: 34%;"></div>
+                                    <div class="progress-bar" style="width: 100%;"></div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6  stat-col">
@@ -77,7 +77,7 @@
                                     <div class="name"> Müşteri bildirimleri </div>
                                 </div>
                                 <div class="progress stat-progress">
-                                    <div class="progress-bar" style="width: 50%;"></div>
+                                    <div class="progress-bar" style="width: <?=$tickets_closed?>%;"></div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 stat-col">
@@ -89,7 +89,7 @@
                                     <div class="name"> Toplam gelir </div>
                                 </div>
                                 <div class="progress stat-progress">
-                                    <div class="progress-bar" style="width: 15%;"></div>
+                                    <div class="progress-bar" style="width: <?php echo ($total_income == 0) ? 0:100 ?>%;"></div>
                                 </div>
                             </div>
                         </div>

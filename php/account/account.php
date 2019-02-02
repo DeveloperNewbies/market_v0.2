@@ -54,7 +54,7 @@ $siparisler = array(
                         array_push($item_ad, $item['urun_ad']);
                         array_push($item_img, "../".$user->getUrunIMG($item['urun_id'])[0][2]);
                         array_push($item_fiyat, $item['urun_fiyat']);
-                        $item_topfiyat += $item['urun_fiyat'];
+                        $item_topfiyat += $item['urun_fiyat']*$item['urun_adet'];
                         array_push($item_adet, $item['urun_adet']);
                     }
                     array_push($item_fiyat, $item_topfiyat);
@@ -114,5 +114,5 @@ $account_url = isset($_GET["account"]) ? $_GET["account"] : "hesabim";
 </div>
 
 <?php }else{
-        header("Refresh: 0; url=http://".$realip."/");
+        header("Refresh: 0; url=".$realip."/");
     } ?>

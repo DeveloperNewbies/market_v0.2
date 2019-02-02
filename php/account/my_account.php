@@ -166,10 +166,14 @@ switch ($re_pas){
             <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> E-mail: <?=$user_about[0]?></div>
             <div  class="list-group-item list-group-item-action" style="overflow: scroll;">Adres: <?=$user_about[4]?> </div>
             <div  class="list-group-item list-group-item-action">
-                <button type="submit" class="btn btn-primary">
-                    <a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=update"?>">Hesabımı Güncelle</a>
-                </button>
-                <button class="btn btn-primary"><a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>">Şifremi Değiştir</a> </button>
+                
+            <form method="post">
+                    <input type="submit" class="btn btn-primary" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=update"?>" style="margin: 10px;" value="Hesabımı Güncelle" name="up_ad">
+           
+                    <input type="submit" class="btn btn-primary" style="margin: 10px;" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>" value="Şifremi Güncelle" name="up_ad">
+            </form>
+                
+                
             </div>
         </div>
 
@@ -177,7 +181,7 @@ switch ($re_pas){
         break;
     case "update":
         ?>
-        <div style="margin:3%;">
+        <div style="margin:3%;44">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=update" method="post">
                 <?php if($user_account_update_pass_alert == "true"){ ?>
                     <div class="form-group ">
@@ -203,8 +207,9 @@ switch ($re_pas){
                 </div>
                 <input type="hidden" name="control" value="account" >
                 <input type="submit" class="btn btn-primary" value="Hesabımı Güncelle">
-                <button class="btn btn-primary"><a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>">Şifremi Değiştir</a> </button>
+                <input type="submit" class="btn btn-primary" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>" style="margin: 10px;" value="Şifremi Değiştir" name="up_ad">
             </form>
+            
 
         </div>
         <?php
@@ -246,7 +251,10 @@ switch ($re_pas){
                 Adres :<br><?=$user_about[4]?>
             </div>
             <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> Diğer adresim:<br> <?=(strlen($user_about[5]) > 0) ? $user_about[5] : "-" ?></div>
-            <button class="btn btn-primary" style="margin: 10px;"><a href="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-adres"?>">Adresi Güncelle</a> </button>
+            <form action="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-adres"?>" method="post">
+                    <input type="submit" class="btn btn-primary" style="margin: 10px;" value="Adresi Güncelle" name="up_ad">
+            </form>
+            
         </div>
         <?php
         break;
