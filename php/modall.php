@@ -45,13 +45,13 @@ $i = 0;
 
 ?>
 <!-- Modall -->
-    <?php $i = 0; foreach ($modal_item as $item){ ?>
-<div class="wrap-modal1 js-modal<?=$item['urun_id']?> p-t-60 p-b-20">
-    <div class="overlay-modal1 js-hide-modal<?=$item['urun_id']?>"></div>
+    <?php for ($i = 0; $i < count($modal_item); $i++){ ?>
+<div class="wrap-modal1 js-modal<?=($i+1)?> p-t-60 p-b-20">
+    <div class="overlay-modal1 js-hide-modal<?=($i+1)?>"></div>
 
     <div class="container">
         <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-            <button class="how-pos3 hov3 trans-04 js-hide-modal<?=$item['urun_id']?>">
+            <button class="how-pos3 hov3 trans-04 js-hide-modal<?=($i+1)?>">
 				<p style="color:white;font-size:20px">KAPAT </p>
             </button>
 
@@ -99,22 +99,22 @@ $i = 0;
                             <div class="flex-w flex-r-m p-b-10">
                                 <div class="size-204 flex-w flex-m respon6-next">
                                     <div class="wrap-num-product flex-w m-r-20 m-tb-10">
-                                        <div class="btn-num-product-down<?=$item['urun_id']?> btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                        <div class="btn-num-product-down<?=$modal_item[$i][0]?> btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-minus"></i>
                                         </div>
 
-                                        <input class="mtext-104 cl3 txt-center num-product" id="num-product<?=$item['urun_id']?>" type="number" name="num-product" value="1">
+                                        <input class="mtext-104 cl3 txt-center num-product" id="num-product<?=$modal_item[$i][0]?>" type="number" name="num-product" value="1">
 
-                                        <div class="btn-num-product-up<?=$item['urun_id']?> btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                        <div class="btn-num-product-up<?=$modal_item[$i][0]?> btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
                                     </div>
-                                    <input type="hidden" id="urun_id<?=$item['urun_id']?>" name="urun_id" value="<?=$item['urun_id']?>">
+                                    <input type="hidden" id="urun_id<?=$modal_item[$i][0]?>" name="urun_id" value="<?=$modal_item[$i][0]?>">
                                     
-                                      <button  style="margin-bottom: 20px;"   class="btn-num-product-submit<?=$item['urun_id']?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                      <button  style="margin-bottom: 20px;"   class="btn-num-product-submit<?=$modal_item[$i][0]?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
                                           Sepete ekle
                                       </button>
-                                      <button  class="btn-num-product-submit<?=$item['urun_id']?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " >
+                                      <button  class="btn-num-product-submit<?=$modal_item[$i][0]?> flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " >
                                          <a href="<?= $home_url."/index.php?m=sepetim" ?>" style="color:white;"> Hemen al</a>
                                       </button>
                                     
@@ -153,22 +153,22 @@ $i = 0;
 </div>
 
 
-<?php $i++; } $i=0; ?>
+<?php } ?>
 
 
 
 <script>
-    <?php $i = 0; foreach ($modal_item as $item){ ?>
+    <?php for($j = 0; $j < count($modal_item); $j++){ ?>
     /*==================================================================
 [ Show modall ]*/
 
-    $('.js-show-modal<?=$item['urun_id']?>').on('click',function(e){
+    $('.js-show-modal<?=($j+1)?>').on('click',function(e){
         e.preventDefault();
-        $('.js-modal<?=$item['urun_id']?>').addClass('show-modal1');
+        $('.js-modal<?=($j+1)?>').addClass('show-modal1');
     });
 
-    $('.js-hide-modal<?=$item['urun_id']?>').on('click',function(){
-        $('.js-modal<?=$item['urun_id']?>').removeClass('show-modal1');
+    $('.js-hide-modal<?=($j+1)?>').on('click',function(){
+        $('.js-modal<?=($j+1)?>').removeClass('show-modal1');
     });
     <?php } ?>
 </script>
@@ -176,8 +176,8 @@ $i = 0;
 <script>
     /*==================================================================
 [ +/- num product ]*/
-    <?php foreach ($modal_item as $item){ ?>
-    $('.btn-num-product-down<?=$item['urun_id']?>').on('click', function(){
+    <?php for($j = 0; $j < count($modal_item); $j++){ ?>
+    $('.btn-num-product-down<?=$modal_item[$j][0]?>').on('click', function(){
         var numProduct = Number($(this).next().val());
 
         numProduct = numProduct -1;
@@ -186,15 +186,15 @@ $i = 0;
 
     });
 
-    $('.btn-num-product-up<?=$item['urun_id']?>').on('click', function(){
+    $('.btn-num-product-up<?=$modal_item[$j][0]?>').on('click', function(){
         var numProduct = Number($(this).prev().val());
         numProduct +=1;
 
         $(this).prev().val(numProduct);
     });
-    $('.btn-num-product-submit<?=$item['urun_id']?>').on('click', function () {
-        var numProduct = Number($("#num-product<?=$item['urun_id']?>").val());
-        var id = Number($("#urun_id<?=$item['urun_id']?>").val());
+    $('.btn-num-product-submit<?=$modal_item[$j][0]?>').on('click', function () {
+        var numProduct = Number($("#num-product<?=$modal_item[$j][0]?>").val());
+        var id = Number($("#urun_id<?=$modal_item[$j][0]?>").val());
 
         $.post("index.php", {"urun_ekle": "submit", "num-product": numProduct, "urun_id": id}, function (returnData, status) {
             //alert('Status ' + status + ' The server said ' + returnData);
@@ -211,5 +211,8 @@ $i = 0;
         })
 
     })
-    <?php } ?>
+    <?php } $j=0; ?>
+</script>
+<script>
+
 </script>

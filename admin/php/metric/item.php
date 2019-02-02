@@ -108,7 +108,7 @@
                                            </div> -->
                                            <div class="item-col item-col-title no-overflow">
                                                <div>
-                                                   <a href="<?=$realip."/index.php?m=magaza&id=".$result[0]?>" class="">
+                                                   <a href="<?="http://localhost/index.php?m=magaza&id=".$result[0]?>" class="">
                                                        <h4 class="item-title no-wrap"> <?=$result[1]?> </h4>
                                                    </a>
                                                </div>

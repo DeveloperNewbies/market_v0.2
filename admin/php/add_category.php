@@ -6,10 +6,6 @@
  * Time: 21:59
  */
 
-$category_item = array(
-        0=>array("harnup özü",1),
-        1=>array("krem",2),
-);
 ?>
 <article class="content item-editor-page">
     <div class="title-block">
@@ -25,20 +21,6 @@ $category_item = array(
                 </div>
             </div>
 		<input type="hidden" name="admin_category" value="add">
-		<input type="submit" class="btn btn-primary" value="Ekle">
+		<button type="submit" class="btn btn-primary">Ekle</button>
     </form>
-
-    <div class="container" style="margin-top: 3%; ">
-        <div class="row h2"> Kategoriler </div>
-
-        <?php   foreach ($category_item as $result){ ?>
-            <div class="col-12 col-sm-6 col-lg-8 " >
-                <a href="#">
-                <button type="button" class="btn btn-warning">Kaldır</button>
-                </a>
-                <?=$result[0] ?>
-
-            </div>
-      <?php }?>
-    </div>
 </article>
