@@ -3,20 +3,27 @@
  * Date: 30.11.2018
  * Time: 20:28
  */
+//What've you Found huh?
+//What've you Found huh?
 date_default_timezone_set('Europe/Istanbul');
-
+//What've you Found huh?
 require_once('../inc/secIP.php');
 require_once('../inc/userClass.php');
+
+//What've you Found huh?
+
 session_start();
 $ipset = new secIP();
-$realip = "".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
+//What've you Found huh?
+$realip = "".$ipset->getLocal().$ipset->getFile();
 $user_granted = false;
 /** @var $user user  */
 $user;
+//What've you Found huh?
 mb_internal_encoding('UTF-8');
 if(isset($_SESSION['user']))
 {
-
+//What've you Found huh?
     $user = new user();
     $user = unserialize(base64_decode($_SESSION['user']));
     $u_adress = "";
@@ -102,10 +109,10 @@ if($user_granted)
         $whole_items = count($user->getUrun("all", "admin"));
     }
     else
-        {
-            $active_items = 0;
-            $whole_items = 0;
-        }
+    {
+        $active_items = 0;
+        $whole_items = 0;
+    }
 
     //toplam satılan ürün sayısı
     if($user->adminGetOrderCount("",""))
@@ -117,9 +124,9 @@ if($user_granted)
         $items_sold_fin = count($user->adminGetOrderCount("","", false ,"completed"));
     }
     else
-        {
-            $items_sold_fin = 0;
-        }
+    {
+        $items_sold_fin = 0;
+    }
 
     //toplam kullanıcı sayısı
     $total_users = ($user->getUserCount()) ? count($user->getUserCount()) : 0;

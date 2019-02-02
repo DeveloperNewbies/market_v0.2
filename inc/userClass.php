@@ -91,8 +91,7 @@ include('dbClass.php');
 			
 
 		}
-
-
+		
 		function registerNewUser($ad, $soyad, $nuname, $nupass)
 		{
 			$this->createDb();
