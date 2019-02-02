@@ -718,36 +718,51 @@
                     return false;
                 }
             }else
+            {
+                if($order_id == "all")
                 {
-                    if($order_id == "all")
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 ORDER BY id DESC");
+                    $prepare->execute();
+
+                    if($prepare->rowCount())
                     {
-                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 ORDER BY id DESC");
-                        $prepare->execute();
-
-                        if($prepare->rowCount())
-                        {
-                            $result = $prepare->fetchAll();
-                            return $result;
-                        }else
-                        {
-                            return false;
-                        }
+                        $result = $prepare->fetchAll();
+                        return $result;
                     }else
-                        {
-                            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}'");
-                            $prepare->execute();
-
-                            if($prepare->rowCount())
-                            {
-                                $result = $prepare->fetchAll();
-                                return $result;
-                            }else
-                            {
-                                return false;
-                            }
-                        }
-
+                    {
+                        return false;
+                    }
                 }
+                else if($order_id == "completed")
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2 AND satis_sonuc < 4 ORDER BY id DESC");
+                    $prepare->execute();
+
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}'");
+                    $prepare->execute();
+
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }else
+                    {
+                        return false;
+                    }
+                }
+
+            }
 
         }
         function adminFindUserFromOrder($order_id)

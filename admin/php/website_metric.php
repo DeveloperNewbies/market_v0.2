@@ -25,7 +25,7 @@
                                     <i class="fa fa-rocket"></i>
                                 </div>
                                 <div class="stat">
-                                    <div class="value"> <?=$active_items?> </div>
+                                    <div class="value"> Aktif <?=$active_items?> / <?=$whole_items?> Toplam </div>
                                     <div class="name"> Aktif satılan ürün sayısı </div>
                                 </div>
                                 <div class="progress stat-progress">
@@ -37,11 +37,11 @@
                                     <i class="fa fa-shopping-cart"></i>
                                 </div>
                                 <div class="stat">
-                                    <div class="value"> <?=$items_sold?> </div>
-                                    <div class="name"> Toplam satılan ürün sayısı </div>
+                                    <div class="value"> Tamamlanan <?=$items_sold_fin?> / <?=$items_sold?> Toplam</div>
+                                    <div class="name"> Toplam başarılı sipariş sayısı </div>
                                 </div>
                                 <div class="progress stat-progress">
-                                    <div class="progress-bar" style="width: <?php echo ($items_sold == 0) ? 0:100; ?>%;"></div>
+                                    <div class="progress-bar" style="width: <?php echo ($items_sold == 0) ? 0 : ($items_sold_fin/$items_sold)*100; ?>%;"></div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6  stat-col">
