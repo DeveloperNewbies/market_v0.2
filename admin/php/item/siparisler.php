@@ -5,6 +5,14 @@
  * Date: 30.11.2018
  * Time: 21:55
  */?>
+<style>
+
+.ml-1 {
+  margin-left: ($spacer * .25) !important;
+}
+</style>
+
+
 <article class="content items-list-page">
     <div class="title-search-block">
         <div class="title-block">
@@ -15,8 +23,48 @@
                     </h3>
 
                 </div>
+
             </div>
+
         </div>
+        <div class="row">
+        
+        
+        
+        <form action="index.php?m=orders&l=ok&p=1" method="post">
+            From: <input type="date" min="<?=$orders_min_date->format("Y-m-d")?>" max="<?=date("Y-m-d")?>" name="from" value="<?=$orders_min_default?>" required>
+            To: <input type="date" min="<?=$orders_min_date->format("Y-m-d")?>" max="<?=date("Y-m-d")?>"  name="to" value="<?=$orders_max_default?>" required>
+            <input class="btn btn-info ml-1" type="submit" name="especially" value="Ara">
+        </form>
+
+        <?php if(isset($result1)){ if($result1){ ?>
+            <form action="php/wex.php" method="post" target="_blank">
+                <input  type="hidden" name="mb_content" value="<?=base64_encode(serialize($mb_wex))?>">
+                <input  class="btn btn-primary ml-1" type="submit" name="mb" value="Müşteri Bilgilerini Ara">
+            </form>
+        <?php } } ?>
+            <?php if(isset($result1)){ if($result1){ ?>
+                <form action="php/jex.php" method="post" target="_blank">
+                    <input  type="hidden" name="mb_content" value="<?=base64_encode(serialize($mb_wex))?>">
+                    <input  class="btn btn-primary ml-1" type="submit" name="mb" value="Müşteri Bilgilerini Ara(Excel)">
+                </form>
+            <?php } } ?>
+
+            <?php if(isset($result1)){ if($result1){ ?>
+                <form action="php/wex.php" method="post" target="_blank">
+                    <input type="hidden" name="ksl_content" value="<?=base64_encode(serialize($ksl_wex))?>">
+                    <input class="btn btn-danger ml-1"  type="submit" name="ksl" value="Kesin Sipariş Listesi Oluştur">
+                </form>
+            <?php } } ?>
+            <?php if(isset($result1)){ if($result1){ ?>
+                <form action="php/jex.php" method="post" target="_blank">
+                    <input type="hidden" name="ksl_content" value="<?=base64_encode(serialize($ksl_wex))?>">
+                    <input class="btn btn-danger ml-1"  type="submit" name="ksl" value="Kesin Sipariş Listesi Oluştur(Excel)">
+                </form>
+            <?php } } ?>
+
+        </div>
+
         <div class="items-search">
             <form class="form-inline" action="#" method="get">
                 <div class="input-group">
@@ -112,7 +160,7 @@
                     <div class="item-col item-col-title no-overflow">
                       <div>
                         <?php for($i = 0; $i<count($result[1]); $i++){ ?>
-                        <a href="<?=$home_link."?m=item-editor&c=".$result[2][$i]?>" class="">
+                            <a href="<?=$realip."/?m=magaza&id=".$result[2][$i]?>" class="" target="_blank">
 
                             <h4 class="item-title"> <?=$result[1][$i]?></h4>
 
@@ -199,31 +247,26 @@
 
         </ul>
     </div>
-	<!-- 
+
     <nav class="text-right">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" href=""> Prev </a>
+                <a class="page-link" href="index.php?m=orders&prev=ok<?=isset($is_listing) ? "&l=ok":""?>&p=<?=((($page_counter) > 0 ? $page_counter-1 : $page_counter) * $sayfa_adet)+1?>"> Prev </a>
             </li>
-            <li class="page-item active">
-                <a class="page-link" href=""> 1 </a>
-            </li>
+            <?php
+                for($i = ($page_counter * $sayfa_adet); $i < ((($page_count - (($page_counter+1) * $orders_full_item)) >= $sayfa_adet) ? ($page_counter+1)*$sayfa_adet : $page_count); $i++)
+                {
+                ?>
+                    <li class="page-item <?php if($i == ($page_num - 1)){ ?>active<?php } ?>">
+                        <a class="page-link" href="index.php?m=orders<?=isset($is_listing) ? "&l=ok":""?>&p=<?=$i+1?>"> <?=$i+1?> </a>
+                    </li>
+            <?php
+                }
+                ?>
             <li class="page-item">
-                <a class="page-link" href=""> 2 </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href=""> 3 </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href=""> 4 </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href=""> 5 </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href=""> Next </a>
+                <a class="page-link" href="index.php?m=orders&next=ok<?=isset($is_listing) ? "&l=ok":""?>&p=<?=(($page_counter+1 * $sayfa_adet < $page_count ? $page_counter + 1 : $page_counter) * $sayfa_adet)+1?>"> Next </a>
             </li>
         </ul>
     </nav>
--->
+
 </article>

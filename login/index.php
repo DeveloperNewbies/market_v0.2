@@ -1,11 +1,17 @@
 <?php
     require_once('../inc/userClass.php');
 	require_once('../inc/secIP.php');
+
 	session_start();
-	
+
+	use PHPMailer\PHPMailer\PHPMailer;
+    require_once ('../php/mailer/src/PHPMailer.php');
+    require_once ('../php/mailer/src/SMTP.php');
+
 	$ipset = new secIP();
 	//$realip = "https://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 	$realip = $ipset->getLocal().$ipset->getFile();
+
 	
 	if(isset($_SESSION['loggedin']))
     {
@@ -36,30 +42,84 @@
 			}
 			else
 			{
-				$newuser = user::userCreator();
-				$result = $newuser->registerNewUser($ad, $soyad, $uname, $pass);
-				if($result)
-				{
-					$newuser->createUser($uname, $pass);
-					if($newuser->isLogged())
-					{
-						$_SESSION['user'] = base64_encode(serialize($newuser));
-						$_SESSION['loggedin'] = $newuser->statue;
-						
-						
-						$newuser->setSecurity();
-						header("Refresh: 1; url=".$realip."/index.php");
-					}
-					else
-					{
-						echo 'Cant logged in after register.';
-						header("Refresh: 3; url=".$realip."/login/login.php");
-					}
-				}else
-				{
-					echo 'Cant registered at moment.';
-					header("Refresh: 3; url=".$realip."/login/login.php?register=false");
-				}
+
+                $newuser = user::userCreator();
+
+                $u_adress = $ipset->findUserIp();
+
+                $uname = $newuser->security($uname, "mail");
+
+
+
+                //Set The Hash For Security
+                $info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.date('d-m-Y').''.$uname;
+                $hash = hash("sha256",$info);
+
+
+
+                $mailer = new PHPMailer;
+                $mailer->IsSMTP();
+                $mailer->CharSet = 'UTF-8';
+
+                $mailer->Host       = "smtp.".substr($realip, 8); // SMTP server example
+                $mailer->SMTPDebug  = 0;                     // enables SMTP debug information (for testing)
+                $mailer->SMTPAuth   = true;                  // enable SMTP authentication
+                //$mailer->SMTPSecure = "tls";
+                $mailer->Port       = 587;                    // set the SMTP port for the GMAIL server
+                $mailer->Username   = "noreply@".substr($realip, 8); // SMTP account username example
+                $mailer->Password   = "21211986Muffin";
+
+
+                //E Mail Set
+
+                //ini_set('sendmail_from', "noreply@optimumilac.com");
+
+                $to      = $uname; // Send email to our user
+                $subject = 'Kayit Olma | Onay'; // Give the email a subject
+                $message = '
+ 
+                Kayıt olup bizi tercih ettiginiz icin tesekkür ederiz.
+                Hesabiniz olusturuldu, asagidaki linke tiklayarak hesabinizi aktif edebilir firsatlardan faydalanmaya baslayabilirsiniz.
+                 
+
+                Hesabinizi aktiflestirmek icin lütfen asagidaki linke tiklayin:
+                '.$realip.'/verificate.php?mail='.$uname.'&act='.$hash.'
+                 
+                '; // Our message above including the link
+
+                $headers = 'From:noreply@'.substr($realip, 8) . "\r\n"; // Set from headers
+
+
+                //$mailer->setLanguage("tr");
+
+                $mailer->From = 'noreply@'.substr($realip, 8);
+                $mailer->FromName = "No-Reply | ".substr($realip, 8);
+                $mailer->Subject = $subject;
+
+                $mailer->Body = $message;
+
+                $mailer->addAddress($to, "");
+
+
+                $result = $newuser->registerNewUser($ad, $soyad, $hash, $u_adress, $uname, $pass);
+                if($result == true)
+                {
+
+                    if (!$mailer->send()) {
+                        print_r(error_get_last());
+
+                    }else
+                        {
+
+                            echo 'Kayıt Başarılı, Hesabınızı Aktive Etmeniz İçin Gerekli Aktivasyon Linki E-Posta Adresinize Gönderildi.';
+                            //header("Refresh: 1; url=".$realip."/index.php");
+                        }
+
+                }else
+                {
+                    echo ' Şuan da Kayıt Yapılamamakta.';
+                    header("Refresh: 3; url=".$realip."/login/index.php?register=false");
+                }
 					
 			}
 		}
@@ -70,6 +130,8 @@
 				
 				
 				$user = user::userCreator();
+				//create cookie username -> username
+				setcookie("username",$_POST["username"],time() +(30*60*60*24));//30 days
 				$user->createUser($_POST['username'], $_POST['password']);
 				
 				
@@ -81,7 +143,9 @@
 					
 					
 					$user->setSecurity();
-					header("Refresh: 0; url=".$realip."/index.php");
+					 
+                    header("Refresh: 0; url=".$realip."/index.php");
+					
 				}else
 				{
 					echo 'Username or Password Wrong!';
@@ -90,18 +154,28 @@
 				
 			}
 		}
+
+        if(isset($_GET['register']))
+        {
+            if($_GET['register'] == "true")
+            {
+                echo "Hesabınız Başarılı Bir Şekilde Aktive Edildi. Giriş Yapabilirsiniz.";
+            }
+            if($_GET['register'] == "false")
+            {
+                echo "Hesabınız Aktive Edilemedi veya Kayıt Yapılamadı. Lütfen Bir süre Sonra Tekrar Deneyin.";
+            }
+        }
 	
 ?>
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Market Login</title>
+<title>OPTİMİUM ilac Login</title>
 <!-- Meta-Tags -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="keywords" content="Instant Sign In Form Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //Meta-Tags -->
 
 <!-- Custom Theme files -->
 <link href="css/popup-box.css" rel="stylesheet" type="text/css" media="all" />
@@ -128,7 +202,8 @@
 			<div class="login-form">			
 				<form action="#" method="post">
 					<div class="input">
-						<i class="fa fa-user" aria-hidden="true"></i> <input type="text" class="user" name="username" placeholder="Kullanıcı Adı" required="" />
+						<i class="fa fa-user" aria-hidden="true"></i> <input type="text" class="user" name="username" 
+							placeholder="<?php echo  (isset($_COOKIE["username"])) ? htmlspecialchars($_COOKIE["username"]) : 'Kullanıcı Adı' ;?>" required="" />
 					</div>
 					<div class="input">
 						<i class="fa fa-unlock-alt" aria-hidden="true"></i> <input type="password" class="lock" name="password" placeholder="Şifre" required="" />

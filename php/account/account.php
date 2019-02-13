@@ -5,8 +5,9 @@
  */
 
 
-    if($islogged)
+    if($islogged == true)
     {
+
         $user_about = array(
             //0 eposta,
             //1 ad,
@@ -15,6 +16,8 @@
             //4 adres1,
             //5 adres2
         );
+
+
         foreach ($user->getUserInfosOut() as $item)
         {
             array_push($user_about, $item);
@@ -63,8 +66,7 @@ $siparisler = array(
 
 
                 array_push($siparis_tmp, $item_id);
-                array_push($siparis_tmp, ($siparis['satis_sonuc'] > 0) ? (($siparis['satis_sonuc'] > 1) ? (($siparis['satis_sonuc'] > 2) ? "Sipariş Tamamlandı!":"Sipariş İadesi Bekleniyor") : "Sipariş Kargoda") : "Kargo Bilgisi Bekleniyor");
-                array_push($siparis_tmp, $item_img);
+                array_push($siparis_tmp, ($siparis['satis_sonuc'] > 0) ? (($siparis['satis_sonuc'] > 1) ? (($siparis['satis_sonuc'] > 2) ? (($siparis['satis_sonuc'] > 3) ? (($siparis['satis_sonuc'] > 4) ? "Sipariş Onaylanmadı":"Sipariş İadesi Bekleniyor") : "Sipariş Tamamlandı") : "Sipariş Tamamlandı!") : "Sipariş Kargoda") : "Kargo Bilgisi Bekleniyor");                array_push($siparis_tmp, $item_img);
                 array_push($siparis_tmp, $siparis['id']);
                 array_push($siparis_tmp, $item_ad);
                 array_push($siparis_tmp, $item_fiyat);
@@ -80,7 +82,7 @@ $siparisler = array(
                 array_push($siparis_tmp, $siparis['tarih']);
                 array_push($siparis_tmp, $siparis['last_op_date']);
                 array_push($siparis_tmp, ($siparis['kargo_takip_no'] == 0) ? "-":$siparis['kargo_takip_no']);
-                array_push($siparis_tmp, ($siparis['kargo_firma'] == "") ? "Kargo Firması Bilgisi Girilmedi":$siparis['kargo_firma']);
+                array_push($siparis_tmp, ($siparis['kargo_firma'] == "") ? $m_lang[$lang][57]:$siparis['kargo_firma']);
                 array_push($siparisler, $siparis_tmp);
             }
         }else
@@ -91,7 +93,7 @@ $siparisler = array(
 $account_url = isset($_GET["account"]) ? $_GET["account"] : "hesabim";
 
 ?>
-
+<!-- hesabim-->
 
 <div class="wrapper" style="margin-top: 20px; margin-bottom: 20px;">
     <?php

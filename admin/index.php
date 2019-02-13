@@ -26,14 +26,7 @@ if(isset($_SESSION['user']))
 //What've you Found huh?
     $user = new user();
     $user = unserialize(base64_decode($_SESSION['user']));
-    $u_adress = "";
-    if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
-        $u_adress = $_SERVER["HTTP_CLIENT_IP"];
-    } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
-        $u_adress = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    } else {
-        $u_adress = $_SERVER["REMOTE_ADDR"];
-    }
+    $u_adress = $ipset->findUserIp();
     $info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.$user->getID().''.$_SESSION['user'].'';
     $hash = hash("sha256", $info);
     $remote_hash = '';
@@ -116,7 +109,7 @@ if($user_granted)
 
     //toplam satılan ürün sayısı
     if($user->adminGetOrderCount("",""))
-        $items_sold =count($user->adminGetOrderCount("",""));
+        $items_sold = count($user->adminGetOrderCount("",""));
     else
         $items_sold = 0;
     if($user->adminGetOrderCount("","", false ,"completed"))
@@ -178,18 +171,63 @@ if($user_granted)
 
     /////ad category /////
     if(isset($_POST["admin_category"])){
-        $url_m = "home";
+        $url_m = "ad-category";
         $cat_name = $user->security($_POST["ad_category"], "cat_name");
         $result = $user->adminAddNewCat($cat_name);
         if($result)
-        {
-            echo "Kategori Ekleme Başarılı";
+        {?>
+        
+        <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Başarılı!</strong> Kategori eklendi.
+        </div>
+        
+    
+
+                
+         <?php
+
         }else
         {
-            echo "Kategori Eklerken Bir Hatayla Karşılaşıldı.";
+            ?>
+         
+ 
+ <div class="alert alert-danger alert-dismissible">
+   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+   <strong>Başarısız!</strong> Kategori eklenemedi.
+ </div>
+
+
+<?php
         }
     }
 
+    if(isset($_POST['admin_delete_cat']))
+    {
+        if(isset($_POST['cat_id']))
+        {
+            $url_m = "ad-category";
+            $cat_id = $user->security($_POST['cat_id']);
+            $c_result = $user->adminDeleteCat($cat_id);
+            if($c_result == true)
+            {?>
+
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Başarılı!</strong> Kategori Silindi.
+                </div>
+
+            <?php }else
+                {?>
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Başarısız!</strong> Kategori Silinemedi.
+                    </div>
+
+                <?php }
+        }
+    }
     if(isset($_POST['add_new_item']))
     {
         //TODO check Security of Image And Add Category for The İtem. chmod Cant be 0777 img folder and name cant be Exactly Uploaded Name. Hash Them
@@ -455,7 +493,202 @@ if($user_granted)
 
     }else if($url_m == "orders"){
         //database deki toplam sipariş sayısı
-        $orders_full_item ="20";
+
+        //orders_full_item bir sayfada toplam kaç sipariş görüneceğini belirler.
+        $orders_full_item ="10";
+        $orders_today_date = new DateTime('now');
+        $orders_min_date = new DateTime($user->adminGetFirstLog());
+        $orders_min_date->format("Y-m-d");
+        $orders_sel_min_date;
+        $orders_sel_max_date;
+        $orders_min_default = $orders_today_date->format("Y-m-d");;
+        $orders_max_default = $orders_today_date->format("Y-m-d");;
+        $result;
+
+        //sayfa adet bir seferde toplam kaç sayfanın aşağıda görüneceğini belirler
+        $sayfa_adet = 5;
+
+        $page_count = 0;
+        $page_num = 1;
+
+
+        //p Sayfa Numarası Tutar
+        if(isset($_GET['p']))
+        {
+            if(is_numeric($_GET['p']))
+            {
+                $page_num = $user->security($_GET['p'], "page");
+            }
+        }else
+        {
+            //Sayfa Tıklanması Alınmadığında Sayfa Sayacını Sıfırla
+            unset($_SESSION['page_counter']);
+        }
+
+
+        //Siparişleri Tarihe Göre Sıralama
+        if(isset($_POST['especially']))
+        {
+            unset($_SESSION['page_counter']);
+            if(isset($_POST['from']) && isset($_POST['to']))
+            {
+                $orders_sel_min_date = new DateTime($user->security($_POST['from'], "Date"));
+                $orders_min_default = $orders_sel_min_date->format("Y-m-d");
+                $orders_sel_max_date = new DateTime($user->security($_POST['to'], "Date"));
+                $orders_max_default = $orders_sel_max_date->format("Y-m-d");
+                //2. Tarih verisi ile Sitenin kurulduğu ilk gün arasındaki fark
+                $difference = $orders_sel_min_date->diff($orders_min_date);
+                $difference = ($difference->y * 12 * 30) + ($difference->m * 30) + $difference->d;
+                //1. Tarih Verisi ile Sitenin Kurulduğu ilk gün arasındaki fark
+                $difference2 = $orders_sel_max_date->diff($orders_min_date);
+                $difference2 = ($difference2->y * 12 * 30) + ($difference2->m * 30) + $difference2->d;
+                //Bugün İle Sitenin Kurulduğu ilk Gün Arasındaki fark
+                $difference3 = $orders_today_date->diff($orders_min_date);
+                $difference3 = ($difference3->y * 12 * 30) + ($difference3->m * 30) + $difference3->d;
+
+                //1. Tarih Daha uzak Geçmiş Seçilmiş
+
+                if($difference < $difference2)
+                {
+                    //Kullanıcı Site Kuruluş Tarihi ve Bugünün Tarihi Arasındaki farktan Daha Büyük Seçimler Yapamaz
+                    if($difference2 > $difference3 || $difference > $difference3)
+                    {
+                        echo "Hatalı Tarih Seçimi Yaptınız";
+                    }else
+                    {
+                        $orders_sel_max_date->modify("+1 day");
+                        $orders_sel_max_date->modify("-1 second");
+                        $page_count = $user->adminGetOrderCount("", "", false, "uncompleted", $orders_sel_min_date->format("Y-m-d H:i:s"), $orders_sel_max_date->format("Y-m-d H:i:s"));
+                        $result = $user->adminGetOrderCount($orders_full_item, ($page_num-1)*$orders_full_item, false, "uncompleted", $orders_sel_min_date->format("Y-m-d H:i:s"), $orders_sel_max_date->format("Y-m-d H:i:s"));
+                        $result1 = $user->adminGetOrderCount("" , "", false, "uncompleted", $orders_sel_min_date->format("Y-m-d H:i:s"), $orders_sel_max_date->format("Y-m-d H:i:s"));
+                        $_SESSION['list'] = base64_encode(serialize(array(
+                            "min" => $orders_sel_min_date,
+                            "max" => $orders_sel_max_date
+                        )));
+                    }
+                }elseif ($difference == $difference2)
+                {
+                    //Aynı Gün İçerisinde Verilen Siparişler İçindir.
+                    $orders_sel_max_date->modify("+1 day");
+                    $orders_sel_max_date->modify("-1 second");
+                    $page_count = $user->adminGetOrderCount("", "", false, "uncompleted", $orders_sel_min_date->format("Y-m-d H:i:s"), $orders_sel_max_date->format("Y-m-d H:i:s"));
+                    $result = $user->adminGetOrderCount($orders_full_item, ($page_num-1)*$orders_full_item, false, "uncompleted", $orders_sel_min_date->format("Y-m-d H:i:s"), $orders_sel_max_date->format("Y-m-d H:i:s"));
+                    $result1 = $user->adminGetOrderCount("" , "", false, "uncompleted", $orders_sel_min_date->format("Y-m-d H:i:s"), $orders_sel_max_date->format("Y-m-d H:i:s"));
+                    $_SESSION['list'] = base64_encode(serialize(array(
+                        "min" => $orders_sel_min_date,
+                        "max" => $orders_sel_max_date
+                    )));
+                }
+                else
+                {
+                    //2. Tarih Daha Uzak Geçmiş seçilmiş
+                    if($difference2 > $difference3 || $difference > $difference3)
+                    {
+                        echo "Hatalı Tarih Seçimi Yaptınız";
+                    }else
+                    {
+                        $orders_sel_min_date->modify("+1 day");
+                        $orders_sel_min_date->modify("-1 second");
+                        $page_count = $user->adminGetOrderCount("", "", false, "uncompleted", $orders_sel_max_date->format("Y-m-d H:i:s"), $orders_sel_min_date->format("Y-m-d H:i:s"));
+                        $result = $user->adminGetOrderCount($orders_full_item , ($page_num-1)*$orders_full_item, false, "uncompleted",  $orders_sel_max_date->format("Y-m-d H:i:s"), $orders_sel_min_date->format("Y-m-d H:i:s"));
+                        $result1 = $user->adminGetOrderCount("" , "", false, "uncompleted", $orders_sel_max_date->format("Y-m-d H:i:s"), $orders_sel_min_date->format("Y-m-d H:i:s"));
+                        $_SESSION['list'] = base64_encode(serialize(array(
+                            "min" => $orders_sel_max_date,
+                            "max" => $orders_sel_min_date
+                        )));
+                    }
+                }
+
+                if($page_count)
+                {
+                    $page_count = count($page_count);
+
+                    $mod = $page_count % $orders_full_item;
+                    if($mod != 0)
+                        $page_count = (int)($page_count/$orders_full_item)+1;
+                    elseif($page_count == 0)
+                        $page_count++;
+                    else
+                        $page_count = (int)($page_count/$orders_full_item);
+
+
+                }
+                $is_listing = true;
+            }
+        }else
+        {
+            //Tarih Seçimi Yapılmadı
+            if(isset($_GET['l']))
+            {
+
+                $is_listing = true;
+                if(isset($_SESSION['list']))
+                {
+
+                    $result_old = unserialize(base64_decode($_SESSION['list']));
+                    $orders_min_default = $result1["min"]->format("Y-m-d");
+                    $orders_max_default = $result1["max"]->format("Y-m-d");
+
+                    $page_count = $user->adminGetOrderCount("", "", false, "uncompleted", $result_old["min"]->format("Y-m-d H:i:s"), $result_old["max"]->format("Y-m-d H:i:s"));
+                    $result = $user->adminGetOrderCount($orders_full_item, ($page_num-1)*$orders_full_item, false, "uncompleted", $result_old["min"]->format("Y-m-d H:i:s"), $result_old["max"]->format("Y-m-d H:i:s"));
+                    $result1 = $user->adminGetOrderCount("" , "", false, "uncompleted", $result_old["min"]->format("Y-m-d H:i:s"), $result_old["max"]->format("Y-m-d H:i:s"));
+                    if($page_count)
+                    {
+                        $page_count = count($page_count);
+                        $mod = $page_count % $orders_full_item;
+                        if($mod != 0)
+                            $page_count = (int)($page_count/$orders_full_item)+1;
+                        elseif($page_count == 0)
+                            $page_count++;
+                        else
+                            $page_count = (int)($page_count/$orders_full_item);
+                    }
+
+                }
+
+            }else
+            {
+                $page_count = $user->adminGetOrderCount("" , "", false);
+                $result = $user->adminGetOrderCount($orders_full_item , ($page_num-1)*$orders_full_item, false);
+                $result1 = $user->adminGetOrderCount("" , "", false);
+                //SESSION['list'] Bir Tarih Limiti Girildiğinde Bunu Hafızada Tutar ve Hangi işi Yaptığımızı anlamamızı sağlar
+                unset($_SESSION['list']);
+                if($page_count)
+                {
+                    $page_count = count($page_count);
+                    $mod = $page_count % $orders_full_item;
+                    if($mod != 0)
+                        $page_count = (int)($page_count/$orders_full_item)+1;
+                    elseif($page_count == 0)
+                        $page_count++;
+                    else
+                        $page_count = (int)($page_count/$orders_full_item);
+                }
+            }
+
+        }
+
+
+        if(isset($_SESSION['page_counter']))
+        {
+            if(isset($_GET['prev']))
+                if($_SESSION['page_counter'] > 0)
+                    $_SESSION['page_counter'] = $_SESSION['page_counter'] - 1;
+
+
+            if(isset($_GET['next']))
+                if(($_SESSION['page_counter'] + 1) * $sayfa_adet < $page_count)
+                    $_SESSION['page_counter'] = $_SESSION['page_counter'] + 1;
+
+            $page_counter = $_SESSION['page_counter'];
+        }
+        else
+        {
+            $_SESSION['page_counter'] = 0;
+            $page_counter = 0;
+        }
+
+
 
         $shipping_list_array = array(
             //0 index ürün görsel linki
@@ -471,7 +704,176 @@ if($user_granted)
             //10 index Sipariş Tarih
         );
 
-        $result = $user->adminGetOrderCount(0 , 15);
+
+
+        if(isset($result1))
+        {
+            if($result1)
+            {
+                $i = 0;
+                foreach ($result1 as $item)
+                {
+                    array_push($shipping_list_array, array());
+                    if($user->adminGetSoldInfo($item['id']))
+                    {
+                        $item_img = array();
+                        $item_name = array();
+                        $item_id = array();
+                        foreach ($user->adminGetSoldInfo($item['id']) as $item1)
+                        {
+
+                            array_push($item_img, "../".$user->getUrunIMG($item1['urun_id'])[0][2]);
+                            array_push($item_name, $item1['urun_ad']);
+                            array_push($item_id, $item1['urun_id']);
+                        }
+                        array_push($shipping_list_array[$i], $item_img);
+                        array_push($shipping_list_array[$i], $item_name);
+                        array_push($shipping_list_array[$i], $item_id);
+                    }
+                    array_push($shipping_list_array[$i], $item['id']);
+                    if($user->adminGetSoldInfo($item['id']))
+                    {
+                        $item_adet = array();
+                        $item_price = array();
+                        $item_kateg = array();
+                        $item_top = 0;
+                        foreach ($user->adminGetSoldInfo($item['id']) as $item1)
+                        {
+
+                            array_push($item_adet, $item1['urun_adet']);
+                            array_push($item_price, $item1['urun_fiyat']);
+                            $item_top += $item1['urun_fiyat'];
+                            foreach ($user->getUrun($item1['urun_id'], "admin") as $item2)
+                            {
+                                array_push($item_kateg, $user->getUrunKategori($item2['urun_grup'])[0][0]);
+                            }
+                        }
+                        array_push($item_price, $item_top);
+                        array_push($shipping_list_array[$i], $item_adet);
+                        array_push($shipping_list_array[$i], $item_price);
+                        array_push($shipping_list_array[$i], $item_kateg);
+                    }
+
+
+                    foreach ($user->adminFindUser($item['id']) as $item1)
+                    {
+                        array_push($shipping_list_array[$i], $item1['k_ad']);
+                    }
+
+                    array_push($shipping_list_array[$i], $item['kargo_takip_no']);
+                    array_push($shipping_list_array[$i], $item['satis_sonuc']);
+                    array_push($shipping_list_array[$i], $item['tarih']);
+                    $i++;
+                }
+                $i = 0;
+                $j = -1;
+
+                //mb_wex Client Info Array
+                $mb_wex = array(
+                    /*
+                     * array(
+                     * //0 Siparis ID
+                     * //1 Client Name Surname
+                     * //2 Client Mail
+                     * //3 Client Phone
+                     * //4 Client Adress
+                     * ),
+                     * */
+                );
+                foreach ($shipping_list_array as $item)
+                {
+                    array_push($mb_wex, array());
+                    array_push($mb_wex[$i], $item[3]);
+                    array_push($mb_wex[$i], (($user->adminGetBillInfo($item[3]))[0][3]).''.(($user->adminGetBillInfo($item[3]))[0][4]));
+                    array_push($mb_wex[$i], $user->findUser((($user->adminGetBillInfo($item[3]))[0][2]))[0][1]);
+                    array_push($mb_wex[$i], (($user->adminGetBillInfo($item[3]))[0][6]));
+                    array_push($mb_wex[$i], (($user->adminGetBillInfo($item[3]))[0][5]));
+                    $i++;
+                }
+
+                $j = 0;
+
+                $i = 0;
+                $j = -1;
+
+                //ksl_wex Exact Order List Array
+                $ksl_wex = array(
+                    /*
+                     * array(
+                     * //0 Order ID
+                     * //1 Client Name Surname
+                     * //2 Client identification number/Client tax number
+                     * //3 Client tax name
+                     * //4 array of Ordered Item
+                     *  array(
+                     *          //0 $shipping_list_array[2] = item_id() array
+                     *          array(),
+                     *          //1 $shipping_list_array[1] = item_name() array
+                     *          array(),
+                     *          //2 $shipping_list_array[4] = $item_adet() array
+                     *          array(),
+                     *          //3 $shipping_list_array[5] = $item_price() array
+                     *          array()
+                     *      )
+                     * //5 Exact Price $shipping_list_array[4][count($shipping_list_array[4])-1] = $item_top
+                     * //6 Client Mail
+                     * //7 Client Phone
+                     * //8 Client Adress
+                     * ),
+                     *
+                     *
+                     * */
+                );
+
+                foreach ($shipping_list_array as $item)
+                {
+
+                    array_push($ksl_wex, array());
+                    array_push($ksl_wex[$i], $item[3]);
+                    array_push($ksl_wex[$i], (($user->adminGetBillInfo($item[3]))[0][3]).''.(($user->adminGetBillInfo($item[3]))[0][4]));
+                    array_push($ksl_wex[$i], "0/0");
+                    array_push($ksl_wex[$i], "-");
+
+
+
+                    //push ordered item infos
+                    array_push($ksl_wex[$i], array());
+
+                    array_push($ksl_wex[$i][4], $item[2]);
+                    array_push($ksl_wex[$i][4], $item[1]);
+                    array_push($ksl_wex[$i][4], $item[4]);
+                    array_push($ksl_wex[$i][4], $item[5]);
+                    //Push Total Fund
+                    array_push($ksl_wex[$i], $item[5][count($item[5])-1]);
+
+
+                    //Order Email
+                    array_push($ksl_wex[$i], $user->findUser((($user->adminGetBillInfo($item[3]))[0][2]))[0][1]);
+                    //Ordered Phone
+                    array_push($ksl_wex[$i], (($user->adminGetBillInfo($item[3]))[0][6]));
+                    //Orderer Adress
+                    array_push($ksl_wex[$i], (($user->adminGetBillInfo($item[3]))[0][5]));
+                    $i++;
+                }
+            }
+        }
+
+
+        $shipping_list_array = array(
+            //0 index ürün görsel linki
+            //1 index ürün title
+            //2 index ürün id si
+            //3 index ürün sipariş id
+            //4 index sipariş adeti
+            //5 index Fiyat
+            //6 index Kategori
+            //7 index Alıcı
+            //8 index Kargo Numarası
+            //9 index Sipariş Durum
+            //10 index Sipariş Tarih
+        );
+
+
 
         if($result)
         {
@@ -531,6 +933,7 @@ if($user_granted)
                 $i++;
             }
             $i = 0;
+
         }else
             echo 'Cant Find Any Shipping';
 
@@ -709,7 +1112,7 @@ if($user_granted)
 
     ?>
     <!doctype html>
-    <html class="no-js" lang="<?=$language?>">
+    <html lang="<?=$language?>">
     <head>
         <meta charset="<?=$charset?>">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -721,7 +1124,13 @@ if($user_granted)
         <link rel="stylesheet" href="css/vendor.css">
         <!-- Theme initialization -->
         <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+       
     </head>
+
     <body>
     <div class="main-wrapper">
         <div class="app" id="app">
@@ -784,6 +1193,8 @@ if($user_granted)
     </script>
     <script src="js/vendor.js"></script>
     <script src="js/app.js"></script>
+    
+    
     </body>
     </html>
 <?php } ?>

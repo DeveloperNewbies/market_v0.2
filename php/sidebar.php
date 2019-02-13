@@ -12,7 +12,7 @@
         <div class="flex-r w-full p-b-30 p-r-27">
             <!-- Logo desktop -->
             <a href="<?=$home_url?>" class="logo" style="margin-right: 40%;margin-top: 10px;">
-               <strong>OPTIMUM İLAÇ</strong>
+                <img src="images/icons/logo-01.png" alt="IMG-LOGO" >
             </a>
 
             <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-sidebar">
@@ -37,10 +37,10 @@
                     </a>
                 </li>
                 <li class="p-b-13">
-                       <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=sepetim">Siparişler</a>
+                       <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=sepetim"><?=$m_lang[$lang][22]?></a>
                    </li>
                    <li class="p-b-13">
-                       <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=hesabim&reload=adres">Adreslerim</a>
+                       <a class="stext-102 cl2 hov-cl1 trans-04" href="<?=$home_link?>/index.php?m=hesabim&account=hesabim&reload=adres"><?=$m_lang[$lang][23]?></a>
                    </li>
 
                 <li class="p-b-13">
@@ -86,7 +86,7 @@
 
             <div class="sidebar-gallery w-full">
 					<span class="mtext-101 cl5">
-                         <a href="<?=$header_about?>">Hakkında</a>
+                         <a href="<?=$header_about?>"><?=$m_lang[$lang][3]?></a>
 					</span>
             </div>
 

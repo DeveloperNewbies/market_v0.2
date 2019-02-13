@@ -10,12 +10,12 @@ $s_sepetfull_vergi = 0;
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
         <a href="<?=$home_link."/index.php"?>" class="stext-109 cl8 hov-cl1 trans-04">
-            Anasayfa
+             <?=$m_lang[$lang][0]?>
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
         </a>
 
         <span class="stext-109 cl4">
-				Sepetim
+					<?=$m_lang[$lang][2]?>
 			</span>
     </div>
 </div>
@@ -33,11 +33,11 @@ $s_sepetfull_vergi = 0;
                     <div class="wrap-table-shopping-cart">
                         <table class="table-shopping-cart">
                             <tr class="table_head">
-                                <th class="column-1">Ürün</th>
+                               <th class="column-1"><?=$m_lang[$lang][48]?></th>
                                 <th class="column-2"></th>
-                                <th class="column-3">Fiyat</th>
-                                <th class="column-4">Adet</th>
-                                <th class="column-5">Toplam</th>
+                                <th class="column-3"><?=$m_lang[$lang][49]?></th>
+                                <th class="column-4"><?=$m_lang[$lang][50]?></th>
+                                <th class="column-5"><?=$m_lang[$lang][27]?></th>
 								<th></th>
                             </tr>
                              <?php  foreach ($user_shopping_item as $result){  ?>
@@ -82,10 +82,10 @@ $s_sepetfull_vergi = 0;
                     </div>
                     <?php } else {?>
                     <div class="content" style="padding-left:25%;">
-                        <h2>Sepetiniz Boş </h2>
+                       <h2><?=$m_lang[$lang][26]?> </h2>
                     <button  class="btn btn-primary" style="margin: 4%;">
                         <a href="<?=$home_url."/index.php?m=magaza"?>">
-                            Alışverişe başla
+                               <?=$m_lang[$lang][34]?>
                         </a>
                         </button>
                     </div>
@@ -108,7 +108,7 @@ $s_sepetfull_vergi = 0;
             <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
                 <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
                     <h4 class="mtext-109 cl2 p-b-30">
-                        Sepet Toplamı
+                          <?=$m_lang[$lang][27]?>
                     </h4>
 
                     <div class="flex-w flex-t bor12 p-b-13">
@@ -117,7 +117,7 @@ $s_sepetfull_vergi = 0;
                       <table class="size-209">
                         <tr>
                         <td>
-                          Ara Toplam
+                           <?=$m_lang[$lang][51]?>
                         </td>
                         <td>
 
@@ -133,7 +133,7 @@ $s_sepetfull_vergi = 0;
                           <td  id="s_sepetfull_vergi">    <?=round($s_sepetfull_vergi,2) ?> ₺   </td>
                         </tr>
                         <tr>
-                          <td>KDV DAHİL</td>
+                           <td><?=$m_lang[$lang][52]?></td>
                           <td id="s_sepetfullüst_top">   	<?=$s_sepet_top?> ₺ </td>
                         </tr>
                       </table>
@@ -147,7 +147,7 @@ $s_sepetfull_vergi = 0;
                     <div class="flex-w flex-t p-t-27 p-b-33">
                         <div class="size-208">
 								<span class="mtext-101 cl2">
-									Toplam:
+										<?=$m_lang[$lang][27]?>:
 								</span>
                         </div>
 
@@ -159,7 +159,7 @@ $s_sepetfull_vergi = 0;
                         </div>
                     </div>
 
-                    <input type="submit" name="checkout" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" value="Alışverişi Tamamla">
+                    <input type="submit" name="checkout" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" value="<?=$m_lang[$lang][90]?>">
 
                     <?php } ?>
                 </div>

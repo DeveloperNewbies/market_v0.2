@@ -115,7 +115,6 @@
     });
 </script>
 <!--===============================================================================================-->
-<script type="text/javascript" language="javascript">var cy_code = "13328403nlweki3fg50jrblxqrwumrf"; var cy_k = "1"; var cy_mid = "31821"; var cy_r = "3"; var cy_p = "40"; var cy_t = "0"; </script> <script src="js/chat.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript">var cy_code = "13328403nlweki3fg50jrblxqrwumrf"; var cy_k = "2"; var cy_mid = "31821"; var cy_r = "3"; var cy_p = "40"; var cy_t = "0"; </script> <script src="js/chat.js" type="text/javascript" language="javascript"></script>
 <script src="js/main.js"></script>
-
 

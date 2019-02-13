@@ -1,0 +1,6 @@
+v1.0
+-Newly Added admin/php/jex.php
+-Changed File admin/php/item/siparisler.php
+ From row 40 - 64
+
+Ýts Just Simply As Ýt is.

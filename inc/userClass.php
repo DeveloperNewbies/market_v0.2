@@ -43,6 +43,7 @@ include('dbClass.php');
 			
 			$this->getUserInfos($this->username, $this->password);
 			//echo ' '.$this->username;
+            //echo ''.$this->username.' and '.$this->password;
 		}
 		
 		
@@ -72,39 +73,40 @@ include('dbClass.php');
 		function createUser($nuname, $nupass)
 		{
 			$this->createDb();
-			
+
 			$nuname = $this->security($nuname);
 			$nupass = $this->security($nupass);
-			
+
 			$nupass = md5($nupass);
-			
+
 			$this->logIn($nuname, $nupass);
 			if($this->isLogged())
 			{
-			    
+
                 $this->getUserInfos($nuname, $nupass);
 				$this->logIT("Kullanıcı Giriş Yaptı", "1");
                 $this->permission = $this->db->getUserPermission($this->id);
 
             }
 
-			
+
 
 		}
-		
-		function registerNewUser($ad, $soyad, $nuname, $nupass)
-		{
-			$this->createDb();
-			
-			$ad = $this->security($ad);
-			$soyad = $this->security($soyad);
-			$nuname = $this->security($nuname);
-			$nupass = $this->security($nupass);
-			$nupass = md5($nupass);
-			
-			$result = $this->db->createNewUser($ad, $soyad, $nuname, $nupass);
-			return $result;
-		}
+
+
+        function registerNewUser($ad, $soyad, $hash, $ip, $nuname, $nupass)
+        {
+            $this->createDb();
+
+            $ad = $this->security($ad);
+            $soyad = $this->security($soyad);
+            $nuname = $this->security($nuname);
+            $nupass = $this->security($nupass);
+            $nupass = md5($nupass);
+
+            $result = $this->db->createNewUser($ad, $soyad, $hash, $ip, $nuname, $nupass);
+            return $result;
+        }
 		
 		function security($text, $texttype = "normal")
 		{
@@ -114,10 +116,11 @@ include('dbClass.php');
 		
 		function getUserInfos($nuname, $nupass)
 		{
-			unset($this->uinfos);
+			//unset($this->uinfos);
 			$this->uinfos = $this->db->getUserInfo($nuname,$nupass);
 			foreach($this->uinfos as $row)
 			{
+
 				$this->id = $row['id'];
 				$this->username = $row['k_adi'];
 				$this->name = $this->db->getUserSpecInfo("ad", $row['id']);
@@ -314,10 +317,16 @@ include('dbClass.php');
             return $this->db->userGetOrderBillItems($s_id);
         }
 
-        function addSiparis($u_id, $u_name, $u_surname, $u_adres, $u_ip, $u_sepet)
+        function addSiparis($u_id, $u_name, $u_surname, $u_adres, $u_ip, $u_sepet, $u_tel, $is_ok)
         {
             $this->logIT("Sipariş İsteği..", "3");
-            return $this->db->userAddOrder($u_id, $u_name, $u_surname, $u_ip, $u_adres, $u_sepet);
+            return $this->db->userAddOrder($u_id, $u_name, $u_surname, $u_ip, $u_adres, $u_sepet, $u_tel, $is_ok);
+        }
+
+        function changeOrderSit($o_id, $status)
+        {
+            $this->logIT("Sipariş Onayı..", "3");
+            $this->db->changeOrderSituat($o_id, $status);
         }
 
 
@@ -346,13 +355,17 @@ include('dbClass.php');
         {
             return $this->db->adminGetItemSoldInfoCount($id);
         }
-        function adminGetOrderCount($limit, $showrequest, $dateforcount = false, $order_id = "all")
+        function adminGetOrderCount($limit="", $showrequest="", $dateforcount = false, $order_id = "all", $min_date="null", $max_date="null")
         {
-            return $this->db->adminGetOrderList($limit, $showrequest, $dateforcount, $order_id);
+            return $this->db->adminGetOrderList($limit, $showrequest, $dateforcount, $order_id, $min_date, $max_date);
         }
         function adminFindUser($id)
         {
             return $this->db->adminFindUserFromOrder($id);
+        }
+        function findUser($id)
+        {
+            return $this->db->adminFindUser($id);
         }
 
         //Admin Add New Category to System
@@ -360,6 +373,12 @@ include('dbClass.php');
         {
             $this->logIT("Kategori Eklenmesi..", "2");
             return $this->db->adminAddNewCategory($cat_name);
+        }
+
+        function adminDeleteCat($cat_id)
+        {
+            $this->logIT("Kategori Silinmesi..", "2");
+            return $this->db->adminDeleteCategory($cat_id);
         }
 
 //Admin İtem Functions..

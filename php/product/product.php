@@ -9,7 +9,7 @@
 $detail_page_link =$home_link."/index.php?m=magaza&";
 $db = new dbMain();
 $db->connect();
-$user = new user();
+$tmp_user = new user();
 
    if(isset($_GET["id"])){
 
@@ -194,14 +194,14 @@ $user = new user();
                                    <div class="size-204 flex-w flex-m respon6-next">
 
                                        <div class="wrap-num-product flex-w m-r-20 m-tb-10">
-                                           <div class="btn-num-product-down<?=$id?> btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                           <div onclick="minusProduct(<?=$id?>);" class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                                <i class="fs-16 zmdi zmdi-minus"></i>
                                            </div>
 
 
-                                           <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+                                           <input class="mtext-104 cl3 txt-center num-product" type="number" id="num-product<?=$id?>" name="num-product" value="1">
 
-                                           <div class="btn-num-product-up<?=$id?> btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                           <div onclick="addProduct(<?=$id?>);" class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                                <i class="fs-16 zmdi zmdi-plus"></i>
                                            </div>
                                        </div>
@@ -209,9 +209,9 @@ $user = new user();
 
 
                                      <input type="hidden" id="urun_id" name="urun_id" value="<?=$id?>">
-                                     <input style="margin-bottom:20px;" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="          Sepete Ekle         ">
+                                     <input style="margin-bottom:20px;" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail " type="submit" name="urun_ekle" value="          <?=$m_lang[$lang][32]?>         ">
 
-                                     <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail "> <a href="<?=$home_url."/index.php?m=magaza"?>">Alışverişe Devam Et</a></button>
+                                     <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail "> <a href="<?=$home_url."/index.php?m=magaza"?>"><?=$m_lang[$lang][44]?></a></button>
                                      </div>
                                    </div>
 
@@ -229,11 +229,11 @@ $user = new user();
                        <!-- Nav tabs -->
                        <ul class="nav nav-tabs" role="tablist">
                            <li class="nav-item p-b-10">
-                               <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Hakkında</a>
+                               <a class="nav-link active" data-toggle="tab" href="#description" role="tab"><?=$m_lang[$lang][3]?></a>
                            </li>
 
                            <li class="nav-item p-b-10">
-                               <a class="nav-link" data-toggle="tab" href="#information" role="tab">Ürün özellikleri</a>
+                               <a class="nav-link" data-toggle="tab" href="#information" role="tab"><?=$m_lang[$lang][45]?></a>
                            </li>
                           <!--
                            <li class="nav-item p-b-10">
@@ -389,11 +389,11 @@ $user = new user();
 
 <?php }else{
 
-       $all_cat = $user->getAllCategory();
+       $all_cat = $tmp_user->getAllCategory();
         $selected_cat = -1;
         if(isset($_GET['cat']))
         {
-            $selected_cat = $user->security($_GET['cat']);
+            $selected_cat = $tmp_user->security($_GET['cat']);
         }
 
        ?>
@@ -406,7 +406,7 @@ $user = new user();
             <div class="flex-w flex-l-m filter-tope-group m-tb-10">
 
                 <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" id="group-1" data-filter="*">
-                    Tüm Ürünler
+                      <?=$m_lang[$lang][47]?>
                 </button>
 
 
@@ -454,9 +454,9 @@ $user = new user();
        if(isset($_GET['search']))
        {
            $user_search = $_GET["search"];
-           $user_search = $user->security($user_search);
-           if($user->findUrun($user_search))
-               $urunler = $user->findUrun($user_search);
+           $user_search = $tmp_user->security($user_search);
+           if($tmp_user->findUrun($user_search))
+               $urunler = $tmp_user->findUrun($user_search);
             else
                 {
                     $urunler = array();
@@ -491,8 +491,8 @@ $user = new user();
                 <div class="block2">
                     <div class="block2-pic hov-img0">
                         <img src="<?=$items_image[$i]?>" alt="IMG-CONTENT">
-                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal<?=$item['urun_id']?>">
-                            Ürüne Bak
+                        <a href="#" onclick="takeID('<?=$item['urun_id']?>');"  class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal">
+                            <?=$m_lang[$lang][29]?>
                         </a>
                     </div>
                     <div class="block2-txt flex-w flex-t p-t-14">

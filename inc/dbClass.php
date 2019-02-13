@@ -119,7 +119,7 @@
                 return false;
             }
         }
-		
+
 		function logOut($uname, $upass)
 		{
 			try
@@ -131,57 +131,132 @@
 				echo '' . $e->getMessage();
 			}
 		}
-		
-		function createNewUser($ad, $soyad, $uname, $upass)
-		{
-			try
-			{
-				$prepare = $this->pdo->prepare("INSERT INTO m_users(k_adi, k_sifre, tarih, online) VALUES(:uname, :upass, :udate, :ustate)");
-				$adate = date('Y-m-d');
-				$prepare->execute(array(
-				"uname" => $uname,
-				"upass" => $upass,
-				"udate" => $adate,
-				"ustate" => '0'
-				));
-				$prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE k_adi = '{$uname}' AND k_sifre = '{$upass}'");
-				$prepare->execute();
-				
-				$result = $prepare->fetchAll();
-				$k_id_ptr = "";
-				foreach($result as $res)
-				{
-					$k_id_ptr = $res['id'];
-				}
-				
-				
-				try
-				{
-					$prepare = $this->pdo->prepare("INSERT INTO m_uinfo(k_id, k_ad, k_soyad, k_tel, k_adresi) VALUES(:k_id, :k_ad, :k_soyad, :k_tel, :k_adres)");
-					$prepare->execute(array(
-					"k_id" => $k_id_ptr,
-					"k_ad" => $ad,
-					"k_soyad" => $soyad,
-					"k_tel" => 0,
-					"k_adres" => "",
-					));
-					
-					return true;
-				}catch(PDOException $e)
-				{
-					echo 'Cant Create User Infos ' . $e->getMessage();
-					return false;
-				}
-				
-			}catch(PDOException $e)
-			{
-				echo 'Cant Create User ' . $e->getMessage();
-				return false;
-			}
 
-		}
-		
-		function getUserInfo($uname, $upass)
+        function createNewUser($ad, $soyad, $hash, $ip, $uname, $upass)
+        {
+            try
+            {
+                $prepare = $this->pdo->prepare("SELECT * FROM m_uactive WHERE u_mail =:mail");
+                $prepare->execute(array(
+                    "mail" => $uname
+                ));
+
+                if($prepare->rowCount()>0)
+                {
+                    echo "Bu E-Posta Adresi Kullanımda!";
+                    return false;
+                }else
+                {
+                    $prepare = $this->pdo->prepare("INSERT INTO m_uactive(u_mail, u_pass, u_ad, u_soyad, u_hash, u_ip, u_active) VALUES(:umail, :upass, :uad, :usoyad, :uhash, :uip, :uactive)");
+
+                    $prepare->execute(array(
+                        "umail" => $uname,
+                        "upass" => $upass,
+                        "uad" => $ad,
+                        "usoyad" => $soyad,
+                        "uhash" => $hash,
+                        "uip" => $ip,
+                        "uactive" => 0
+                    ));
+
+                    if($prepare->rowCount()>0)
+                    {
+                        return true;
+                    }else
+                    {
+                        return false;
+                    }
+                }
+
+
+
+            }catch(PDOException $e)
+            {
+                echo 'Cant Create User ' . $e->getMessage();
+                return false;
+            }
+
+        }
+
+        function activateUser($email, $hash)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_uactive WHERE u_mail =:umail AND u_hash =:uhash");
+            $prepare->execute(array(
+                "umail" => $email,
+                "uhash" => $hash
+            ));
+            $info = $prepare->fetchAll();
+            if($prepare->rowCount())
+            {
+                $mail = "";
+                $pw = "";
+                $ad = "";
+                $soyad = "";
+                $active_id = 0;
+                $is_active = 0;
+
+                foreach ($info as $item)
+                {
+                    $mail = $item['u_mail'];
+                    $pw = $item['u_pass'];
+                    $ad = $item['u_ad'];
+                    $soyad = $item['u_soyad'];
+                    $active_id = $item['id'];
+                    $is_active = $item['u_active'];
+                }
+
+                if($is_active == 1)
+                {
+                    return false;
+                }else
+                    {
+                        $prepare = $this->pdo->prepare("INSERT INTO m_users(k_adi, k_sifre) VALUES (:mail, :pw)");
+                        $prepare->execute(array(
+                            "mail" => $mail,
+                            "pw" => $pw
+                        ));
+
+                        if($prepare->rowCount()>0)
+                        {
+                            $id = $this->pdo->lastInsertId();
+
+                            try
+                            {
+                                $prepare = $this->pdo->prepare("INSERT INTO m_uinfo(k_id, k_ad, k_soyad, k_tel, k_adresi) VALUES(:k_id, :k_ad, :k_soyad, :k_tel, :k_adres)");
+                                $prepare->execute(array(
+                                    "k_id" => $id,
+                                    "k_ad" => $ad,
+                                    "k_soyad" => $soyad,
+                                    "k_tel" => 0,
+                                    "k_adres" => "-"
+                                ));
+                                if($prepare->rowCount()>0)
+                                {
+                                    $prepare = $this->pdo->prepare("UPDATE m_uactive SET u_active=:active WHERE id=:kid");
+                                    $prepare->execute(array(
+                                        "active" => 1,
+                                        "kid" => $active_id
+                                    ));
+                                    return true;
+                                }
+
+                            }catch(PDOException $e)
+                            {
+                                echo 'Cant Create User Infos ' . $e->getMessage();
+                                return false;
+                            }
+                        }
+                    }
+
+
+            }else
+            {
+                echo 'Cant Active User';
+                return false;
+            }
+        }
+
+        function getUserInfo($uname, $upass)
 		{
 			$prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE k_adi = '{$uname}' AND k_sifre = '{$upass}'");
 			$prepare->execute();
@@ -352,17 +427,19 @@
 
 
 
-        function userAddOrder($u_id, $u_name, $u_surname, $u_ip, $u_adres, $u_sepet)
+        function userAddOrder($u_id, $u_name, $u_surname, $u_ip, $u_adres, $u_sepet, $u_tel, $is_ok)
         {
             try
             {
-                $prepare = $this->pdo->prepare("INSERT INTO m_order(k_id, k_ip, kargo_firma) VALUES(:k_id, :k_ip, :k_firma)");
+                $k_sonuc = ($is_ok) ? 0:5;
+                $prepare = $this->pdo->prepare("INSERT INTO m_order(k_id, k_ip, kargo_firma, satis_sonuc) VALUES(:k_id, :k_ip, :k_firma, :k_sonuc)");
                 $prepare->execute(array(
                     "k_id" => $u_id,
                     "k_ip" => $u_ip,
-                    "k_firma" => ""
+                    "k_firma" => "",
+                    "k_sonuc" => $k_sonuc
                 ));
-				$s_id = $this->pdo->lastInsertId();
+                $s_id = $this->pdo->lastInsertId();
                 try
                 {
                     $s_id = $this->pdo->lastInsertId();
@@ -379,18 +456,19 @@
                     }
                     try
                     {
-                        $prepare = $this->pdo->prepare("INSERT INTO m_orderbill_info(s_id, u_id, u_name, u_surname, u_adress) VALUES(:s_id, :u_id, :u_name, :u_surname, :u_adress)");
+                        $prepare = $this->pdo->prepare("INSERT INTO m_orderbill_info(s_id, u_id, u_name, u_surname, u_adress, u_tel) VALUES(:s_id, :u_id, :u_name, :u_surname, :u_adress, :u_tel)");
                         $prepare->execute(array(
                             "s_id" => $s_id,
                             "u_id" => $u_id,
                             "u_name" => $u_name,
                             "u_surname" => $u_surname,
-                            "u_adress" => $u_adres
+                            "u_adress" => $u_adres,
+                            "u_tel" => $u_tel
                         ));
-						return $s_id;
+                        return $s_id;
                     }catch (PDOException $e)
                     {
-                        //echo 'Cand Add User Billing İnfo to DB';
+                        echo 'Cand Add User Billing İnfo to DB';
                         return false;
                     }
                 }catch (PDOException $e)
@@ -406,7 +484,25 @@
             }
         }
 
-		function getUrun($id, $situat = "user")
+        function changeOrderSituat($o_id, $is_ok)
+        {
+            $prepare = $this->pdo->prepare("UPDATE m_order SET satis_sonuc=:sonuc WHERE id=:o_id");
+            $prepare->execute(array(
+                "satis_sonuc" => $is_ok,
+                "o_id" => $o_id
+            ));
+            if($prepare->rowCount())
+            {
+                return true;
+            }
+            else
+            {
+                //$error = $this->pdo->errorInfo();
+                return false;
+            }
+        }
+
+        function getUrun($id, $situat = "user")
         {
             if($id == "all")
             {
@@ -457,32 +553,21 @@
             if($item_cat_id == "all")
             {
                 $prepare = $this->pdo->prepare("SELECT * FROM m_itemcat");
-                $prepare->execute();
-                if($prepare->rowCount())
-                {
-                    $result = $prepare->fetchAll();
-                    return $result;
-                }
-                else
-                {
-                    //$error = $this->pdo->errorInfo();
-                    //echo 'Cant Get Item Category At All'.$error[2];
-                }
             }else
                 {
                     $prepare = $this->pdo->prepare("SELECT * FROM m_itemcat WHERE item_cat_id = '{$item_cat_id}'");
-                    $prepare->execute();
-                    if($prepare->rowCount())
-                    {
-                        $result = $prepare->fetchAll();
-                        return $result;
-                    }
-                    else
-                    {
-                        //$error = $this->pdo->errorInfo();
-                        //echo 'Cant Get Item Category'.$error[2];
-                    }
                 }
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }
+            else
+            {
+                //$error = $this->pdo->errorInfo();
+                //echo 'Cant Get Item Category At All'.$error[2];
+            }
 
         }
         function getUrunImg($id)
@@ -494,8 +579,6 @@
                 {
                     $prepare = $this->pdo->prepare("SELECT * FROM m_marketimg WHERE urun_id = '{$id}'");
                 }
-
-
                 $prepare->execute();
                 if($prepare->rowCount())
                 {
@@ -661,7 +744,7 @@
             }
         }
 
-     function adminUpdateItemCount($item_id, $order_count)
+        function adminUpdateItemCount($item_id, $order_count)
         {
             $item_count = 0;
             foreach ($this->getUrun($item_id) as $item)
@@ -701,7 +784,7 @@
             }
         }
 
-        function adminGetOrderList($limit, $showreq, $dateforcount = false, $order_id = "all")
+        function adminGetOrderList($limit, $showreq, $dateforcount = false, $order_id = "all", $min_date, $max_date)
         {
             if($dateforcount)
             {
@@ -717,51 +800,73 @@
                     return false;
                 }
             }else
+            {
+                if($limit == "" && $showreq == "")
                 {
                     if($order_id == "all")
                     {
                         $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 ORDER BY id DESC");
-                        $prepare->execute();
-
-                        if($prepare->rowCount())
-                        {
-                            $result = $prepare->fetchAll();
-                            return $result;
-                        }else
-                        {
-                            return false;
-                        }
                     }
                     else if($order_id == "completed")
                     {
                         $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2 AND satis_sonuc < 4 ORDER BY id DESC");
-                        $prepare->execute();
-
-                        if($prepare->rowCount())
-                        {
-                            $result = $prepare->fetchAll();
-                            return $result;
-                        }else
-                        {
-                            return false;
-                        }
+                    }
+                    else if($order_id == "uncompleted")
+                    {
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 2 AND last_op_date BETWEEN :min_date AND :max_date ORDER BY id DESC");
+                        $prepare->bindValue(':min_date', $min_date, PDO::PARAM_STR);
+                        $prepare->bindValue(':max_date', $max_date, PDO::PARAM_STR);
                     }
                     else
-                        {
-                            $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}'");
-                            $prepare->execute();
+                    {
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}'");
+                    }
+                    $prepare->execute();
 
-                            if($prepare->rowCount())
-                            {
-                                $result = $prepare->fetchAll();
-                                return $result;
-                            }else
-                            {
-                                return false;
-                            }
-                        }
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }else
+                    {
+                        return false;
+                    }
+                }else
+                {
+                    if($order_id == "all")
+                    {
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 ORDER BY id DESC LIMIT :limit OFFSET :showReq");
+                    }
+                    else if($order_id == "completed")
+                    {
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc > 2 AND satis_sonuc < 4 ORDER BY id DESC LIMIT :limit OFFSET :showReq");
+                    }
+                    else if($order_id == "uncompleted")
+                    {
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 2 AND last_op_date BETWEEN :min_date AND :max_date ORDER BY id DESC LIMIT :limit OFFSET :showReq");
+                        $prepare->bindValue(':min_date', $min_date, PDO::PARAM_STR);
+                        $prepare->bindValue(':max_date', $max_date, PDO::PARAM_STR);
+                    }
+                    else
+                    {
+                        $prepare = $this->pdo->prepare("SELECT * FROM m_order WHERE satis_sonuc < 4 AND id='{$order_id}' LIMIT :limit OFFSET :showReq");
+                    }
+                    $prepare->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+                    $prepare->bindValue(':showReq', (int)$showreq, PDO::PARAM_INT);
+                    $prepare->execute();
 
+                    if($prepare->rowCount())
+                    {
+                        $result = $prepare->fetchAll();
+                        return $result;
+                    }else
+                    {
+                        return false;
+                    }
                 }
+
+
+            }
 
         }
         function adminFindUserFromOrder($order_id)
@@ -793,6 +898,22 @@
             }
         }
 
+        function adminFindUser($id)
+        {
+            $prepare = $this->pdo->prepare("SELECT * FROM m_users WHERE id = '{$id}'");
+            $prepare->execute();
+            if($prepare->rowCount())
+            {
+                $result = $prepare->fetchAll();
+                return $result;
+            }else
+            {
+                return false;
+            }
+        }
+
+
+
         function adminAddNewCategory($cat_name)
         {
             $prepare = $this->pdo->prepare("INSERT INTO m_itemcat(item_cat_name) VALUES (:ic_name)");
@@ -807,7 +928,39 @@
                     return false;
                 }
         }
-		
+
+        function adminDeleteCategory($cat_id)
+        {
+
+            try
+            {
+                $prepare = $this->pdo->prepare("DELETE FROM m_itemcat WHERE item_cat_id =:cat_id");
+                $prepare->execute(array(
+                   "cat_id" => $cat_id
+                ));
+                if($prepare->rowCount()>0)
+                {
+                    try
+                    {
+                        $prepare = $this->pdo->prepare("DELETE FROM m_item WHERE kat_id=:cat_id");
+                        $prepare->execute(array(
+                            "cat_id" => $cat_id
+                        ));
+
+                    }catch (PDOException $e)
+                    {
+
+                    }
+                }
+                return true;
+            }catch (PDOException $e)
+            {
+                return false;
+            }
+
+        }
+
+
         function adminAddNewItem($urun_ad, $urun_desc, $urun_price, $urun_kdv, $urun_count, $urun_cat)
         {
             try

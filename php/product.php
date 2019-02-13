@@ -32,7 +32,7 @@ foreach ($urunler as $item)
     <div class="container">
         <div class="p-b-32">
             <h3 class="ltext-105 cl5 txt-center respon1">
-                Ürünlerimiz
+                <?=$m_lang[$lang][5]?>
             </h3>
         </div>
 
@@ -41,7 +41,7 @@ foreach ($urunler as $item)
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item p-b-10">
-                    En çok satılan ürünlerimiz
+                    <?=$m_lang[$lang][6]?>
                 </li>
 
             </ul>
@@ -57,13 +57,12 @@ foreach ($urunler as $item)
                             <?php foreach ($items as $item){ ?>
                             <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
                                 <!-- Block2 -->
-
-                                <div class="block2">
+                                  <div class="block2">
                                     <div class="block2-pic hov-img0">
                                         <img src="<?=$items_image[$i]?>" alt="IMG-PRODUCT">
 
-                                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal<?=$item['urun_id']?>">
-                                            Ürüne bak
+                                        <a href="#" onclick="takeID('<?=$item['urun_id']?>');"  class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal">
+                                             <?=$m_lang[$lang][29]?>
                                         </a>
                                     </div>
 
@@ -80,6 +79,7 @@ foreach ($urunler as $item)
 
                                     </div>
                                 </div>
+								
 
                             </div>
                             <?php $i++; } $i = 0;?>

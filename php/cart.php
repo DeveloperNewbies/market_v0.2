@@ -16,7 +16,7 @@
     <div class="header-cart flex-col-l p-l-65 p-r-25">
         <div class="header-cart-title flex-w flex-sb-m p-b-8">
 				<span class="mtext-103 cl2">
-					 <a href="<?=$home_link."/index.php?m=sepetim"?>">Sepetim</a>
+					 <a href="<?=$home_link."/index.php?m=sepetim"?>"><?=$m_lang[$lang][2]?></a>
 				</span>
 
             <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
@@ -27,9 +27,9 @@
         <div class="header-cart-content flex-w js-pscroll" id="sepetim">
             <ul class="header-cart-wrapitem w-full">
                 <?php if(count($user_shopping_item) < 1){   ?>
-                    <h2>Sepetiniz boş</h2>
+                    <h2><?=$m_lang[$lang][26]?></h2>
                     <button style="margin-top:30px;" class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                       <a href="<?=$home_url."/index.php?m=magaza"?>">Alışverişe Başla</a>
+                       <a href="<?=$home_url."/index.php?m=magaza"?>"><?=$m_lang[$lang][1]?></a>
                    </button>
 
                 <?php }else{ ?>
@@ -52,7 +52,7 @@
                     <div class="p-0"></div>
                     <form action="index.php" method="post">
                         <input type="hidden" name="urun_id" value="<?=$result[0]?>">
-                        <input type="submit" class="btn btn-info" name="urun_cikar" value="Ürünü Çıkar">
+                        <input type="submit" class="btn btn-info" name="urun_cikar" value="<?=$m_lang[$lang][91]?>">
                     </form>
                 </li>
 
@@ -62,7 +62,7 @@
                       <div class="flex-w flex-t p-t-27 p-b-33">
                           <div class="size-208">
                   <span class="mtext-101 cl2">
-                    Toplam:
+                    <?=$m_lang[$lang][27]?>:
                   </span>
                           </div>
 
@@ -74,7 +74,9 @@
                           </div>
                       </div>
                 <form action="index.php" method="post">
-                    <input  type="submit" name="completeshopping" value="Alışverişi Tamamla" class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+					
+                    <input  type="submit" name="completeshopping" value="<?=$m_lang[$lang][90]?>" class="flex-c-m stext-101 cl0 size-115 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+					
                 </form>
                 <?php } ?>
         </div>

@@ -25,7 +25,7 @@
 
                     <div class="block1-txt-child2 p-b-4 trans-05">
                         <div class="block1-link stext-101 cl0 trans-09">
-                            Hemen Al!
+                            <?=$m_lang[$lang][28]?>!
                         </div>
                     </div>
                 </a>
@@ -50,7 +50,7 @@
 
                     <div class="block1-txt-child2 p-b-4 trans-05">
                         <div class="block1-link stext-101 cl0 trans-09">
-                           Hemen Al!
+                           <?=$m_lang[$lang][28]?>!
                         </div>
                     </div>
                 </a>
@@ -75,7 +75,7 @@
 
                     <div class="block1-txt-child2 p-b-4 trans-05">
                         <div class="block1-link stext-101 cl0 trans-09">
-                            Hemen Al!
+                             <?=$m_lang[$lang][28]?>!
                         </div>
                     </div>
                 </a>

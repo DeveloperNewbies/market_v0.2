@@ -15,16 +15,16 @@
     <div class="top-bar">
 				<div class="content-topbar flex-sb-m h-full container">
 					<div class="left-top-bar">
-						Kampanyalardan Haberdar Olmak İçin Takipte Kalın !
+						  <?=$m_lang[$lang][87]?> !
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
 					
 					
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
+						<a href="<?=$home_link."/index.php?lang=en"?>" class="flex-c-m trans-04 p-lr-25">
 							EN
 						</a>
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
+                        <a href="<?=$home_link."/index.php?lang=tr"?>" class="flex-c-m trans-04 p-lr-25">
 							TR
 						</a>
 					
@@ -128,7 +128,7 @@
     </div>
 
 
-    <!-- Menu Mobile -->
+   <!-- Menu Mobile -->
     <div class="menu-mobile">
         <ul class="main-menu-m">
             <li>
@@ -149,20 +149,20 @@
 
             <?php if($islogged){ ?>
                 <li>
-                    <a href="<?=$home_url."/index.php?m=hesabim&account=sepetim"?>">Siparişler</a>
+                    <a href="<?=$home_url."/index.php?m=hesabim&account=sepetim"?>"><?=$m_lang[$lang][22]?></a>
                 </li>
                 <li>
-                    <a href="<?=$home_url."/index.php?m=hesabim&account=hesabim&reload=adres"?>">Adreslerim</a>
+                    <a href="<?=$home_url."/index.php?m=hesabim&account=hesabim&reload=adres"?>"><?=$m_lang[$lang][22]?></a>
                 </li>
             <li>
-                <a href="<?=$side_bar_hesabım?>">Hesabım</a>
+                <a href="<?=$side_bar_hesabım?>"><?=$m_lang[$lang][18]?></a>
             </li>
             <li>
-                <a href="<?=$side_bar_cikis?>">Çıkış Yap</a>
+                <a href="<?=$side_bar_cikis?>"><?=$m_lang[$lang][21]?></a>
             </li>
             <?php }else{ ?>
             <li>
-                <a href="<?=$side_bar_giris?>">Giriş Yap</a>
+                <a href="<?=$side_bar_giris?>"><?=$m_lang[$lang][24]?></a>
             </li>
             <?php } ?>
 
@@ -187,8 +187,9 @@
                 <button class="flex-c-m trans-04">
                     <i class="zmdi zmdi-search"></i>
                 </button>
-                <input class="plh3" type="text" name="search" placeholder="Ara...">
+                <input class="plh3" type="text" name="search" placeholder="<?=$m_lang[$lang][25]?>...">
             </form>
         </div>
     </div>
 </header>
+

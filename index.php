@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <?php
 //error_reporting(0);
 //ob_start();
+header('Cache-Control: max-age=84600');
 session_start();
 
 /**
@@ -10,15 +12,29 @@ session_start();
  */
 require_once('inc/secIP.php');
 require_once('inc/userClass.php');
+require_once("language.php");
+
 $ipset = new secIP();
 //$realip = "https://".$ipset->getLocal().":".$ipset->getPort().$ipset->getFile();
 $realip = $ipset->getLocal().$ipset->getFile();
 $islogged = false;
 
+
+//language
+if(isset($_GET["lang"])){
+  $lang = is_string(trim($_GET["lang"])) ? trim($_GET["lang"]) : "tr";
+  $_SESSION["lang"] = $lang;
+}else if(isset($_SESSION["lang"])){
+  $lang =$_SESSION["lang"];
+}else{
+  $lang = "tr";
+}
+
+
+
 /** @var $user user */
 $user = new user();
 
-$language ="tr";
 $site_about ="hakkında";
 $title = "Anasayfa";
 $charset = "UTF-8";
@@ -29,7 +45,8 @@ $header_magaza = $home_link."/index.php?m=magaza";
 $header_sepetim = $home_link."/index.php?m=sepetim";
 $header_about = $home_link."/index.php?m=hakkinda";
 $header_contact = $home_link."/index.php?m=iletisim";
-$header_url = array("Anasayfa","ONLİNE ALIŞVERİŞ","Sepetim","Hakkında","İletişim");
+$header_url = array($m_lang[$lang][0],$m_lang[$lang][1],$m_lang[$lang][2],$m_lang[$lang][3],$m_lang[$lang][4]);
+
 
 
 
@@ -46,26 +63,18 @@ $side_bar_giris = "/login";
 //side bar çıkış kısmının linki
 $side_bar_cikis = "?logout=1";
 
-//ürünler bu linkteki adrese gönderilecek edilecek
-
-
 
 if(isset($_SESSION['user']))
 {
     $user = new user();
     $user = unserialize(base64_decode($_SESSION['user']));
-    $u_adress = "";
-    if( isset( $_SERVER["HTTP_CLIENT_IP"] ) ) {
-        $u_adress = $_SERVER["HTTP_CLIENT_IP"];
-    } elseif( isset( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ) {
-        $u_adress = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    } else {
-        $u_adress = $_SERVER["REMOTE_ADDR"];
-    }
+    $u_adress = $ipset->findUserIp();
     $info=''.$_SERVER['HTTP_USER_AGENT'].''.$u_adress.''.$user->getID().''.$_SESSION['user'].'';
     $hash = hash("sha256", $info);
     $remote_hash = '';
+
     $islogged = true;
+
     foreach($user->getHash() as $row)
     {
         $remote_hash = $row['session_hash'];
@@ -94,8 +103,8 @@ if(isset($_GET['logout']))
     }
 }
 
-if($islogged){
-    $side_bar = array("Anasayfa","Hesabım","İade","Yardım & SSS", "Çıkış Yap");
+if($islogged == true){
+     $side_bar = array($m_lang[$lang][0],$m_lang[$lang][18],$m_lang[$lang][19],$m_lang[$lang][20],$m_lang[$lang][21]);
 
     //php/account/account.php
     //user account page variable
@@ -105,7 +114,8 @@ if($islogged){
     $account_adres="" ; //adres
 
 }else{
-    $side_bar = array("Anasayfa","İade","Yardım & SSS", "Giriş Yap");
+    $side_bar = array($m_lang[$lang][0],$m_lang[$lang][2],$m_lang[$lang][20],$m_lang[$lang][24]);
+
 }
 
 
@@ -245,19 +255,74 @@ if(isset($_POST['urun_cikar'])){
         if($user_shopping_item[$i][0] == $urun_id)
             array_splice($user_shopping_item, $i, 1);
 
+    if(count($user_shopping_item) > 0)
+        user_sepet($user_shopping_item);
+    else
+        unset($_SESSION['sepetim']);
 
-    user_sepet($user_shopping_item);
 }
 //sepet add item code
+
+	class Seo{
+		public $site_name = "optimum ilac";
+		public $site_about = "ilac";
+		function __construct(){
+		}
+
+		function __destruct(){
+		}
+	}
+
+$seo_op = new Seo();
+$seo_title = $url_m;
+$seo_description ="";
+$db = new dbMain();
+$db->connect();
+//$user = new user();
+
+   if(isset($_GET["id"])){
+       $id = $_GET["id"];
+       $id = $db->security($id);
+       $urun = $db->getUrun($id);
+    if($urun)
+        {
+            foreach ($urun as $result)
+            {
+                $seo_title =$result['urun_ad'];
+                $seo_description =$result['urun_aciklama'];
+            }
+		}
+   }
 
 
 ?>
 
 
-
-
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="tr"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="tr"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="tr"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="<?=$lang?>">
+	<!--<![endif]-->
 <head>
-    <title><?=$title?></title>
+
+    <title><?=$seo_title?></title>
+	<meta name="title" content="<?=$seo_op->site_name?>" />
+	<meta name=”description” content="<?=$seo_op->site_about?>" />
+	<?php if(isset($_GET["id"])){ ?>
+	<title data-title="title"><?=$seo_title?></title>
+	<meta property="og:url" content="<?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']."&lang=tr";?>">
+	<link rel="canonical" href="<?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']."&lang=tr";?>">
+	<meta property="og:title" content="<?=$seo_title?>">
+	<meta property="og:description" content="<?=$seo_description?>">
+		<?php }?>
+	<link rel="alternate" hreflang="en" href="<?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']."&lang=en";?>">
+	<link rel="alternate" hreflang="tr" href="<?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']."&lang=tr";?>">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="MobileOptimized" content="970">
+	<meta name="robots" content="FOLLOW, INDEX">
+	<meta property="og:locale" content="<?=$lang?>">
+	<meta property="article:tag" content="<?=$seo_title?>">
     <meta charset="<?=$charset?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -293,11 +358,31 @@ if(isset($_POST['urun_cikar'])){
     <!--===============================================================================================-->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-81351644-4"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-81351644-4');
+	</script>
 
     <link rel="stylesheet" type="text/css" href="css/account.css">
+
+    <!-------------------------------GOOGLE ADSENSe------------------------->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1401760549580503",
+    enable_page_level_ads: true
+  });
+</script>
+
     
 </head>
 <body class="animsition">
+	<noscript>Tarayıcınız bu web içeriğini görüntülemek için güncel değil !</noscript>
 
 
 <?php
@@ -343,10 +428,10 @@ if(isset($_POST['urun_cikar'])){
             require_once ("php/back_to_top.php");
             break;
            case "sozlesme":
-			echo "Sözleşme sayfası";
+			echo "Sözleşme çok yakında eklenecektir ";
            break;
            case "politic":
-			echo "politika sayfası";
+			echo "Politika çok yakında eklenecektir ";
            break;
         default :
             require_once("php/sidebar.php");

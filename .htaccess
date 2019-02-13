@@ -1,4 +1,4 @@
-Options -Indexes
+﻿Options -Indexes
 
 <Files ~ “^\.css>
 Order allow,deny
@@ -11,3 +11,7 @@ Order allow,deny
 Deny from all
 Satisfy All
 </Files>
+
+<filesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+ Header set Cache-Control "max-age=84600, public"
+ </filesMatch>

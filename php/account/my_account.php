@@ -14,7 +14,7 @@ $usertmp_adres = ($user->getUserInfosOut()['adres']);
     $re_pas = (isset($_GET["reload"])) ? $_GET["reload"] : "home";
 
     //user about update
-     if(isset($_POST["control"]) )
+     if(isset($_POST["control"]))
          switch ($_POST["control"]) {
              case "account":
                  if ( isset( $_POST["password"] ) && isset( $_POST["email-address"] ) && isset( $_POST["address"] )) {
@@ -49,7 +49,7 @@ $usertmp_adres = ($user->getUserInfosOut()['adres']);
                          {
                            ?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Girdiğiniz bilgiler </strong> hatalı!
+  <strong> <?=$m_lang[$lang][59]?> !</strong> 
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -147,7 +147,7 @@ $usertmp_adres = ($user->getUserInfosOut()['adres']);
                  }else $user_account_update_pass_alert = "true";
                  break;
          default:
-             echo "<h1>Hata</h1>";
+               echo "<h1>hata</h1>";
              break;
      }
 
@@ -161,16 +161,16 @@ switch ($re_pas){
         ?>
         <div class="container">
             <div class="list-group-item list-group-item-action active">
-                Ad soyad: <?php echo $user_about[1]." ".$user_about[2]; ?>
+                <?=$m_lang[$lang][60]?>: <?php echo $user_about[1]." ".$user_about[2]; ?>
             </div>
             <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> E-mail: <?=$user_about[0]?></div>
-            <div  class="list-group-item list-group-item-action" style="overflow: scroll;">Adres: <?=$user_about[4]?> </div>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"><?=$m_lang[$lang][39]?>: <?=$user_about[4]?> </div>
             <div  class="list-group-item list-group-item-action">
                 
             <form method="post">
-                    <input type="submit" class="btn btn-primary" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=update"?>" style="margin: 10px;" value="Hesabımı Güncelle" name="up_ad">
+                    <input type="submit" class="btn btn-primary" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=update"?>" style="margin: 10px;" value="<?=$m_lang[$lang][61]?>" name="up_ad">
            
-                    <input type="submit" class="btn btn-primary" style="margin: 10px;" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>" value="Şifremi Güncelle" name="up_ad">
+                    <input type="submit" class="btn btn-primary" style="margin: 10px;" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>" value="<?=$m_lang[$lang][88]?>" name="up_ad">
             </form>
                 
                 
@@ -185,16 +185,16 @@ switch ($re_pas){
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=update" method="post">
                 <?php if($user_account_update_pass_alert == "true"){ ?>
                     <div class="form-group ">
-                        <label for="inputEmail4"><h3 class="alert">Parolanız hatalı</h3> </label>
+                        <label for="inputEmail4"><h3 class="alert"><?=$m_lang[$lang][59]?></h3> </label>
                     </div>
                 <?php }else if ($user_account_update_pass_alert == "false"){?>
                     <div class="form-group ">
-                        <label for="inputEmail4"><h3 class="alert">Hesap bilgileri güncellendi</h3> </label>
+                        <label for="inputEmail4"><h3 class="alert"><?=$m_lang[$lang][63]?></h3> </label>
                     </div>
                 <?php  } ?>
                 <div class="form-group ">
-                    <label for="inputEmail4">Parolanızı giriniz:</label>
-                    <input type="password" class="form-control" id="name" name="password" placeholder="Parola" required>
+                    <label for="inputEmail4"><?=$m_lang[$lang][64]?>:</label>
+                    <input type="password" class="form-control" id="name" name="password" placeholder="<?=$m_lang[$lang][64]?>" required>
                 </div>
 
                 <div class="form-group ">
@@ -202,12 +202,12 @@ switch ($re_pas){
                     <input type="email" class="form-control" id="email" name="email-address" placeholder="Email" value="<?=$usertmp_mail?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="inputAddress">Addres</label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="Adres bilginizi giriniz" value="<?=$usertmp_adres?>">
+                    <label for="inputAddress"><?=$m_lang[$lang][39]?></label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="<?=$m_lang[$lang][39]?>" value="<?=$usertmp_adres?>">
                 </div>
                 <input type="hidden" name="control" value="account" >
-                <input type="submit" class="btn btn-primary" value="Hesabımı Güncelle">
-                <input type="submit" class="btn btn-primary" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>" style="margin: 10px;" value="Şifremi Değiştir" name="up_ad">
+                <input type="submit" class="btn btn-primary" value="<?=$m_lang[$lang][61]?>">
+                <input type="submit" class="btn btn-primary" formaction="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-password"?>" style="margin: 10px;" value="<?=$m_lang[$lang][88]?>" name="up_ad">
             </form>
             
 
@@ -220,25 +220,25 @@ switch ($re_pas){
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=re-password" method="post">
             <div class="form-group">
                 <?php if($user_account_update_pass_alert == "true"){ ?>
-                        <label for="inputEmail4"><h3 class="alert">Parolanız veya E-postanız hatalı</h3> </label>
+                        <label for="inputEmail4"><h3 class="alert"><?=$m_lang[$lang][59]?></h3> </label>
                 <?php }else if($user_account_update_pass_alert == "false"){?>
-                    <label for="inputEmail4"><h3 class="alert">Parolanız Değiştirildi</h3> </label>
+                    <label for="inputEmail4"><h3 class="alert"><?=$m_lang[$lang][65]?></h3> </label>
                 <?php } ?>
             </div>
                 <div class="form-group ">
-                    <label for="inputEmail4">Eski parola</label>
-                    <input type="password" class="form-control" id="inputAddress" name="password" placeholder="Eski parola">
+                      <label for="inputEmail4"><?=$m_lang[$lang][66]?></label>
+                    <input type="password" class="form-control" id="inputAddress" name="password" placeholder="<?=$m_lang[$lang][66]?>">
                 </div>
                 <div class="form-group">
-                    <label for="inputAddress">Yeni parola</label>
-                    <input type="password" class="form-control" id="inputAddress" name="new-password" placeholder="Yeni Parola">
+                   <label for="inputAddress"><?=$m_lang[$lang][67]?></label>
+                    <input type="password" class="form-control" id="inputAddress" name="new-password" placeholder="<?=$m_lang[$lang][67]?>">
                 </div>
                 <div class="form-group">
-                    <label for="inputAddress">Yeni parola tekrar</label>
-                    <input type="password" class="form-control" id="inputAddress" name="new-password-r" placeholder="Yeni parola tekrar">
+                      <label for="inputAddress"><?=$m_lang[$lang][68]?></label>
+                    <input type="password" class="form-control" id="inputAddress" name="new-password-r" placeholder="<?=$m_lang[$lang][68]?>">
                 </div>
                 <input type="hidden" name="control" value="re-pass">
-                <input type="submit" class="btn btn-primary" value="Şifremi Değiştir">
+                <input type="submit" class="btn btn-primary" value="<?=$m_lang[$lang][88]?>">
             </form>
         </div>
 
@@ -248,11 +248,11 @@ switch ($re_pas){
         ?>
         <div class="container">
             <div class="list-group-item list-group-item-action active" style="overflow: scroll;">
-                Adres :<br><?=$user_about[4]?>
+                  <?=$m_lang[$lang][39]?> :<br><?=$user_about[4]?>
             </div>
-            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> Diğer adresim:<br> <?=(strlen($user_about[5]) > 0) ? $user_about[5] : "-" ?></div>
+            <div  class="list-group-item list-group-item-action" style="overflow: scroll;"> <?=$m_lang[$lang][39]?>:<br> <?=(strlen($user_about[5]) > 0) ? $user_about[5] : "-" ?></div>
             <form action="<?=$home_link."/index.php?m=hesabim&account=hesabim&reload=re-adres"?>" method="post">
-                    <input type="submit" class="btn btn-primary" style="margin: 10px;" value="Adresi Güncelle" name="up_ad">
+                    <input type="submit" class="btn btn-primary" style="margin: 10px;" value="<?=$m_lang[$lang][69]?>" name="up_ad">
             </form>
             
         </div>
@@ -264,31 +264,31 @@ switch ($re_pas){
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>?m=hesabim&account=hesabim&reload=re-adres" method="post">
                 <?php if($user_account_update_pass_alert == "true"){ ?>
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4"><h3 class="alert">Adres değiştirilemedi</h3> </label>
+                        <label for="inputEmail4"><h3 class="alert"><?=$m_lang[$lang][71]?></h3> </label>
                     </div>
                 <?php }else if($user_account_update_pass_alert == "false"){?>
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4"><h3 class="alert">Adres değiştirildi</h3> </label>
+                        <label for="inputEmail4"><h3 class="alert"><?=$m_lang[$lang][70]?></h3> </label>
                     </div>
 
                 <?php } ?>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Adres: </label>
-                    <input type="text" class="form-control" id="InputAdress" name="address" aria-describedby="adresHelp" placeholder="Adres" value="<?php echo $user_about[4]; ?>" required>
-                    <small id="adresHelp" class="form-text text-muted">Asıl adres kısmı boş bırakılamaz.</small>
+                    <label for="exampleInputEmail1"><?=$m_lang[$lang][39]?>: </label>
+                    <input type="text" class="form-control" id="InputAdress" name="address" aria-describedby="adresHelp" placeholder="<?=$m_lang[$lang][39]?>" value="<?php echo $user_about[4]; ?>" required>
+                    <small id="adresHelp" class="form-text text-muted"><?=$m_lang[$lang][72]?>.</small>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Diğer adres: </label>
-                    <input type="text" class="form-control" id="InputAdress" name="second-address" placeholder="Diğer adres" value="<?php echo (strlen($user_about[5]) > 0) ? $user_about[5]:"-"; ?>">
+                    <label for="exampleInputPassword1"><?=$m_lang[$lang][39]?>: </label>
+                    <input type="text" class="form-control" id="InputAdress" name="second-address" placeholder="<?=$m_lang[$lang][89]?>" value="<?php echo (strlen($user_about[5]) > 0) ? $user_about[5]:"-"; ?>">
                 </div>
                 <input type="hidden" name="control" value="re-adres" >
-                <input type="submit" class="btn btn-primary" value="Güncelle">
+                <input type="submit" class="btn btn-primary" value="<?=$m_lang[$lang][73]?>">
             </form>
         </div>
       <?php
         break;
     default:
-        echo "Hata";
+         echo $m_lang[$lang][58];
         break;
     }
         ?>

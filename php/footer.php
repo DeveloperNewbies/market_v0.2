@@ -13,36 +13,36 @@
     <div class="row">
       <div class="col-sm-6 col-lg-3 p-b-50">
         <h4 class="stext-301 cl0 p-b-30">
-          OPTİMUM KURUMSAL
+          <?=$m_lang[$lang][7]?>
         </h4>
 
         <ul>
           <li class="p-b-10">
             <a href="<?=$home_url."/index.php?m=hakkinda"?>" class="stext-107 cl7 hov-cl1 trans-04">
-              Hakkımızda
+              <?=$m_lang[$lang][8]?>
             </a>
           </li>
 
           <li class="p-b-10">
             <a href="<?=$home_url."/index.php?m=iletisim"?>" class="stext-107 cl7 hov-cl1 trans-04">
-              İletişim
+              <?=$m_lang[$lang][4]?>
             </a>
           </li>
 
           <li class="p-b-10">
             <a href="<?=$home_url."/index.php?m=politic"?>" class="stext-107 cl7 hov-cl1 trans-04">
-              Gizlilik Politikası
+              <?=$m_lang[$lang][9]?>
             </a>
           </li>
 
           <li class="p-b-10">
             <a href="<?=$home_url."/index.php?m=sozlesme"?>" class="stext-107 cl7 hov-cl1 trans-04">
-              Kullanıcı Sözleşmesi
+              <?=$m_lang[$lang][10]?>
             </a>
           </li>
           <li class="p-b-10">
             <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-              Teslimat, İptal ve İade Şartları
+            <?=$m_lang[$lang][11]?>
             </a>
           </li>
 
@@ -52,12 +52,12 @@
 
       <div class="col-sm-6 col-lg-3 p-b-50">
         <h4 class="stext-301 cl0 p-b-30">
-          KATEGORİLER
+          <?=$m_lang[$lang][12]?>
         </h4>
 
         <ul>
           <li class="p-b-10">
-           <a href="<?=$home_url."/index.php?m=magaza&cat=0"?>" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=magaza&cat=0"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Harnup Özü
             </a>
           </li>
@@ -69,33 +69,33 @@
           </li>
 
           <li class="p-b-10">
-           <a href="<?=$home_url."/index.php?m=magaza&cat=2"?>" class="stext-107 cl7 hov-cl1 trans-04">
+            <a href="<?=$home_url."/index.php?m=magaza&cat=2"?>" class="stext-107 cl7 hov-cl1 trans-04">
               Gıda Takviyesi
             </a>
           </li>
-        
+
         </ul>
       </div>
       <div class="col-sm-6 col-lg-3 p-b-50">
         <h4 class="stext-301 cl0 p-b-30">
-          MÜŞTERİ HİZMETLERİ
+          <?=$m_lang[$lang][13]?>
         </h4>
 
         <ul>
           <li class="p-b-10">
             <a href="<?=$home_url."/index.php?m=hakkinda"?>" class="stext-107 cl7 hov-cl1 trans-04">
-              Sıkça Sorulan Sorular
+              <?=$m_lang[$lang][14]?>
             </a>
           </li>
 
           <li class="p-b-10">
             <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-              Görüş ve Önerileriniz
+              <?=$m_lang[$lang][15]?>
             </a>
           </li>
           <li class="p-b-10">
             <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-              Kargo Takip Formu
+              <?=$m_lang[$lang][16]?>
             </a>
           </li>
 
@@ -106,7 +106,7 @@
 
       <div class="col-sm-6 col-lg-3 p-b-50">
         <h4 class="stext-301 cl0 p-b-30">
-          PAYLAŞ
+          <?=$m_lang[$lang][30]?>
         </h4>
 
         <div class="p-t-27">
@@ -131,7 +131,7 @@
 
     <p class=" cl6 txt-center" >
 
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tüm Hakları Saklıdır |    <a href="http://www.ay-soft.com" target="_blank">AY-SOFT</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> <?=$m_lang[$lang][17]?> |    <a href="http://www.ay-soft.com" target="_blank">AY-SOFT</a>
 
 
     </p>
