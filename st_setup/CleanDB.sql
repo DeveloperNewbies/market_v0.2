@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Anamakine: localhost:3306
--- Üretim Zamanı: 30 Oca 2019, 22:24:38
--- Sunucu sürümü: 5.6.33
--- PHP Sürümü: 5.6.14
+-- Anamakine: 127.0.0.1
+-- Üretim Zamanı: 13 Şub 2019, 23:20:03
+-- Sunucu sürümü: 10.1.36-MariaDB
+-- PHP Sürümü: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -26,10 +28,11 @@ SET time_zone = "+00:00";
 -- Tablo için tablo yapısı `m_itemcat`
 --
 
-CREATE TABLE `m_itemcat` (
-  `item_cat_id` int(11) NOT NULL,
-  `item_cat_name` mediumtext COLLATE utf8_turkish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+CREATE TABLE IF NOT EXISTS `m_itemcat` (
+  `item_cat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_cat_name` mediumtext COLLATE utf8_turkish_ci NOT NULL,
+  UNIQUE KEY `item_cat_id` (`item_cat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -37,12 +40,13 @@ CREATE TABLE `m_itemcat` (
 -- Tablo için tablo yapısı `m_kategori`
 --
 
-CREATE TABLE `m_kategori` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_kategori` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `kat_id` int(11) NOT NULL,
   `kat_op` mediumtext COLLATE utf8_turkish_ci NOT NULL,
-  `kat_cont` mediumtext COLLATE utf8_turkish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `kat_cont` mediumtext COLLATE utf8_turkish_ci NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -50,21 +54,34 @@ CREATE TABLE `m_kategori` (
 -- Tablo için tablo yapısı `m_log`
 --
 
-CREATE TABLE `m_log` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `k_adi` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
   `log` mediumtext COLLATE utf8_turkish_ci NOT NULL,
   `log_cat` int(11) NOT NULL DEFAULT '0',
   `ip` varchar(15) COLLATE utf8_turkish_ci NOT NULL,
-  `tarih` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `tarih` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 --
 -- Tablo döküm verisi `m_log`
 --
 
 INSERT INTO `m_log` (`id`, `k_adi`, `log`, `log_cat`, `ip`, `tarih`) VALUES
-(1, 'root', 'Systems Created For Client!', 0, '-', '2019-01-30 22:21:39');
+(1, 'root', 'Systems Created For Client!', 0, '-', '2018-12-07 11:51:46');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `m_logcat`
+--
+
+CREATE TABLE IF NOT EXISTS `m_logcat` (
+  `logcat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `logcat_name` text COLLATE utf8_turkish_ci NOT NULL,
+  UNIQUE KEY `logcat_id` (`logcat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -72,8 +89,8 @@ INSERT INTO `m_log` (`id`, `k_adi`, `log`, `log_cat`, `ip`, `tarih`) VALUES
 -- Tablo için tablo yapısı `m_market`
 --
 
-CREATE TABLE `m_market` (
-  `urun_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_market` (
+  `urun_id` int(11) NOT NULL AUTO_INCREMENT,
   `urun_ad` mediumtext COLLATE utf8_turkish_ci NOT NULL,
   `urun_aciklama` mediumtext COLLATE utf8_turkish_ci NOT NULL,
   `urun_details` mediumtext COLLATE utf8_turkish_ci NOT NULL,
@@ -82,8 +99,9 @@ CREATE TABLE `m_market` (
   `urun_adet` int(11) NOT NULL,
   `urun_tarih` datetime NOT NULL,
   `urun_grup` int(11) NOT NULL,
-  `is_active` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `is_active` int(11) NOT NULL DEFAULT '1',
+  UNIQUE KEY `urun_id` (`urun_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -91,11 +109,12 @@ CREATE TABLE `m_market` (
 -- Tablo için tablo yapısı `m_marketimg`
 --
 
-CREATE TABLE `m_marketimg` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_marketimg` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `urun_id` int(11) NOT NULL,
-  `urun_img` mediumtext COLLATE utf8_turkish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `urun_img` mediumtext COLLATE utf8_turkish_ci NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -103,12 +122,13 @@ CREATE TABLE `m_marketimg` (
 -- Tablo için tablo yapısı `m_marketinfo`
 --
 
-CREATE TABLE `m_marketinfo` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_marketinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `urun_id` int(11) NOT NULL,
   `urun_info` mediumtext COLLATE utf8_turkish_ci NOT NULL,
-  `urun_infocont` mediumtext COLLATE utf8_turkish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `urun_infocont` mediumtext COLLATE utf8_turkish_ci NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -116,16 +136,17 @@ CREATE TABLE `m_marketinfo` (
 -- Tablo için tablo yapısı `m_order`
 --
 
-CREATE TABLE `m_order` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `k_id` int(11) NOT NULL,
   `tarih` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_op_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `k_ip` varchar(15) COLLATE utf8_turkish_ci NOT NULL,
   `kargo_takip_no` int(11) NOT NULL DEFAULT '0',
   `kargo_firma` text COLLATE utf8_turkish_ci NOT NULL,
-  `satis_sonuc` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `satis_sonuc` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -133,14 +154,15 @@ CREATE TABLE `m_order` (
 -- Tablo için tablo yapısı `m_orderbill`
 --
 
-CREATE TABLE `m_orderbill` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_orderbill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `s_id` int(11) NOT NULL,
   `urun_id` int(11) NOT NULL,
   `urun_ad` text COLLATE utf8_turkish_ci NOT NULL,
   `urun_fiyat` float NOT NULL,
-  `urun_adet` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `urun_adet` int(11) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -148,14 +170,35 @@ CREATE TABLE `m_orderbill` (
 -- Tablo için tablo yapısı `m_orderbill_info`
 --
 
-CREATE TABLE `m_orderbill_info` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_orderbill_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `s_id` int(11) NOT NULL,
   `u_id` int(11) NOT NULL,
   `u_name` text COLLATE utf8_turkish_ci NOT NULL,
   `u_surname` text COLLATE utf8_turkish_ci NOT NULL,
-  `u_adress` text COLLATE utf8_turkish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `u_adress` text COLLATE utf8_turkish_ci NOT NULL,
+  `u_tel` bigint(11) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `m_uactive`
+--
+
+CREATE TABLE IF NOT EXISTS `m_uactive` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `u_mail` text COLLATE utf8_turkish_ci NOT NULL,
+  `u_pass` text COLLATE utf8_turkish_ci NOT NULL,
+  `u_ad` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
+  `u_soyad` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
+  `u_hash` text COLLATE utf8_turkish_ci NOT NULL,
+  `u_ip` varchar(15) COLLATE utf8_turkish_ci NOT NULL,
+  `u_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `u_active` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
 
@@ -163,13 +206,14 @@ CREATE TABLE `m_orderbill_info` (
 -- Tablo için tablo yapısı `m_uinfo`
 --
 
-CREATE TABLE `m_uinfo` (
+CREATE TABLE IF NOT EXISTS `m_uinfo` (
   `k_id` int(11) NOT NULL,
   `k_ad` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
   `k_soyad` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
   `k_tel` bigint(11) NOT NULL,
   `k_adresi` mediumtext COLLATE utf8_turkish_ci NOT NULL,
-  `k_adresi2` text COLLATE utf8_turkish_ci NOT NULL
+  `k_adresi2` text COLLATE utf8_turkish_ci NOT NULL,
+  UNIQUE KEY `k_id` (`k_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- --------------------------------------------------------
@@ -178,141 +222,19 @@ CREATE TABLE `m_uinfo` (
 -- Tablo için tablo yapısı `m_users`
 --
 
-CREATE TABLE `m_users` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `m_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `k_adi` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
   `k_sifre` varchar(32) COLLATE utf8_turkish_ci NOT NULL,
   `session_hash` mediumtext COLLATE utf8_turkish_ci NOT NULL,
   `ip` varchar(15) COLLATE utf8_turkish_ci NOT NULL,
   `tarih` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `online` int(2) NOT NULL DEFAULT '0',
-  `user_group` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+  `user_group` int(11) NOT NULL DEFAULT '1',
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+COMMIT;
 
---
--- Dökümü yapılmış tablolar için indeksler
---
-
---
--- Tablo için indeksler `m_itemcat`
---
-ALTER TABLE `m_itemcat`
-  ADD UNIQUE KEY `item_cat_id` (`item_cat_id`);
-
---
--- Tablo için indeksler `m_kategori`
---
-ALTER TABLE `m_kategori`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Tablo için indeksler `m_log`
---
-ALTER TABLE `m_log`
-  ADD PRIMARY KEY (`id`);
-
---
--- Tablo için indeksler `m_market`
---
-ALTER TABLE `m_market`
-  ADD UNIQUE KEY `urun_id` (`urun_id`);
-
---
--- Tablo için indeksler `m_marketimg`
---
-ALTER TABLE `m_marketimg`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Tablo için indeksler `m_marketinfo`
---
-ALTER TABLE `m_marketinfo`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Tablo için indeksler `m_order`
---
-ALTER TABLE `m_order`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Tablo için indeksler `m_orderbill`
---
-ALTER TABLE `m_orderbill`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Tablo için indeksler `m_orderbill_info`
---
-ALTER TABLE `m_orderbill_info`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Tablo için indeksler `m_uinfo`
---
-ALTER TABLE `m_uinfo`
-  ADD UNIQUE KEY `k_id` (`k_id`);
-
---
--- Tablo için indeksler `m_users`
---
-ALTER TABLE `m_users`
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
---
-
---
--- Tablo için AUTO_INCREMENT değeri `m_itemcat`
---
-ALTER TABLE `m_itemcat`
-  MODIFY `item_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
--- Tablo için AUTO_INCREMENT değeri `m_kategori`
---
-ALTER TABLE `m_kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- Tablo için AUTO_INCREMENT değeri `m_log`
---
-ALTER TABLE `m_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=634;
---
--- Tablo için AUTO_INCREMENT değeri `m_market`
---
-ALTER TABLE `m_market`
-  MODIFY `urun_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
---
--- Tablo için AUTO_INCREMENT değeri `m_marketimg`
---
-ALTER TABLE `m_marketimg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
---
--- Tablo için AUTO_INCREMENT değeri `m_marketinfo`
---
-ALTER TABLE `m_marketinfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- Tablo için AUTO_INCREMENT değeri `m_order`
---
-ALTER TABLE `m_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
---
--- Tablo için AUTO_INCREMENT değeri `m_orderbill`
---
-ALTER TABLE `m_orderbill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
---
--- Tablo için AUTO_INCREMENT değeri `m_orderbill_info`
---
-ALTER TABLE `m_orderbill_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
---
--- Tablo için AUTO_INCREMENT değeri `m_users`
---
-ALTER TABLE `m_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
