@@ -7,9 +7,10 @@ Import marketing.sql to "marketing" db in Phpmyadmin
 
 
 ######################################################
+
 secIP.php
 
-private $local = "localhost";
+private $local = "localhost"; // localhost for Local Working, yoursitename.com for Live Mode.
 
 private $port = "80";
 
@@ -19,6 +20,7 @@ private $file = ""; // Must be EMPTY! Dont use("/") character.  If u dont work w
 #####################################################
 
 #####################################################
+
 dbClass.php
 
 		private $host = "localhost";//main decleration
@@ -26,5 +28,7 @@ dbClass.php
 		private $hpass = "DbPass";
 		private $database = "marketing";
 #####################################################
+
+We still working on it for Newly Optimizations and New Features..
 
 
