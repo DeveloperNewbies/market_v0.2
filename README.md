@@ -6,9 +6,8 @@ Import marketing.sql to "marketing" db in Phpmyadmin
 !!!!!!!!!Configurations!!!!!!!!
 
 
-######################################################
+########################### secIP.php ###########################
 
-secIP.php
 
 private $local = "localhost"; // localhost for Local Working, yoursitename.com for Live Mode.
 
@@ -17,11 +16,9 @@ private $port = "80";
 private $file = ""; // Must be EMPTY! Dont use("/") character.  If u dont work with more project etc.(htdocs/myWorkSpace) Exactly Usings is $file = "/myWorkSpace".
 
 
-#####################################################
+######################################################
 
-#####################################################
-
-dbClass.php
+########################### dbClass.php ###########################
 
 		private $host = "localhost";//main decleration
 		private $huser = "DbUsername";
