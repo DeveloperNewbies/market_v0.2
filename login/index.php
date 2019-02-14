@@ -203,7 +203,7 @@
 				<form action="#" method="post">
 					<div class="input">
 						<i class="fa fa-user" aria-hidden="true"></i> <input type="text" class="user" name="username" 
-							placeholder="<?php echo  (isset($_COOKIE["username"])) ? htmlspecialchars($_COOKIE["username"]) : 'Kullanıcı Adı' ;?>" required="" />
+							placeholder="E-Mail Adresiniz" value="<?php echo  (isset($_COOKIE["username"])) ? htmlspecialchars($_COOKIE["username"]) : '' ;?>" required="" />
 					</div>
 					<div class="input">
 						<i class="fa fa-unlock-alt" aria-hidden="true"></i> <input type="password" class="lock" name="password" placeholder="Şifre" required="" />
