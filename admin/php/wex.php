@@ -3,6 +3,9 @@
 
 
 require_once ("wex/pdf/fpdf.php");
+require_once ("../../inc/secIP.php");
+
+
 
 class WexRepPDF extends FPDF
 {
@@ -16,7 +19,7 @@ class WexRepPDF extends FPDF
         // Yazı rengi ayarlanır
         $this->SetTextColor(0,0,140);
 
-        // Satır 25 pixel içeriden başlasın
+        // Satır 80 pixel içeriden başlasın
         $this->Cell(80);
 
         // Satıra yazı yazılır
@@ -40,8 +43,10 @@ class WexRepPDF extends FPDF
         // Satır 160 pixel içeriden başlasın
         $this->Cell(160);
 
+        $ipset = new secIP();
+        $realip = "".$ipset->getLocal().$ipset->getFile();
         // Satıra yazı yazılır
-        $this->Write (10, 'optimumilac.com', 'https://optimumilac.com/');
+        $this->Write (10, ''.substr($realip, 8), ''.$realip);
         // 10 pixel aşağıda yeni satıra geç
         $this->Ln(10);
 
