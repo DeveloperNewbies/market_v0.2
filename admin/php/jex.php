@@ -53,12 +53,14 @@ if(isset($_POST['mb']))
             $tur++;
         }
 
-//olusturulan excel dosyası kaydediliyor
+        //olusturulan excel dosyası kaydediliyor
         $Kaydet = PHPExcel_IOFactory::createWriter($Excel, 'Excel5');
-        $Kaydet->save("musteri_bilgi_listesi.xls");
 
-//kullanıcı excel dosyasına yonlendiriliyor
-        header("location:musteri_bilgi_listesi.xls");
+        //kullanıcı excel dosyasına yonlendiriliyor
+        header('Content-Type: application/octet-stream');
+        header("Content-Disposition: attachment; filename=musteri_bilgi_listesi.xls");
+
+        $Kaydet->save('php://output');
 
     }
 
@@ -132,12 +134,14 @@ if(isset($_POST['ksl']))
             $tur++;
         }
 
-//olusturulan excel dosyası kaydediliyor
+        //olusturulan excel dosyası kaydediliyor
         $Kaydet = PHPExcel_IOFactory::createWriter($Excel, 'Excel5');
-        $Kaydet->save("kesin_siparis_listesi.xls");
 
-//kullanıcı excel dosyasına yonlendiriliyor
-        header("location:kesin_siparis_listesi.xls");
+        //kullanıcı excel dosyasına yonlendiriliyor
+        header('Content-Type: application/octet-stream');
+        header("Content-Disposition: attachment; filename=kesin_siparis_listesi.xls");
+
+        $Kaydet->save('php://output');
 
 
     }
