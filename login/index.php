@@ -76,16 +76,24 @@
 
                 $to      = $uname; // Send email to our user
                 $subject = 'Kayit Olma | Onay'; // Give the email a subject
-                $message = '
- 
-                Kayıt olup bizi tercih ettiginiz icin tesekkür ederiz.
-                Hesabiniz olusturuldu, asagidaki linke tiklayarak hesabinizi aktif edebilir firsatlardan faydalanmaya baslayabilirsiniz.
-                 
+                $message  = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                <head>
+                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                                </head>
+                                <body>
 
-                Hesabinizi aktiflestirmek icin lütfen asagidaki linke tiklayin:
-                '.$realip.'/verificate.php?mail='.$uname.'&act='.$hash.'
-                 
-                '; // Our message above including the link
+                                <div>
+                                <p>Kayıt olup bizi tercih ettiginiz icin tesekkür ederiz.</p>
+                                <p>Hesabiniz olusturuldu, asagidaki linke tiklayarak hesabinizi aktif edebilir firsatlardan faydalanmaya baslayabilirsiniz.</p>
+
+                                <p>Hesabinizi aktiflestirmek icin lütfen asagidaki linke tiklayin: </p>
+                                <p><a href="'.$realip.'/verificate.php?mail='.$uname.'&act='.$hash.'">'.$realip.'/verificate.php?mail='.$uname.'&act='.$hash.'</a></p>
+
+
+                                </div>
+                                </body>
+                                </html>';// Our message above including the link
 
                 $headers = 'From:noreply@'.substr($realip, 8) . "\r\n"; // Set from headers
 
@@ -171,7 +179,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>OPTİMİUM ilac Login</title>
+<title>OPTİMUM ilac Login</title>
 <!-- Meta-Tags -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
