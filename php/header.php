@@ -12,7 +12,7 @@
 <header class="header-v2">
     <!-- Header desktop -->
     <div class="container-menu-desktop trans-03">
-    <div class="top-bar">
+            <div class="top-bar">
 				<div class="content-topbar flex-sb-m h-full container">
 					<div class="left-top-bar">
 						  <?=$m_lang[$lang][87]?> !
@@ -125,70 +125,71 @@
 					<span class="hamburger-inner"></span>
 				</span>
         </div>
-    </div>
 
 
-   <!-- Menu Mobile -->
-    <div class="menu-mobile">
-        <ul class="main-menu-m">
-            <li>
-                <a href="<?=$home_url?>"><?=$header_url[0]?></a>
 
-                <span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
-            </li>
-
-            <li>
-                <a href="<?=$header_magaza?>"><?=$header_url[1]?></a>
-            </li>
-
-            <li>
-                <a href="<?=$header_sepetim?>" class="label1 rs1" data-label1="hot"><?=$header_url[2]?></a>
-            </li>
-
-            <?php if($islogged){ ?>
+       <!-- Menu Mobile -->
+        <div class="menu-mobile">
+            <ul class="main-menu-m">
                 <li>
-                    <a href="<?=$home_url."/index.php?m=hesabim&account=sepetim"?>"><?=$m_lang[$lang][22]?></a>
+                    <a href="<?=$home_url?>"><?=$header_url[0]?></a>
+
+                    <span class="arrow-main-menu-m">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </span>
+                </li>
+
+                <li>
+                    <a href="<?=$header_magaza?>"><?=$header_url[1]?></a>
+                </li>
+
+                <li>
+                    <a href="<?=$header_sepetim?>" class="label1 rs1" data-label1="hot"><?=$header_url[2]?></a>
+                </li>
+
+                <?php if($islogged){ ?>
+                    <li>
+                        <a href="<?=$home_url."/index.php?m=hesabim&account=sepetim"?>"><?=$m_lang[$lang][22]?></a>
+                    </li>
+                    <li>
+                        <a href="<?=$home_url."/index.php?m=hesabim&account=hesabim&reload=adres"?>"><?=$m_lang[$lang][22]?></a>
+                    </li>
+                <li>
+                    <a href="<?=$side_bar_hesabım?>"><?=$m_lang[$lang][18]?></a>
                 </li>
                 <li>
-                    <a href="<?=$home_url."/index.php?m=hesabim&account=hesabim&reload=adres"?>"><?=$m_lang[$lang][22]?></a>
+                    <a href="<?=$side_bar_cikis?>"><?=$m_lang[$lang][21]?></a>
                 </li>
-            <li>
-                <a href="<?=$side_bar_hesabım?>"><?=$m_lang[$lang][18]?></a>
-            </li>
-            <li>
-                <a href="<?=$side_bar_cikis?>"><?=$m_lang[$lang][21]?></a>
-            </li>
-            <?php }else{ ?>
-            <li>
-                <a href="<?=$side_bar_giris?>"><?=$m_lang[$lang][24]?></a>
-            </li>
-            <?php } ?>
+                <?php }else{ ?>
+                <li>
+                    <a href="<?=$side_bar_giris?>"><?=$m_lang[$lang][24]?></a>
+                </li>
+                <?php } ?>
 
-            <li>
-                <a href="<?=$header_about?>"><?=$header_url[3]?></a>
-            </li>
+                <li>
+                    <a href="<?=$header_about?>"><?=$header_url[3]?></a>
+                </li>
 
-            <li>
-                <a href="<?=$header_contact?>"><?=$header_url[4]?></a>
-            </li>
-        </ul>
-    </div>
+                <li>
+                    <a href="<?=$header_contact?>"><?=$header_url[4]?></a>
+                </li>
+            </ul>
+        </div>
 
-    <!-- Modal Search -->
-    <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-        <div class="container-search-header">
-            <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-                <img src="images/icons/icon-close2.png" alt="Kapat">
-            </button>
-
-            <form class="wrap-search-header flex-w p-l-15" method="get" action="<?=$home_link."/index.php?m=magaza"?>">
-                <button class="flex-c-m trans-04">
-                    <i class="zmdi zmdi-search"></i>
+        <!-- Modal Search -->
+        <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+            <div class="container-search-header">
+                <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+                    <img src="images/icons/icon-close2.png" alt="Kapat">
                 </button>
-                <input class="plh3" type="text" name="search" placeholder="<?=$m_lang[$lang][25]?>...">
-            </form>
+
+                <form class="wrap-search-header flex-w p-l-15" method="get" action="<?=$home_link."/index.php?m=magaza"?>">
+                    <button class="flex-c-m trans-04">
+                        <i class="zmdi zmdi-search"></i>
+                    </button>
+                    <input class="plh3" type="text" name="search" placeholder="<?=$m_lang[$lang][25]?>...">
+                </form>
+            </div>
         </div>
     </div>
 </header>

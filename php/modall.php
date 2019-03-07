@@ -175,6 +175,7 @@ $i = 0;
     /*==================================================================
 [ +/- num product ]*/
 
+
     function minusProduct(id)
     {
         var numProduct = parseInt(document.getElementById("num-product"+id).value);
